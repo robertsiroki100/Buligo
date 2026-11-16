@@ -1,2 +1,3 @@
-# vibex
-VIBEX – A new social media platform. Founded by Robert Siroki.
+# BULIGO
+BULIGO – A live voice chat and social platform.
+Founded by Robert Siroki.
