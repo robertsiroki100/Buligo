@@ -21,16 +21,41 @@
     .primary{background:#b1a4ff;color:#16132d;flex:1}.secondary{color:#fff;background:#343657}.danger{background:#f17f9d;color:#2e1020}.ghost{background:transparent;color:#d7d3ff;border:1px solid #68658d}
     .status{background:#101329;border-radius:12px;padding:15px;margin:18px 0 0;line-height:1.5;font-size:14px;color:#e0e0f5;min-height:50px}
     .status.error{background:#481f36;color:#ffd7df}.status.ok{background:#153b39;color:#c1fff2}
-    .hidden{display:none}.roomline{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:16px 0}.roomid{font-weight:900;color:#c5bcff;overflow-wrap:anywhere}
+    .hidden{display:none!important}.roomline{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:16px 0}.roomid{font-weight:900;color:#c5bcff;overflow-wrap:anywhere}
     .people{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}.person{background:#11142a;border:1px solid #393a59;border-radius:16px;padding:20px 12px;text-align:center}.avatar{width:58px;height:58px;display:grid;place-items:center;border-radius:50%;margin:0 auto 12px;background:#5550a6;font-size:26px}.person strong{display:block}.person small{display:block;color:#bec0d9;margin-top:7px}
     footer{color:#9295b7;font-size:12px;line-height:1.6;margin-top:24px}a{color:#cdc6ff}
+    .auth-form{display:grid;gap:9px}.auth-form input{margin-bottom:9px}.auth-options{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-start;margin-top:12px}.auth-options button{font-size:14px}
+    .userbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:0 0 18px;padding:12px 14px;background:#191b33;border-radius:15px;border:1px solid #393b5d}.userbar strong{overflow-wrap:anywhere;font-size:14px}.userbar button{padding:9px 14px;font-size:13px}
+    @media(max-width:400px){.panel{padding:18px}.people{grid-template-columns:1fr}.hero{padding:45px 0 18px}}
   </style>
 </head>
 <body>
   <main class="wrap">
     <header><div class="logo">BULI<span>GO</span></div><div class="pill">🎙️ Voice chat beta</div></header>
-    <section class="hero"><h1>Good vibes.<br><span class="gradient">Real voices.</span></h1><p class="sub">Create a voice room, invite a friend and talk live. No account needed for this early test.</p></section>
-    <section class="panel" id="welcome">
+    <section class="hero"><h1>Good vibes.<br><span class="gradient">Real voices.</span></h1><p class="sub">Create an account, start a voice room, invite a friend and talk live.</p></section>
+
+    <!-- Firebase Authentication: registration and sign-in. -->
+    <section class="panel" id="authPanel">
+      <h2>Welcome to BULIGO</h2>
+      <p class="hint">Sign in, or create your own free account with your email address and a password.</p>
+      <form class="auth-form" id="authForm">
+        <label for="email">Email address</label>
+        <input id="email" name="email" type="email" required autocomplete="email" placeholder="you@example.com" />
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" required minlength="6" autocomplete="current-password" placeholder="At least 6 characters" />
+        <div class="actions">
+          <button class="primary" id="signInButton" type="submit">Sign in</button>
+          <button class="secondary" id="signUpButton" type="button">Create account</button>
+        </div>
+      </form>
+      <div class="auth-options"><button class="ghost" id="resetPasswordButton" type="button">Forgot password?</button></div>
+      <div class="status" id="authStatus" role="status" aria-live="polite">Checking your sign-in status...</div>
+    </section>
+
+    <div class="userbar hidden" id="userbar"><strong id="signedInAs"></strong><button class="ghost" id="signOutButton" type="button">Sign out</button></div>
+
+    <!-- Existing two-person PeerJS voice chat retained. -->
+    <section class="panel hidden" id="welcome">
       <h2>Join the conversation</h2><p class="hint">This first test supports <b>two people per room</b>. Both should use a modern browser and allow microphone access.</p>
       <label for="nickname">Your display name</label><input id="nickname" maxlength="30" autocomplete="nickname" placeholder="Your name" />
       <div class="actions"><button class="primary" id="create">🎙️ Create a room</button></div>
@@ -44,7 +69,7 @@
       <div class="status" id="callStatus" role="status">Connecting...</div>
       <div class="actions"><button class="secondary" id="mute">Mute mic</button><button class="danger" id="leave">Leave room</button></div>
     </section>
-    <footer>Early demonstration using a public peer-signalling service. Room codes are not passwords. Do not share private information or use this for sensitive calls. A production service needs its own infrastructure, moderation, privacy policy and abuse prevention.</footer>
+    <footer>Early demonstration using a public peer-signalling service. Room codes are not passwords. Do not share private information or use this for sensitive calls. A production service needs its own infrastructure, moderation, privacy policy and abuse prevention. Video uploads and a public video feed are not part of this version.</footer>
   </main>
   <script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js"></script>
   <script>
@@ -61,17 +86,109 @@
     function lockInputs(locked){['create','join'].forEach(id=>$(id).disabled=locked);}
     function name(){return $('nickname').value.trim().slice(0,30)||'Guest';}
     async function mic(){if(!navigator.mediaDevices?.getUserMedia)throw Error('Microphone requires HTTPS or localhost and a supported browser.');return navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true},video:false});}
-    function cleanup(){if(call){try{call.close()}catch{} call=null;}if(peer){try{peer.destroy()}catch{}peer=null;}if(stream){stream.getTracks().forEach(t=>t.stop());stream=null;}if(remoteAudio){remoteAudio.srcObject=null;remoteAudio.remove();remoteAudio=null;}history.replaceState(null,'',location.pathname);$('active').classList.add('hidden');$('welcome').classList.remove('hidden');lockInputs(false);muted=false;$('mute').textContent='Mute mic';msg('welcomeStatus','Ready to connect.');}
+    function cleanup(){if(call){try{call.close()}catch{} call=null;}if(peer){try{peer.destroy()}catch{}peer=null;}if(stream){stream.getTracks().forEach(t=>t.stop());stream=null;}if(remoteAudio){remoteAudio.srcObject=null;remoteAudio.remove();remoteAudio=null;}history.replaceState(null,'',location.pathname);$('active').classList.add('hidden');if(window.buligoAuthUser)$('welcome').classList.remove('hidden');lockInputs(false);muted=false;$('mute').textContent='Mute mic';msg('welcomeStatus','Ready to connect.');}
+    window.buligoLeaveRoom=cleanup;
     function peerInstance(id){return new Promise((resolve,reject)=>{const p=new Peer(id, {debug:0});let settled=false;const timeout=setTimeout(()=>{if(!settled){settled=true;p.destroy();reject(Error('Connection timed out. Please retry.'));}},15000);p.on('open',()=>{if(settled)return;settled=true;clearTimeout(timeout);resolve(p);});p.on('error',err=>{if(!settled){settled=true;clearTimeout(timeout);reject(err);}else{msg('callStatus',err.message||'Network problem.','error');}});});}
     function attachCall(c){if(call){c.close();return;}call=c;msg('callStatus','Connecting voice...');c.on('stream',remote=>{if(!remoteAudio){remoteAudio=document.createElement('audio');remoteAudio.autoplay=true;remoteAudio.playsInline=true;document.body.appendChild(remoteAudio);}remoteAudio.srcObject=remote;remoteAudio.play().catch(()=>msg('callStatus','Tap the screen to enable audio playback.','error'));$('guestName').textContent='Friend connected';$('guestState').textContent='In the room';msg('callStatus','Connected! You can speak now.','ok');});c.on('close',()=>{call=null;if(remoteAudio){remoteAudio.srcObject=null;} $('guestName').textContent='Waiting for a friend';$('guestState').textContent='Not connected';msg('callStatus','The other person left.');});c.on('error',e=>msg('callStatus',e.message||'Voice connection failed.','error'));}
     function show(){ $('welcome').classList.add('hidden');$('active').classList.remove('hidden');$('shownCode').textContent=code;$('meName').textContent=name();history.replaceState(null,'',location.pathname+'?room='+encodeURIComponent(code));}
-    $('create').onclick=async()=>{lockInputs(true);host=true;code=Math.random().toString(36).slice(2,8)+Math.random().toString(36).slice(2,5);msg('welcomeStatus','Requesting microphone permission...');try{stream=await mic();peer=await peerInstance(roomPrefix+code);show();msg('callStatus','Room ready! Copy the link and invite one friend.','ok');peer.on('call',c=>{if(call){c.close();return;}attachCall(c);c.answer(stream);});}catch(e){cleanup();msg('welcomeStatus',e.type==='unavailable-id'?'Room ID unavailable. Please create another room.':(e.message||'Could not start the room.'),'error');}};
-    $('join').onclick=async()=>{code=cleanCode($('roomCode').value);if(!code){msg('welcomeStatus','Enter a valid room code.','error');return;}lockInputs(true);host=false;msg('welcomeStatus','Requesting microphone permission...');try{stream=await mic();peer=await peerInstance(undefined);show();msg('callStatus','Calling room host...');attachCall(peer.call(roomPrefix+code,stream));setTimeout(()=>{if(call&&!remoteAudio?.srcObject)msg('callStatus','Still waiting. Check the code and make sure the host has the room open.','error');},12000);}catch(e){cleanup();msg('welcomeStatus',e.message||'Could not join room.','error');}};
+    $('create').onclick=async()=>{if(!window.buligoAuthUser)return;lockInputs(true);host=true;code=Math.random().toString(36).slice(2,8)+Math.random().toString(36).slice(2,5);msg('welcomeStatus','Requesting microphone permission...');try{stream=await mic();peer=await peerInstance(roomPrefix+code);show();msg('callStatus','Room ready! Copy the link and invite one friend.','ok');peer.on('call',c=>{if(call){c.close();return;}attachCall(c);c.answer(stream);});}catch(e){cleanup();msg('welcomeStatus',e.type==='unavailable-id'?'Room ID unavailable. Please create another room.':(e.message||'Could not start the room.'),'error');}};
+    $('join').onclick=async()=>{if(!window.buligoAuthUser)return;code=cleanCode($('roomCode').value);if(!code){msg('welcomeStatus','Enter a valid room code.','error');return;}lockInputs(true);host=false;msg('welcomeStatus','Requesting microphone permission...');try{stream=await mic();peer=await peerInstance(undefined);show();msg('callStatus','Calling room host...');attachCall(peer.call(roomPrefix+code,stream));setTimeout(()=>{if(call&&!remoteAudio?.srcObject)msg('callStatus','Still waiting. Check the code and make sure the host has the room open.','error');},12000);}catch(e){cleanup();msg('welcomeStatus',e.message||'Could not join room.','error');}};
     $('copy').onclick=async()=>{const link=location.origin+location.pathname+'?room='+encodeURIComponent(code);try{await navigator.clipboard.writeText(link);$('copy').textContent='Copied!';setTimeout(()=>$('copy').textContent='Copy invite link',1800);}catch{window.prompt('Copy this invite link:',link);}};
     $('mute').onclick=()=>{if(!stream)return;muted=!muted;stream.getAudioTracks().forEach(t=>t.enabled=!muted);$('meState').textContent=muted?'Microphone muted':'Microphone on';$('mute').textContent=muted?'Unmute mic':'Mute mic';};
     $('leave').onclick=cleanup;
     window.addEventListener('beforeunload',()=>{if(stream)stream.getTracks().forEach(t=>t.stop());if(peer)peer.destroy();});
   })();
+  </script>
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/13.3.0/firebase-app.js';
+    import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, signOut } from 'https://www.gstatic.com/firebasejs/13.3.0/firebase-auth.js';
+
+    // BULIGO public Firebase web-app configuration (NOT an admin credential).
+    const firebaseConfig = {
+      apiKey: 'AIzaSyC3y_C5X3U0GMyCzdkHQmv7eTBp5QPi3NY',
+      authDomain: 'buligo-6c67a.firebaseapp.com',
+      projectId: 'buligo-6c67a',
+      storageBucket: 'buligo-6c67a.firebasestorage.app',
+      messagingSenderId: '740875040307',
+      appId: '1:740875040307:web:3382bbc9692c2eac199546',
+      measurementId: 'G-RZQCMXXDVW'
+    };
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const $ = (id) => document.getElementById(id);
+    const authForm = $('authForm');
+    const emailField = $('email');
+    const passwordField = $('password');
+    const authStatus = $('authStatus');
+    const buttons = [$('signInButton'), $('signUpButton'), $('resetPasswordButton')];
+    let busy = false;
+
+    function say(message, kind='') { authStatus.textContent=message; authStatus.className='status '+kind; }
+    function loading(flag) {busy=flag; buttons.forEach(button=>button.disabled=flag);}
+    function readableError(error) {
+      switch(error?.code) {
+        case 'auth/email-already-in-use': return 'This email address already has an account. Please sign in.';
+        case 'auth/invalid-email': return 'Please enter a valid email address.';
+        case 'auth/weak-password': return 'Please choose a stronger password (at least 6 characters).';
+        case 'auth/invalid-credential':
+        case 'auth/wrong-password':
+        case 'auth/user-not-found': return 'The email or password was not recognised.';
+        case 'auth/too-many-requests': return 'Too many attempts. Try again later.';
+        case 'auth/network-request-failed': return 'Network connection failed. Please try again.';
+        case 'auth/operation-not-allowed': return 'Email/password sign-in is not enabled in Firebase.';
+        case 'auth/unauthorized-domain': return 'This website must be added to Firebase authorised domains.';
+        default: return 'Something went wrong. Please try again. ('+(error?.code||'unknown')+')';
+      }
+    }
+    async function handleEmailAction(action) {
+      if(busy) return;
+      if(!authForm.reportValidity()) return;
+      loading(true);
+      say(action==='signup'?'Creating your account...':'Signing in...');
+      try {
+        const email=emailField.value.trim();
+        const password=passwordField.value;
+        if(action==='signup') await createUserWithEmailAndPassword(auth,email,password);
+        else await signInWithEmailAndPassword(auth,email,password);
+        passwordField.value='';
+      } catch(error) { say(readableError(error),'error'); }
+      finally { loading(false); }
+    }
+    authForm.addEventListener('submit',(event)=>{event.preventDefault();handleEmailAction('signin');});
+    $('signUpButton').addEventListener('click',()=>handleEmailAction('signup'));
+    $('resetPasswordButton').addEventListener('click',async()=>{
+      if(busy) return;
+      const email=emailField.value.trim();
+      if(!email || !emailField.checkValidity()) {say('Enter your email address first.','error');emailField.focus();return;}
+      loading(true);
+      say('Sending password reset email...');
+      try {await sendPasswordResetEmail(auth,email);say('If this address is registered, a password reset email will arrive shortly.','ok');}
+      catch(error) {say(readableError(error),'error');}
+      finally {loading(false);}
+    });
+    $('signOutButton').addEventListener('click',async()=>{
+      $('signOutButton').disabled=true;
+      try {
+        if(typeof window.buligoLeaveRoom==='function' && !$('active').classList.contains('hidden'))window.buligoLeaveRoom();
+        await signOut(auth);
+      } catch(error){window.alert(readableError(error));}
+      finally {$('signOutButton').disabled=false;}
+    });
+    onAuthStateChanged(auth,(user)=>{
+      window.buligoAuthUser=user||null;
+      $('authPanel').classList.toggle('hidden',!!user);
+      $('userbar').classList.toggle('hidden',!user);
+      if(user){
+        $('signedInAs').textContent='Signed in: '+(user.email||'BULIGO member');
+        if(!$('nickname').value.trim())$('nickname').value=(user.email||'Guest').split('@')[0].slice(0,30);
+        if($('active').classList.contains('hidden'))$('welcome').classList.remove('hidden');
+      } else {
+        if(typeof window.buligoLeaveRoom==='function' && !$('active').classList.contains('hidden'))window.buligoLeaveRoom();
+        $('welcome').classList.add('hidden');
+        $('active').classList.add('hidden');
+        say('Sign in or create an account to use BULIGO.');
+      }
+    },(error)=>say('Could not check sign-in: '+readableError(error),'error'));
   </script>
 </body>
 </html>
