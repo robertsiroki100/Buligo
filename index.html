@@ -198,6 +198,13 @@ body.home-mode .feed-search{position:absolute;right:15px;top:max(18px,env(safe-a
 .repost-notice{border-radius:11px;background:#23263e;color:#d6dcf0;font-size:13px;padding:11px;margin:12px 0}
 .clip-repost-credit{font-size:12px;color:#e7d9ff}
 .repost-source-open{position:absolute;z-index:4;top:115px;left:14px;color:#fff;text-decoration:none;font-size:12px;background:#3c315fb8;padding:6px 10px;border-radius:999px;border:1px solid #aaa0ee8a}
+/* Post ownership & draft visibility controls. Shared publishing is not enabled. */
+.clip-own-delete{position:absolute;top:112px;left:14px;z-index:6;border:1px solid #ffd0dd99;background:#622a3fe0;color:#fff;border-radius:999px;min-height:38px;padding:7px 12px;font-size:13px;font-weight:800}
+.my-media-entry{position:relative;min-width:0;border-radius:14px;overflow:hidden;background:#1b1e32}
+.my-media-entry .media-tile{width:100%;height:100%;min-height:175px}
+.media-delete{position:absolute;right:7px;top:7px;z-index:5;background:#73283ce8;color:white;border:1px solid #ffd0dd91;border-radius:999px;min-height:35px;min-width:35px;font-size:18px}
+.draft-notice{font-size:13px;color:#d7d1f0;background:#26243d;border:1px solid #514c76;border-radius:12px;padding:10px 12px}
+#postVisibility{width:100%;background:#0f1527;color:#fff;font-size:16px;border:1px solid #5d668a;border-radius:13px;padding:14px}
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/peerjs@1.5.5/dist/peerjs.min.js"></script>
 </head>
@@ -228,9 +235,16 @@ body.home-mode .feed-search{position:absolute;right:15px;top:max(18px,env(safe-a
   <img id="photoPreview" class="photo-upload-preview hidden" alt="Selected photo preview">
   <video id="uploadPreview" class="video-upload-preview hidden" playsinline controls muted preload="metadata"></video>
   <label for="videoCaption">Caption</label><textarea id="videoCaption" maxlength="180" placeholder="Write something about your photo or video…"></textarea>
+  <label for="postVisibility">Who can see it? (choice saved in this draft)</label>
+  <select id="postVisibility" aria-describedby="postVisibilityNote">
+   <option value="public">🌍 Public — everyone (when cloud publishing is enabled)</option>
+   <option value="friends">👥 Friends — approved friends (when cloud publishing is enabled)</option>
+   <option value="private" selected>🔒 Private — only me</option>
+  </select>
+  <p class="draft-notice" id="postVisibilityNote">⚠️ Public and Friends are not active yet. No choice publishes a file to other people in this version. It stays a private draft on this phone until secure cloud storage and permissions are set up.</p>
   <p id="previewStatus" class="not-live">Select a photo or video. This is a local preview; other BULIGO members cannot see it yet.</p>
-  <button id="sharePreview" class="primary fullbtn" type="button" style="margin-top:16px" disabled>＋ Add to my feed (this phone only)</button>
- </section><p class="upload-note">Photos and videos are shown only in this browser session and your local BULIGO preview. They are not public uploads and will disappear after the session or refresh. Use the Share arrow to send the original file through your phone's share menu when supported. Public photo/video posts need secure cloud media storage, publication rules and moderation.</p>
+  <button id="sharePreview" class="primary fullbtn" type="button" style="margin-top:16px" disabled>＋ Save as a draft on this phone</button>
+ </section><p class="upload-note">Photos and videos are temporary drafts for this device and this signed-in account. The selected Public / Friends / Private option is only a draft preference, NOT a real audience setting yet. You can delete your own draft with the 🗑️ button, or refresh the page to clear drafts. Sharing the original file with your phone is separate from publishing it on BULIGO. Real uploads require secure cloud storage, audience rules and moderation.</p>
 </section>
 
 <section class="tabpage hidden" id="liveTab">
@@ -301,7 +315,7 @@ body.home-mode .feed-search{position:absolute;right:15px;top:max(18px,env(safe-a
  <h1 class="section-title">Profile</h1><p class="subtle">Your BULIGO account.</p>
  <section class="card" id="authPanel"><h2>Sign in to BULIGO</h2><p class="smalltext">Sign in with your email. New users can register with their name, birth year, country and city.</p><form id="authForm"><label for="email">Your email address</label><input id="email" type="email" required autocomplete="email" placeholder="you@example.com"><label for="password">Password</label><input id="password" type="password" required minlength="6" autocomplete="current-password" placeholder="At least 6 characters"><div id="signupExtras" class="hidden"><h3>Create your BULIGO account</h3><p>Fill in your information. Your birth year, country and city are private in this preview and saved only on this phone, not displayed in search.</p><label for="regFirst">First name</label><input id="regFirst" maxlength="35" autocomplete="given-name" placeholder="First name"><label for="regLast">Surname</label><input id="regLast" maxlength="35" autocomplete="family-name" placeholder="Surname"><label for="regYear">Year of birth</label><input id="regYear" type="number" min="1900" max="2013" inputmode="numeric" placeholder="e.g. 1990"><label for="regCountry">Country where you live</label><input id="regCountry" maxlength="60" autocomplete="country-name" placeholder="e.g. United Kingdom"><label for="regCity">City or town</label><input id="regCity" maxlength="60" autocomplete="address-level2" placeholder="e.g. Liverpool"><p>Do not enter a street address, postcode, or full date of birth.</p><label class="checkline" for="regConsent"><input type="checkbox" id="regConsent"> I understand that my name may be shown to other online BULIGO users, but my birth year and location are not public in this demo.</label></div><div class="row" style="margin-top:16px"><button class="primary" id="signIn" type="submit">Sign in</button><button class="secondary" id="signUp" type="button">Create account</button></div></form><button class="outline small" id="resetPassword" type="button" style="margin-top:12px">Forgot password?</button><p class="status" id="authStatus" role="status" aria-live="polite">Checking your account…</p></section>
  <div class="hidden" id="loggedIn"><div class="account"><strong id="currentEmail"></strong><button class="outline small" id="signOut" type="button">Sign out</button></div><div class="profile-hero"><div class="avatar">B</div><h2>My BULIGO profile</h2><p class="subtle">Friends can find you by name while you are online. Accepted friends are saved on this phone. Videos in this preview are local only.</p></div><section class="card" id="setupPanel"><h2>👤 Your BULIGO profile</h2><p class="smalltext">Choose the name friends search for. Birth year and location stay private on this device.</p><label for="myFirst">First name</label><input id="myFirst" type="text" maxlength="35" autocomplete="given-name" placeholder="e.g. Erika"><label for="myLast">Surname</label><input id="myLast" type="text" maxlength="35" autocomplete="family-name" placeholder="e.g. Siroki"><label for="myYear">Year of birth (private)</label><input id="myYear" type="number" min="1900" max="2013" inputmode="numeric" placeholder="e.g. 1990"><label for="myCountry">Country (private)</label><input id="myCountry" maxlength="60" autocomplete="country-name" placeholder="e.g. United Kingdom"><label for="myCity">City or town (private)</label><input id="myCity" maxlength="60" autocomplete="address-level2" placeholder="e.g. Liverpool"><button id="saveProfile" class="primary fullbtn" type="button" style="margin-top:18px">Save my profile</button><p id="profileStatus" class="status" aria-live="polite">Only your name is used for online searches. Never share an exact street address here.</p></section><div id="profileBox" class="namebox hidden"><span>Your name: <strong id="profileLabel"></strong></span><button class="outline small" type="button" id="editProfile">Edit profile</button></div><div id="privateDetails" class="profile-private"><strong>Private profile details</strong><span id="privateDetailsText">Optional — stored only on this phone.</span><div id="followSummary">Following 0 people on this device</div></div>
-<section class="card" id="myMediaPanel"><h2>📷 My photos and videos</h2><p class="smalltext">Your media previews on this phone. They are not uploaded publicly.</p><div class="media-count"><span id="myPhotoCount">0 photos</span><span id="myVideoCount">0 videos</span></div><div id="myMediaGallery" class="media-grid" aria-label="My photo and video previews"></div><p class="smalltext" id="myMediaEmpty">Tap Create to choose a photo or video.</p><button class="outline fullbtn" data-page="create" type="button">＋ Add a photo or video</button></section><p id="ringStatus" class="smalltext">Tap “Enable ringing” at the top to hear incoming calls while this page is open.</p><p class="upload-note">Email/password are handled by Firebase Authentication. Your name is saved to your own Firebase account display name; year of birth and location are saved only on this device. Other people cannot browse your birth year or city in this preview. Follows and accepted friends are saved on this phone; invitations only work while both people are online. A real cloud friends list needs a secure backend.</p></div>
+<section class="card" id="myMediaPanel"><h2>📷 My photos and videos</h2><p class="smalltext">Your private drafts on this phone. Tap 🗑️ to permanently remove your own draft. Public uploading is not active yet.</p><div class="media-count"><span id="myPhotoCount">0 photos</span><span id="myVideoCount">0 videos</span></div><div id="myMediaGallery" class="media-grid" aria-label="My photo and video previews"></div><p class="smalltext" id="myMediaEmpty">Tap Create to choose a photo or video.</p><button class="outline fullbtn" data-page="create" type="button">＋ Add a photo or video</button></section><p id="ringStatus" class="smalltext">Tap “Enable ringing” at the top to hear incoming calls while this page is open.</p><p class="upload-note">Email/password are handled by Firebase Authentication. Your name is saved to your own Firebase account display name; year of birth and location are saved only on this device. Other people cannot browse your birth year or city in this preview. Follows and accepted friends are saved on this phone; invitations only work while both people are online. A real cloud friends list needs a secure backend.</p></div>
 </section>
 <section class="tabpage hidden" id="callTab"><h1 class="section-title">Video call</h1><section class="hidden" id="callPanel"><div class="stage"><video id="remoteVideo" autoplay playsinline></video><div class="waiting" id="waiting"><b id="waitSymbol">📹</b><span id="waitingText">Connecting…</span></div><video id="localVideo" autoplay playsinline muted></video></div><p class="status" id="callStatus" aria-live="polite">Connecting…</p><div class="controls"><button class="secondary" id="toggleMic" type="button">🎙️ Mute</button><button class="secondary" id="toggleCamera" type="button">📷 Camera off</button><button class="danger" id="hangUp" type="button">📞 End call</button></div><button class="outline small hidden" type="button" id="enableSound" style="margin-top:9px">🔊 Enable sound</button></section></section>
 <p class="footer">BULIGO social preview with experimental public LIVE directory that requires Firebase Firestore rules to be installed. After that, logged-in members can discover live broadcasts automatically, without an invitation. Streams use peer-to-peer technology with a maximum of 3 viewers per broadcaster; this is not a scalable public streaming service. Video quality, connectivity and audio depend on devices and networks. Do not broadcast private information. Email registration is real, using Firebase Authentication. You can preview photos and videos, swipe, like and comment on this device only. Public posting, cloud reposts, global share counts, cloud comments, mutual/cloud followers, saved messages and push alerts are not active. Friend media reposts and share counts are local previews on this phone. Do not repost private or unlicensed content. The Share button on a personal video can open the phone share sheet to send its original video file to other apps, but it does not create a public BULIGO post. The Calls tab checks only saved contacts. Offline calls and background push alerts are not active. Incoming calls may ring audibly only after you tap Enable ringing and while BULIGO is open. iPhone Safari does not support website-triggered vibration. Name search, live chats and video calls are experimental; both people must have BULIGO open to answer. An inactive phone cannot be switched on by a website. Names are not verified. Connection depends on an external service and may fail. Do not use for sensitive or emergency communications.</p>
@@ -423,7 +437,18 @@ function renderFollowingDirectory(){const dir=$('followingDirectory');if(!dir)re
  if(!followed.size){show('followingMessage');hide('followingDirectory');return;}hide('followingMessage');show('followingDirectory');const heading=make('h2','',`Following ${followed.size} (this phone only)`);const note=make('p','smalltext','Followed names are saved on this device. Public following feeds, mutual follows and follower counts are not active yet.');dir.append(heading,note);
  for(const person of followed.values()){const row=make('div','found'),info=make('div'),name=make('strong','',person.first+' '+person.last),small=make('small','', 'Previously found online · not verified');info.append(name,small);const actions=make('div','found-actions'),msg=make('button','primary small','✉ Message'),voice=make('button','outline small','📞 Voice'),video=make('button','green small','📹 Video'),unfollow=make('button','outline small','− Unfollow');msg.onclick=()=>openConversation(person);voice.onclick=()=>void dial(person,'audio');video.onclick=()=>void dial(person,'video');unfollow.onclick=()=>toggleFollow(person);actions.append(msg,voice,video,unfollow);row.append(info,actions);dir.append(row);}
 }
-const clipById=id=>[...repostClips,...localClips,...demoClips].find(x=>x.id===id);
+const ownedDrafts=()=>localClips.filter(c=>user&&c.ownerUid===user.uid);
+const clipById=id=>[...repostClips,...ownedDrafts(),...demoClips].find(x=>x.id===id);
+function deleteMyDraft(id){
+ const idx=localClips.findIndex(c=>c.id===id&&user&&c.ownerUid===user.uid);
+ if(idx<0){notifyPreview('Only the account that created this draft can delete it.');return;}
+ const clip=localClips[idx];
+ if(!window.confirm('Delete your '+(clip.type==='image'?'photo':'video')+' draft? This cannot be undone.'))return;
+ localClips.splice(idx,1);
+ if(clip.url)try{URL.revokeObjectURL(clip.url);}catch{}
+ commentStore.delete(clip.id);likeIds.delete(clip.id);shareCounts.delete(clip.id);
+ renderMyMedia();renderFeed();notifyPreview('Your draft was deleted from this phone.');
+}
 const feed=$('publicFeed');
 function switchTab(next){
  if(!tabKeys.includes(next))return;
@@ -473,13 +498,14 @@ async function refreshCalls(){if(callsRefreshBusy||!user)return;callsRefreshBusy
 $('refreshCalls').onclick=()=>void refreshCalls();$('callsAddFriend').onclick=()=>switchTab('search');
 
 function renderFeed(restoreId){
- feed.replaceChildren();const clips=viewFollowing?[]:[...repostClips,...localClips,...demoClips];
+ feed.replaceChildren();const clips=viewFollowing?[]:[...repostClips,...ownedDrafts(),...demoClips];
  if(viewFollowing){feed.classList.add('hidden');renderFollowingDirectory();return;}feed.classList.remove('hidden');hide('followingMessage');hide('followingDirectory');if(!clips.length){const article=make('article','clip');const bg=make('div','clip-bg');const msg=make('div','clip-brand','BULIGO');msg.append(make('small','', 'Following feed needs published videos.'));bg.append(msg);article.append(bg);const actions=make('div','clip-details');const button=make('button','primary','Find friends');button.onclick=()=>switchTab('search');actions.append(button);article.append(actions);feed.append(article);return;}
  for(const clip of clips){
   const article=make('article','clip');article.dataset.clipid=clip.id;
   if(clip.type==='image'){const img=make('img','clip-image');img.src=clip.repost?clip.originalUrl:clip.url;img.alt=clip.caption||'Photo on BULIGO';if(clip.repost)img.referrerPolicy='no-referrer';img.loading='lazy';article.append(img);}else if(clip.url||(clip.repost&&clip.type==='video')){const video=make('video','');video.src=clip.repost?clip.originalUrl:clip.url;video.muted=true;video.autoplay=false;video.playsInline=true;video.loop=true;video.preload='metadata';video.setAttribute('aria-label',clip.caption||'Video preview');article.append(video);const tap=make('button','clip-tap');tap.type='button';tap.setAttribute('aria-label','Play or pause video');tap.onclick=()=>{if(video.paused)video.play().catch(()=>{});else video.pause();};article.append(tap);}
   else{const bg=make('div','clip-bg'+(clip.background?' clip-bg-two':''));const glow=make('div','clip-glow');const brand=make('div','clip-brand',clip.repost?'↻ REPOST':'BULIGO');brand.append(make('small','',clip.repost?'Open the original post':clip.background?'Connect with friends':'Your videos. Your world.'));bg.append(glow,brand);article.append(bg);}
-  const tag=make('span','clip-demo-tag',clip.demo?'BULIGO DEMO':clip.repost?'↻ REPOST · LOCAL':'PRIVATE PREVIEW');article.append(tag);
+  const tag=make('span','clip-demo-tag',clip.demo?'BULIGO DEMO':clip.repost?'↻ REPOST · LOCAL':(clip.visibility==='public'?'🌍 Public draft · not posted':clip.visibility==='friends'?'👥 Friends draft · not posted':'🔒 Private draft'));article.append(tag);
+  if(!clip.demo&&!clip.repost&&user&&clip.ownerUid===user.uid){const remove=make('button','clip-own-delete','🗑️ Delete my post');remove.type='button';remove.setAttribute('aria-label','Delete your photo or video draft');remove.onclick=()=>deleteMyDraft(clip.id);article.append(remove);}
   const side=make('div','clip-side');const avatar=make('span','clip-avatar',clip.demo?'B':(clip.username[1]||'U').toUpperCase());side.append(avatar);
   const like=make('button','clip-action');like.type='button';like.setAttribute('aria-label','Like post');like.setAttribute('aria-pressed',String(likeIds.has(clip.id)));const heart=make('span','sym',likeIds.has(clip.id)?'♥':'♡');like.append(heart,make('span','',likeIds.has(clip.id)?'1 Like':'Like'));
   like.onclick=()=>{if(likeIds.has(clip.id))likeIds.delete(clip.id);else likeIds.add(clip.id);like.setAttribute('aria-pressed',String(likeIds.has(clip.id)));heart.textContent=likeIds.has(clip.id)?'♥':'♡';like.lastChild.textContent=likeIds.has(clip.id)?'1 Like':'Like';};side.append(like);
@@ -558,26 +584,29 @@ $('videoPicker').onchange=e=>{
 };
 function renderMyMedia(){
  const gallery=$('myMediaGallery');if(!gallery)return;gallery.replaceChildren();
- const photos=localClips.filter(c=>c.type==='image');const videos=localClips.filter(c=>c.type==='video');
+ const myClips=ownedDrafts();const photos=myClips.filter(c=>c.type==='image');const videos=myClips.filter(c=>c.type==='video');
  $('myPhotoCount').textContent=photos.length+' photo'+(photos.length===1?'':'s');
  $('myVideoCount').textContent=videos.length+' video'+(videos.length===1?'':'s');
- $('myMediaEmpty').classList.toggle('hidden',!!localClips.length);
- for(const clip of localClips){
+ $('myMediaEmpty').classList.toggle('hidden',!!myClips.length);
+ for(const clip of myClips){
   const tile=make('button','media-tile');tile.type='button';tile.setAttribute('aria-label','View '+clip.type+': '+clip.caption);
   if(clip.type==='image'){const img=make('img');img.src=clip.url;img.alt=clip.caption;tile.append(img);}
   else{const vid=make('video');vid.src=clip.url;vid.preload='metadata';vid.muted=true;vid.playsInline=true;tile.append(vid);}
   tile.append(make('span','media-kind',clip.type==='image'?'📷':'▶'),make('span','media-caption',clip.caption));
   tile.onclick=()=>{viewFollowing=false;$('feedForYou').classList.add('selected');$('feedFollowing').classList.remove('selected');renderFeed();switchTab('home');requestAnimationFrame(()=>{const item=[...feed.children].find(el=>el.dataset.clipid===clip.id);item?.scrollIntoView({block:'start'});});};
-  gallery.append(tile);
+  const entry=make('div','my-media-entry');entry.append(tile);
+  const remove=make('button','media-delete','🗑');remove.type='button';remove.setAttribute('aria-label','Delete my '+clip.type+' draft');remove.title='Delete my draft';remove.onclick=()=>deleteMyDraft(clip.id);entry.append(remove);
+  gallery.append(entry);
  }
 }
 $('sharePreview').onclick=()=>{
  if(!selectedMedia)return;
+ if(!user){switchTab('profile');notifyPreview('Sign in to save your own photo or video draft.');return;}
  const caption=norm($('videoCaption').value)||selectedMedia.file.name.replace(/\.[^/.]+$/,'');
- const clip={id:'local-'+Date.now()+'-'+Math.random().toString(36).slice(2,8),url:selectedMedia.url,file:selectedMedia.file,type:selectedMedia.type,username:firstName&&surname?'@'+firstName.toLowerCase()+'.'+surname.toLowerCase():'@mybuligo',caption:caption.slice(0,180),demo:false};
+ const clip={id:'local-'+Date.now()+'-'+Math.random().toString(36).slice(2,8),ownerUid:user.uid,visibility:$('postVisibility').value,url:selectedMedia.url,file:selectedMedia.file,type:selectedMedia.type,username:firstName&&surname?'@'+firstName.toLowerCase()+'.'+surname.toLowerCase():'@mybuligo',caption:caption.slice(0,180),demo:false};
  localClips.unshift(clip);selectedMedia=null;resetMediaPreview();
- $('videoPicker').value='';$('videoCaption').value='';$('sharePreview').disabled=true;
- $('previewStatus').textContent='Added to your private preview feed. Other people cannot see this post.';
+ $('videoPicker').value='';$('videoCaption').value='';$('postVisibility').value='private';$('sharePreview').disabled=true;
+ $('previewStatus').textContent='Draft saved on this phone with your selected visibility preference. Not published to other users.';
  renderMyMedia();viewFollowing=false;$('feedForYou').classList.add('selected');$('feedFollowing').classList.remove('selected');renderFeed();feed.scrollTop=0;switchTab('home');
 };
 renderFeed();document.body.classList.add('home-mode');
@@ -799,7 +828,7 @@ $('toggleMic').onclick=()=>{const t=stream?.getAudioTracks()[0];if(!t)return;t.e
 $('toggleCamera').onclick=()=>{const t=stream?.getVideoTracks()[0];if(!t)return;t.enabled=!t.enabled;$('toggleCamera').textContent=t.enabled?'📷 Camera off':'📷 Camera on';};
 $('enableSound').onclick=async()=>{try{await $('remoteVideo').play();hide('enableSound');}catch{say('callStatus','Tap Enable sound again.','error');}};
 $('signOut').onclick=async()=>{stopRinging();await endCall();stopPeer();dropChatSessions();followed.clear();friends.clear();friendStatus.clear();callPresence.clear();renderCalls();await signOut(auth);};
-onAuthStateChanged(auth,async next=>{stopLiveDirectoryListener();++searchToken;stopRinging();await endCall();stopPeer();dropChatSessions();user=next;loadLocalReposts();updateLiveAuth();firstName='';surname='';followed.clear();friends.clear();friendStatus.clear();callPresence.clear();renderFriends();renderCalls();
+onAuthStateChanged(auth,async next=>{stopLiveDirectoryListener();++searchToken;stopRinging();await endCall();stopPeer();dropChatSessions();user=next;loadLocalReposts();renderMyMedia();renderFeed();updateLiveAuth();firstName='';surname='';followed.clear();friends.clear();friendStatus.clear();callPresence.clear();renderFriends();renderCalls();
  if(!user){show('authPanel');hide('loggedIn');show('searchGuest');say('authStatus','Sign in to make a call or follow people.');renderFollowSummary();return;}
  hide('authPanel');show('loggedIn');hide('searchGuest');$('currentEmail').textContent='👤 '+(user.email||'BULIGO account');
  let saved=null;try{saved=JSON.parse(localStorage.getItem(myStorageKey(user.uid))||'null');}catch{}
