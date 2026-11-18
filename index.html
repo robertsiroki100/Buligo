@@ -159,6 +159,26 @@ body.home-mode .feed-search{position:absolute;right:15px;top:max(18px,env(safe-a
 .live-send-btn{color:#161129;background:#bba1ff}.live-heart-btn{color:white;background:#5c2a4a}
 .live-overlay-note{color:#bac4e0;padding:8px 12px;font-size:12px;line-height:1.4}
 @media(max-width:360px){.live-composer{left:5px;right:5px;gap:4px;padding:5px}.live-composer button{padding:4px 8px}.live-chat-overlay{bottom:72px;right:47px}}
+/* BULIGO LIVE guest requests, moderation and viewer-only emoji reactions */
+.live-reactions{position:absolute;right:7px;top:53px;z-index:8;display:flex;flex-direction:column;gap:5px;max-height:55%;overflow-y:auto;scrollbar-width:none}
+.live-reactions button{background:#10162ab8;border:1px solid #ffffff6b;color:#fff;border-radius:999px;min-width:39px;min-height:41px;padding:4px;font-size:23px;touch-action:manipulation}
+.live-reactions button:focus-visible,.guest-tools button:focus-visible{outline:3px solid #bda3ff}
+.live-stage .live-chat-overlay{right:55px}
+#liveHostStage #liveHostHeartBtn{display:none}
+.live-reaction-floating{font-size:26px}
+.live-request-panel{margin:12px 0;padding:13px;border-radius:14px;border:1px solid #4b5f86;background:#10192c}
+.live-request-item{padding:10px 0;display:flex;justify-content:space-between;gap:8px;align-items:center;border-bottom:1px solid #354360}
+.live-request-item strong{font-size:14px;overflow-wrap:anywhere}
+.live-request-item .row{flex:0 0 auto}
+.live-request-item button{font-size:12px;padding:6px 9px;min-height:36px}
+.guest-tools{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.guest-tools button{flex:1;min-width:115px}
+.live-cohost{position:absolute;top:10px;right:9px;width:34%;height:30%;background:#121d2a;border:2px solid #c7b3ff;border-radius:14px;z-index:6;overflow:hidden;box-shadow:0 4px 20px #0009}
+.live-cohost video{width:100%;height:100%;object-fit:cover;background:#0b1425}
+.live-cohost span{position:absolute;bottom:0;left:0;right:0;background:#050b16ac;color:white;font-size:10px;padding:3px 5px}
+.live-cohost button{position:absolute;top:4px;right:4px;background:#1a1b2fe0;color:white;border:1px solid #fff8;border-radius:9px;padding:4px;font-size:11px}
+.live-reaction-info{font-size:12px;color:#d5def3}
+@media(max-width:390px){.live-reactions{top:54px;right:4px}.live-reactions button{min-height:35px;min-width:35px;font-size:20px}.live-cohost{width:32%;height:27%}}
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/peerjs@1.5.5/dist/peerjs.min.js"></script>
 </head>
@@ -210,6 +230,7 @@ body.home-mode .feed-search{position:absolute;right:15px;top:max(18px,env(safe-a
     <span class="live-stage-live-label">🔴 LIVE</span>
     <div id="liveHostChat" class="live-chat-overlay" role="log" aria-live="polite" aria-label="Incoming comments displayed over your video"></div>
     <div id="liveHostHearts" class="live-hearts" aria-hidden="true"></div>
+    <div id="liveCohostBox" class="live-cohost hidden"><video id="liveCohostVideo" autoplay playsinline></video><span id="liveCohostName">Guest</span><button id="liveRemoveCohost" type="button" aria-label="Remove guest from LIVE">✕</button></div>
     <form id="liveHostCommentForm" class="live-composer" autocomplete="off">
      <input id="liveHostCommentInput" aria-label="Write a LIVE comment" maxlength="140" required placeholder="Write a comment…">
      <button class="live-send-btn" type="submit" aria-label="Send live comment">➤</button>
@@ -217,6 +238,7 @@ body.home-mode .feed-search{position:absolute;right:15px;top:max(18px,env(safe-a
     </form>
    </div>
    <p id="liveHostStatus" class="status">Not broadcasting.</p>
+   <div id="liveHostModeration" class="live-request-panel hidden" aria-live="polite"><h3>🛡️ Manage your LIVE</h3><p class="live-reaction-info">Only you can approve guests to appear on camera. Remove or block disruptive viewers from this LIVE session.</p><h4>Guest requests</h4><div id="liveJoinRequests"><p class="smalltext">No requests.</p></div><h4>Viewers</h4><div id="liveModerationViewers"><p class="smalltext">No viewers yet.</p></div></div>
    <div class="row" style="margin-top:11px"><button id="startLive" class="danger" type="button">🔴 Go LIVE</button><button id="endLive" class="outline hidden" type="button">■ End LIVE</button></div>
    <div id="liveSharePanel" class="hidden"><label for="liveInvite">Share this LIVE link</label><div class="live-share-row"><input id="liveInvite" readonly aria-label="Your live stream link"><button id="shareLiveLink" class="secondary small" type="button">➤ Share</button><button id="copyLiveLink" class="outline small" type="button">Copy</button></div><p class="smalltext">Whoever has this link may be able to watch while you are LIVE. Streaming ends when you tap End LIVE, refresh, or close the page.</p></div>
    <p class="smalltext" id="liveAudienceCount">0 connected viewers · maximum 3 in this beta.</p>
@@ -229,16 +251,18 @@ body.home-mode .feed-search{position:absolute;right:15px;top:max(18px,env(safe-a
     <span class="live-stage-live-label">🔴 LIVE</span>
     <div id="liveGuestChat" class="live-chat-overlay" role="log" aria-live="polite" aria-label="Comments displayed over the live video"></div>
     <div id="liveGuestHearts" class="live-hearts" aria-hidden="true"></div>
+    <div class="live-reactions" aria-label="Send a LIVE reaction to the broadcaster"><button data-live-emoji="👍" aria-label="Like" type="button">👍</button><button data-live-emoji="❤️" aria-label="Love" type="button">❤️</button><button data-live-emoji="😂" aria-label="Laugh" type="button">😂</button><button data-live-emoji="😡" aria-label="Angry" type="button">😡</button><button data-live-emoji="🙏" aria-label="Pray" type="button">🙏</button><button data-live-emoji="😮" aria-label="Wow" type="button">😮</button></div>
     <form id="liveGuestCommentForm" class="live-composer" autocomplete="off">
      <input id="liveGuestCommentInput" aria-label="Write a LIVE comment" maxlength="140" required placeholder="Write a comment…">
      <button class="live-send-btn" type="submit" aria-label="Send live comment">➤</button>
      <button id="liveGuestHeartBtn" class="live-heart-btn" type="button" aria-label="Send a LIVE heart">❤️</button>
     </form>
    </div>
+   <div id="liveGuestJoinTools" class="live-request-panel hidden"><h3>🎤 Join this LIVE as a guest</h3><p class="smalltext">Ask the broadcaster first. Your camera and mic stay off until you explicitly enable them.</p><div class="guest-tools"><button id="liveRequestJoin" type="button" class="primary">✋ Request to join</button><button id="liveEnableGuestCam" type="button" class="green hidden">📹 Enable camera & mic</button><button id="liveStopGuestCam" type="button" class="outline hidden">Leave as guest</button></div><p id="liveJoinStatus" class="smalltext" aria-live="polite">You are watching only.</p></div>
    <button id="livePlayAudio" class="secondary fullbtn hidden" type="button">🔊 Tap to play LIVE with sound</button>
    <p id="liveViewerStatus" class="status">Not watching a LIVE.</p>
   </section>
-  <p class="live-overlay-note">💬 LIVE messages and ❤️ reactions appear inside the video, with the comment field at the bottom of the picture. The sender's name is not verified.</p>
+  <p class="live-overlay-note">💬 LIVE comments and viewer reactions appear on the video. Viewers may request to join on camera; the broadcaster must approve. Beta: a guest camera is visible to the host and guest, but not relayed to other viewers. Names are not identity verified.</p>
   <section class="card"><h2>👥 LIVE from your contacts</h2><p class="smalltext">Check only saved friends and followed accounts. The app cannot browse all public live streams yet.</p><button class="secondary fullbtn" type="button" id="checkLiveFriends">↻ Check LIVE friends</button><div id="liveFriendsList" aria-live="polite"></div><p class="smalltext">A missing result does not prove somebody is offline; phone browsers may pause connections.</p></section>
  </div>
 </section>
@@ -550,7 +574,7 @@ function trySlot(next){if(!user||!firstName||!surname)return;
  if(data.metadata?.kind==='buligo-chat'){const nameFirst=norm(data.metadata.first),nameLast=norm(data.metadata.last);if(!goodName(nameFirst)||!goodName(nameLast)){try{data.close();}catch{}return;}attachChatConnection(data,{id:data.peer,first:nameFirst,last:nameLast,slot:0});return;}
  data.on('open',()=>{try{data.send({kind:'buligo-profile',first:firstName,last:surname,slot:next});}catch{}});
  data.on('error',()=>{});setTimeout(()=>{try{data.close();}catch{}},6500);});
- p.on('call',c=>{if(c.metadata?.kind==='buligo-live-stream-v1'){receiveLiveStreamCall(c);return;}if(peer!==p||!user||connection||incoming){try{c.close();}catch{}return;}
+ p.on('call',c=>{if(c.metadata?.kind==='buligo-live-stream-v1'){receiveLiveStreamCall(c);return;}if(c.metadata?.kind==='buligo-live-cohost-stream-v1'){receiveLiveGuestCall(c);return;}if(peer!==p||!user||connection||incoming){try{c.close();}catch{}return;}
  incoming=c;const caller=norm(c.metadata?.first)+' '+norm(c.metadata?.last),isVoice=c.metadata?.mode==='audio';
  $('incomingName').textContent=(caller.trim()||'Unknown caller')+' is calling. The caller’s identity is not verified.';$('incomingTitle').textContent=isVoice?'Incoming voice call':'Incoming video call';$('incomingIcon').textContent=isVoice?'📞':'📲';$('answerCall').textContent=isVoice?'📞 Answer':'📹 Answer';show('incomingOverlay');startRinging('incoming');
  c.on('close',()=>{if(incoming===c){incoming=null;stopRinging();hide('incomingOverlay');}});});
@@ -723,7 +747,8 @@ onAuthStateChanged(auth,async next=>{stopLiveDirectoryListener();++searchToken;s
 // BULIGO LIVE v1: direct peer-to-peer webcast. Not a public scalable streaming service.
 // Stream is shared only on intentional Go LIVE click; viewer never shares camera or microphone.
 let liveBroadcastStream=null,liveWatchChannel=null,liveReceivedMedia=null,liveWatchingId=null;
-const liveAudience=new Map(),liveMediaCalls=new Map();
+const liveAudience=new Map(),liveMediaCalls=new Map(),liveAudienceNames=new Map(),liveBannedPeers=new Set(),livePendingRequests=new Map();
+let liveApprovedGuest=null,liveGuestMediaCall=null,liveMyGuestStream=null,liveMyGuestCall=null,liveGuestApproved=false,liveWasRemoved=false;
 let liveChatLastSent=0,liveViewerCount=0;
 const liveMaxAudience=3;
 // A public directory only; the video streams remain direct peer-to-peer.
@@ -784,28 +809,97 @@ function unpublishPublicLive(){
 function updateLiveAuth(){ $('liveGuest').classList.toggle('hidden',!!user);$('liveSigned').classList.toggle('hidden',!user); }
 function updateLiveCount(){liveViewerCount=liveAudience.size;$('liveAudienceCount').textContent=liveViewerCount+' connected viewer'+(liveViewerCount===1?'':'s')+' · maximum '+liveMaxAudience+' in this beta.';}
 function resetLiveOverlay(){for(const id of ['liveHostChat','liveGuestChat','liveHostHearts','liveGuestHearts'])$(id).replaceChildren();}
-function floatLiveHeart(){for(const stage of ['liveHostHearts','liveGuestHearts']){
- const panel=$(stage);const heart=make('span','live-float-heart','❤️');panel.append(heart);
+function floatLiveHeart(emoji='❤️'){for(const stage of ['liveHostHearts','liveGuestHearts']){
+ const panel=$(stage);const heart=make('span','live-float-heart live-reaction-floating',emoji);panel.append(heart);
  heart.addEventListener('animationend',()=>heart.remove(),{once:true});
  setTimeout(()=>heart.remove(),2800);}}
-function liveLog(who,msg,heart=false){
+function liveLog(who,msg,heart=false,emoji='❤️'){
  for(const id of ['liveHostChat','liveGuestChat']){
   const panel=$(id),entry=make('p',heart?'live-heart':'');
   if(!heart){const bold=make('strong','',String(who||'Guest').slice(0,60)+': ');entry.append(bold,document.createTextNode(String(msg).slice(0,140)));}
-  else entry.textContent='❤️ '+String(who||'Viewer').slice(0,45)+' sent a heart';
+  else entry.textContent=emoji+' '+String(who||'Viewer').slice(0,45)+' reacted';
   panel.append(entry);while(panel.children.length>15)panel.firstChild.remove();panel.scrollTop=panel.scrollHeight;
  }
- if(heart)floatLiveHeart();
+ if(heart)floatLiveHeart(emoji);
 }
 function liveBroadcasterName(){return firstName&&surname?firstName+' '+surname:'BULIGO user';}
 function liveStatusToAll(msg){for(const [id,channel] of liveAudience){if(channel?.open){try{channel.send(msg);}catch{}}}}
+// LIVE guest approval is ephemeral. A guest must tap a camera permission button after approval.
+function liveSafeName(data,dc){return liveAudienceNames.get(dc.peer)||norm(data?.name).slice(0,45)||'Viewer';}
+function liveSendTo(dc,data){if(dc?.open)try{dc.send(data);}catch{}}
+function liveGuestResetUi(){
+ liveGuestApproved=false;hide('liveEnableGuestCam');hide('liveStopGuestCam');show('liveRequestJoin');$('liveRequestJoin').disabled=false;
+ if(liveMyGuestCall){try{liveMyGuestCall.close();}catch{}liveMyGuestCall=null;}
+ if(liveMyGuestStream){liveMyGuestStream.getTracks().forEach(track=>{try{track.stop();}catch{}});liveMyGuestStream=null;}
+ say('liveJoinStatus','You are watching only.');
+}
+function liveGuestStop(send=true){
+ if(send)liveSendTo(liveWatchChannel,{kind:'buligo-live-guest-stop-v1'});
+ liveGuestResetUi();
+}
+function liveHostClearGuest(notify=true){
+ const id=liveApprovedGuest;
+ if(notify&&id)liveSendTo(liveAudience.get(id),{kind:'buligo-live-guest-ended-v1'});
+ if(liveGuestMediaCall)try{liveGuestMediaCall.close();}catch{}
+ liveGuestMediaCall=null;liveApprovedGuest=null;
+ const v=$('liveCohostVideo');try{v.pause();}catch{}v.srcObject=null;
+ hide('liveCohostBox');renderLiveModeration();
+}
+function liveBanViewer(id){
+ if(!id)return;
+ liveBannedPeers.add(id);livePendingRequests.delete(id);
+ if(liveApprovedGuest===id)liveHostClearGuest(false);
+ const dc=liveAudience.get(id);
+ liveSendTo(dc,{kind:'buligo-live-removed-v1',reason:'The broadcaster removed you from this LIVE.'});
+ setTimeout(()=>{try{dc?.close();}catch{}},180);
+ renderLiveModeration();
+}
+function renderLiveModeration(){
+ const requests=$('liveJoinRequests'),viewers=$('liveModerationViewers');requests.replaceChildren();viewers.replaceChildren();
+ if(!liveBroadcastStream){requests.append(make('p','smalltext','Start a LIVE to receive requests.'));viewers.append(make('p','smalltext','No viewers yet.'));return;}
+ if(!livePendingRequests.size)requests.append(make('p','smalltext','No requests yet.'));
+ for(const [id,name] of livePendingRequests){
+  const card=make('div','live-request-item'),label=make('strong','',name+' wants to join on camera');
+  const actions=make('div','row');const accept=make('button','green small','Accept'),decline=make('button','outline small','Decline');
+  accept.onclick=()=>{
+   const dc=liveAudience.get(id);livePendingRequests.delete(id);
+   if(!dc?.open||liveBannedPeers.has(id)){renderLiveModeration();return;}
+   if(liveApprovedGuest&&liveApprovedGuest!==id){liveSendTo(dc,{kind:'buligo-live-join-declined-v1',message:'Another guest is already on camera.'});renderLiveModeration();return;}
+   liveApprovedGuest=id;
+   liveSendTo(dc,{kind:'buligo-live-join-approved-v1'});renderLiveModeration();
+  };
+  decline.onclick=()=>{livePendingRequests.delete(id);liveSendTo(liveAudience.get(id),{kind:'buligo-live-join-declined-v1',message:'The broadcaster declined your request.'});renderLiveModeration();};
+  actions.append(accept,decline);card.append(label,actions);requests.append(card);
+ }
+ if(!liveAudience.size)viewers.append(make('p','smalltext','No viewers yet.'));
+ for(const [id,dc] of liveAudience){
+  const name=liveAudienceNames.get(id)||'Viewer';const card=make('div','live-request-item'),label=make('strong','',name+(liveApprovedGuest===id?' · guest':''));
+  const block=make('button','danger small','Remove / Block');block.onclick=()=>liveBanViewer(id);
+  card.append(label,block);viewers.append(card);
+ }
+}
+function receiveLiveGuestCall(c){
+ if(!liveBroadcastStream||!liveApprovedGuest||c.peer!==liveApprovedGuest||!liveAudience.get(c.peer)?.open||liveGuestMediaCall){try{c.close();}catch{}return;}
+ liveGuestMediaCall=c;
+ c.on('stream',stream=>{
+  if(liveGuestMediaCall!==c)return;
+  const v=$('liveCohostVideo');v.srcObject=stream;v.muted=false;
+  $('liveCohostName').textContent=liveAudienceNames.get(c.peer)||'Guest';show('liveCohostBox');
+  v.play().catch(()=>say('liveHostStatus','Guest joined, but tap the guest video if sound does not play.','error'));
+  liveStatusToAll({kind:'buligo-live-guest-announcement-v1',name:liveAudienceNames.get(c.peer)||'Guest'});
+ });
+ c.on('close',()=>{if(liveGuestMediaCall===c)liveHostClearGuest(true);});
+ c.on('error',()=>{if(liveGuestMediaCall===c)liveHostClearGuest(true);});
+ try{c.answer(liveBroadcastStream);}catch{liveHostClearGuest(true);}
+}
 function handleLiveCheck(dc){dc.on('open',()=>{try{dc.send({kind:'buligo-live-status-v1',live:!!liveBroadcastStream,title:norm($('liveTitle').value).slice(0,75),first:firstName,last:surname});}catch{}setTimeout(()=>{try{dc.close();}catch{}},550);});}
 function handleLiveWatchRequest(dc){
  dc.on('open',()=>{
+  if(liveBannedPeers.has(dc.peer)){liveSendTo(dc,{kind:'buligo-live-error',message:'You are blocked from this LIVE.'});setTimeout(()=>{try{dc.close();}catch{}},250);return;}
   if(!liveBroadcastStream||!peer?.open){try{dc.send({kind:'buligo-live-error',message:'This broadcaster is not LIVE right now.'});}catch{}setTimeout(()=>{try{dc.close();}catch{}},250);return;}
   if(liveAudience.size>=liveMaxAudience){try{dc.send({kind:'buligo-live-error',message:'LIVE is full (3 viewers maximum for this beta).'});}catch{}setTimeout(()=>{try{dc.close();}catch{}},250);return;}
   if(liveAudience.has(dc.peer)){try{liveAudience.get(dc.peer)?.close();}catch{}}
-  liveAudience.set(dc.peer,dc);updateLiveCount();
+  liveAudience.set(dc.peer,dc);liveAudienceNames.set(dc.peer,norm(dc.metadata?.name).slice(0,45)||'Viewer');updateLiveCount();renderLiveModeration();
   try{dc.send({kind:'buligo-live-accepted',name:liveBroadcasterName(),title:norm($('liveTitle').value).slice(0,75)});}catch{}
   try{const c=peer.call(dc.peer,liveBroadcastStream,{metadata:{kind:'buligo-live-stream-v1',from:liveBroadcasterName()}});
    if(!c)throw Error('Could not create media connection.');liveMediaCalls.set(dc.peer,c);c.on('close',()=>liveMediaCalls.delete(dc.peer));c.on('error',()=>{liveMediaCalls.delete(dc.peer);});
@@ -814,23 +908,33 @@ function handleLiveWatchRequest(dc){
  let lastIncoming=0;
  dc.on('data',data=>{
   if(!liveBroadcastStream||liveAudience.get(dc.peer)!==dc||!data||typeof data!=='object')return;
-  if(data.kind!=='buligo-live-comment'&&data.kind!=='buligo-live-heart')return;
+  if(data.kind==='buligo-live-join-request-v1'){
+    if(liveBannedPeers.has(dc.peer)||liveApprovedGuest){liveSendTo(dc,{kind:'buligo-live-join-declined-v1',message:'Guest joining is unavailable right now.'});return;}
+    livePendingRequests.set(dc.peer,liveSafeName(data,dc));renderLiveModeration();return;
+   }
+   if(data.kind==='buligo-live-guest-stop-v1'){
+    livePendingRequests.delete(dc.peer);if(liveApprovedGuest===dc.peer)liveHostClearGuest(false);renderLiveModeration();return;
+   }
+   if(data.kind!=='buligo-live-comment'&&data.kind!=='buligo-live-heart'&&data.kind!=='buligo-live-reaction-v1')return;
   const now=Date.now();if(now-lastIncoming<900)return;lastIncoming=now;
-  const who=norm(data.name).slice(0,45)||'Viewer';
+  const who=liveSafeName(data,dc);
   if(data.kind==='buligo-live-comment'){
    const msg=norm(data.text).slice(0,140);if(!msg)return;liveLog(who,msg);liveStatusToAll({kind:'buligo-live-comment',name:who,text:msg});
+  }else if(data.kind==='buligo-live-reaction-v1'){
+   const emoji=String(data.emoji||'');if(!['👍','❤️','😂','😡','🙏','😮'].includes(emoji))return;
+   liveLog(who,emoji,true,emoji);liveStatusToAll({kind:'buligo-live-reaction-v1',name:who,emoji});
   }else{liveLog(who,'❤️',true);liveStatusToAll({kind:'buligo-live-heart',name:who});}
  });
- const cleanup=()=>{if(liveAudience.get(dc.peer)!==dc)return;liveAudience.delete(dc.peer);try{liveMediaCalls.get(dc.peer)?.close();}catch{}liveMediaCalls.delete(dc.peer);updateLiveCount();};
+ const cleanup=()=>{if(liveAudience.get(dc.peer)!==dc)return;liveAudience.delete(dc.peer);liveAudienceNames.delete(dc.peer);livePendingRequests.delete(dc.peer);if(liveApprovedGuest===dc.peer)liveHostClearGuest(false);try{liveMediaCalls.get(dc.peer)?.close();}catch{}liveMediaCalls.delete(dc.peer);updateLiveCount();renderLiveModeration();};
  dc.on('close',cleanup);dc.on('error',cleanup);
 }
 function endLiveBroadcast(update=true){
  unpublishPublicLive();
  if(!liveBroadcastStream)return;
- liveStatusToAll({kind:'buligo-live-ended'});
+ liveStatusToAll({kind:'buligo-live-ended'});liveHostClearGuest(false);
  for(const c of liveAudience.values())try{c.close();}catch{}
  for(const c of liveMediaCalls.values())try{c.close();}catch{}
- liveAudience.clear();liveMediaCalls.clear();
+ liveAudience.clear();liveMediaCalls.clear();liveAudienceNames.clear();livePendingRequests.clear();liveBannedPeers.clear();hide('liveHostModeration');renderLiveModeration();
  for(const t of liveBroadcastStream.getTracks())try{t.stop();}catch{}
  liveBroadcastStream=null;$('liveHostVideo').srcObject=null;hide('liveHostStage');hide('liveSharePanel');hide('endLive');show('startLive');$('liveBadge').textContent='OFF AIR';$('liveBadge').classList.add('off');updateLiveCount();
  if(update)say('liveHostStatus','LIVE ended. Your camera and microphone are off.','ok');
@@ -845,7 +949,7 @@ async function startLiveBroadcast(){
   const p=await peerReady();
   candidate=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user'},audio:{echoCancellation:true,noiseSuppression:true}});
   if(!p.open||p!==peer)throw Error('Calling service disconnected; retry Go LIVE.');
-  resetLiveOverlay();liveBroadcastStream=candidate;candidate=null;
+  resetLiveOverlay();liveBroadcastStream=candidate;candidate=null;liveBannedPeers.clear();livePendingRequests.clear();show('liveHostModeration');renderLiveModeration();
   const v=$('liveHostVideo');v.srcObject=liveBroadcastStream;show('liveHostStage');v.play().catch(()=>{});$('liveHostStage').scrollIntoView({behavior:'smooth',block:'center'});
   $('liveBadge').textContent='● LIVE';$('liveBadge').classList.remove('off');hide('startLive');show('endLive');
   const invite=new URL(location.pathname,location.origin);invite.searchParams.set('live',p.id);
@@ -880,7 +984,7 @@ function liveCodeFromText(value){
  return /^buligo-person-v4-[0-9a-f]{4,150}-[1-6]$/.test(s)?s:'';
 }
 function leaveLiveBroadcast(update=true){
- const c=liveWatchChannel;liveWatchChannel=null;liveWatchingId=null;
+ liveGuestStop(false);hide('liveGuestJoinTools');const c=liveWatchChannel;liveWatchChannel=null;liveWatchingId=null;
  if(liveReceivedMedia){try{liveReceivedMedia.close();}catch{}liveReceivedMedia=null;}
  if(c)try{c.close();}catch{}
  const v=$('liveGuestVideo');try{v.pause();}catch{}v.srcObject=null;hide('liveGuestStage');hide('livePlayAudio');hide('leaveLive');show('joinLive');
@@ -897,17 +1001,23 @@ async function watchLiveBroadcast(input){
  $('joinLive').disabled=true;say('liveViewerStatus','Connecting to LIVE…');
  try{
   const p=await peerReady();if(id===p.id)throw Error('This is your own LIVE. Tap Go LIVE instead.');
-  const dc=p.connect(id,{reliable:true,metadata:{kind:'buligo-live-watch-v1'}});if(!dc)throw Error('Could not connect to LIVE.');
+  const dc=p.connect(id,{reliable:true,metadata:{kind:'buligo-live-watch-v1',name:liveBroadcasterName()}});if(!dc)throw Error('Could not connect to LIVE.');
   liveWatchChannel=dc;liveWatchingId=id;
   let joined=false;
   const timeout=setTimeout(()=>{if(!joined&&liveWatchChannel===dc){say('liveViewerStatus','No response from this LIVE. The broadcaster may be offline.','error');leaveLiveBroadcast(false);}},13000);
   dc.on('open',()=>{if(liveWatchChannel===dc)say('liveViewerStatus','Asking to watch LIVE…');});
   dc.on('data',data=>{
    if(liveWatchChannel!==dc||!data||typeof data!=='object')return;
-   if(data.kind==='buligo-live-accepted'){joined=true;clearTimeout(timeout);hide('joinLive');show('leaveLive');say('liveViewerStatus','Connected to '+String(data.name||'LIVE').slice(0,60)+'. Waiting for video…','ok');liveLog('BULIGO','You joined '+String(data.name||'a LIVE').slice(0,45)+'.');}
+   if(data.kind==='buligo-live-accepted'){joined=true;clearTimeout(timeout);hide('joinLive');show('leaveLive');say('liveViewerStatus','Connected to '+String(data.name||'LIVE').slice(0,60)+'. Waiting for video…','ok');liveLog('BULIGO','You joined '+String(data.name||'a LIVE').slice(0,45)+'.');show('liveGuestJoinTools');}
    else if(data.kind==='buligo-live-error'){joined=true;clearTimeout(timeout);say('liveViewerStatus',String(data.message||'LIVE unavailable').slice(0,120),'error');leaveLiveBroadcast(false);}
    else if(data.kind==='buligo-live-comment')liveLog(data.name,data.text);
    else if(data.kind==='buligo-live-heart')liveLog(data.name,'❤️',true);
+   else if(data.kind==='buligo-live-reaction-v1'&&['👍','❤️','😂','😡','🙏','😮'].includes(data.emoji))liveLog(data.name,data.emoji,true,data.emoji);
+   else if(data.kind==='buligo-live-join-approved-v1'){liveGuestApproved=true;hide('liveRequestJoin');show('liveEnableGuestCam');say('liveJoinStatus','Approved! Tap Enable camera & mic to join.');}
+   else if(data.kind==='buligo-live-join-declined-v1'){liveGuestApproved=false;show('liveRequestJoin');$('liveRequestJoin').disabled=false;say('liveJoinStatus',String(data.message||'Request declined.'));}
+   else if(data.kind==='buligo-live-guest-ended-v1'){liveGuestStop(false);say('liveJoinStatus','The broadcaster ended your guest connection.');}
+   else if(data.kind==='buligo-live-removed-v1'){liveWasRemoved=true;alert('You were removed from this LIVE.');leaveLiveBroadcast(false);say('liveViewerStatus',String(data.reason||'Removed from this LIVE.').slice(0,100),'error');}
+   else if(data.kind==='buligo-live-guest-announcement-v1')liveLog('BULIGO',String(data.name||'Guest').slice(0,45)+' joined as a guest.');
    else if(data.kind==='buligo-live-ended'){say('liveViewerStatus','The broadcaster ended this LIVE.');leaveLiveBroadcast(false);}
   });
   dc.on('error',()=>{clearTimeout(timeout);if(liveWatchChannel===dc){say('liveViewerStatus','Could not reach this LIVE. The broadcaster may be unavailable.','error');leaveLiveBroadcast(false);}});
@@ -923,6 +1033,34 @@ $('leaveLive').onclick=()=>leaveLiveBroadcast();
 $('shareLiveLink').onclick=()=>void liveShareLink();
 $('copyLiveLink').onclick=()=>{const input=$('liveInvite');input.select();if(navigator.clipboard?.writeText)navigator.clipboard.writeText(input.value).then(()=>notifyPreview('LIVE link copied.')).catch(()=>notifyPreview('Select the link and copy it.'));else notifyPreview('Select the link and copy it.');};
 $('livePlayAudio').onclick=()=>{const v=$('liveGuestVideo');v.muted=false;v.play().then(()=>hide('livePlayAudio')).catch(()=>say('liveViewerStatus','Tap the LIVE video to play with sound.','error'));};
+$('liveRequestJoin').onclick=()=>{
+ if(!liveWatchChannel?.open){say('liveJoinStatus','Join a LIVE first.','error');return;}
+ liveSendTo(liveWatchChannel,{kind:'buligo-live-join-request-v1',name:liveBroadcasterName()});
+ $('liveRequestJoin').disabled=true;say('liveJoinStatus','Request sent. Waiting for the broadcaster to decide…');
+};
+$('liveEnableGuestCam').onclick=async()=>{
+ if(!liveGuestApproved||!liveWatchChannel?.open||!liveWatchingId)return;
+ $('liveEnableGuestCam').disabled=true;say('liveJoinStatus','Requesting camera and microphone access…');
+ let stream=null;
+ try{
+  stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user'},audio:{echoCancellation:true,noiseSuppression:true}});
+  if(!liveGuestApproved||!liveWatchChannel?.open){stream.getTracks().forEach(t=>t.stop());return;}
+  liveMyGuestStream=stream;
+  const c=peer.call(liveWatchingId,stream,{metadata:{kind:'buligo-live-cohost-stream-v1'}});
+  if(!c)throw Error('Could not connect your camera.');
+  liveMyGuestCall=c;hide('liveEnableGuestCam');show('liveStopGuestCam');say('liveJoinStatus','You are joining on camera. The broadcaster can see and hear you.');
+  c.on('close',()=>{if(liveMyGuestCall===c){liveGuestStop(false);say('liveJoinStatus','Guest camera connection ended.');}});
+  c.on('error',()=>{if(liveMyGuestCall===c){liveGuestStop(false);say('liveJoinStatus','Guest camera connection failed.','error');}});
+ }catch(e){stream?.getTracks().forEach(t=>t.stop());say('liveJoinStatus',e?.message||'Camera permission was not granted.','error');}
+ finally{$('liveEnableGuestCam').disabled=false;}
+};
+$('liveStopGuestCam').onclick=()=>{liveGuestStop(true);say('liveJoinStatus','You left the guest camera.','ok');};
+$('liveRemoveCohost').onclick=()=>liveHostClearGuest(true);
+for(const btn of document.querySelectorAll('[data-live-emoji]')){
+ btn.onclick=()=>{const emoji=btn.dataset.liveEmoji;if(liveWatchChannel?.open&&['👍','❤️','😂','😡','🙏','😮'].includes(emoji)){
+  if(sendLiveMessage({kind:'buligo-live-reaction-v1',emoji}))notifyPreview(emoji+' sent');
+ }};
+}
 function sendLiveMessage(data){const now=Date.now();if(now-liveChatLastSent<1100){notifyPreview('Please wait a moment before sending again.');return false;}liveChatLastSent=now;
  const name=liveBroadcasterName();
  if(liveBroadcastStream){
@@ -937,7 +1075,7 @@ for(const role of ['Host','Guest']){
  const form=$('live'+role+'CommentForm'),input=$('live'+role+'CommentInput');
  form.onsubmit=e=>{e.preventDefault();const msg=norm(input.value).slice(0,140);if(!msg)return;
    if(sendLiveMessage({kind:'buligo-live-comment',text:msg})){input.value='';input.blur();}};
- $('live'+role+'HeartBtn').onclick=()=>{if(sendLiveMessage({kind:'buligo-live-heart'}))notifyPreview('❤️ Heart sent');};
+ if(role==='Guest')$('live'+role+'HeartBtn').onclick=()=>{if(sendLiveMessage({kind:'buligo-live-heart'}))notifyPreview('❤️ Heart sent');};
 }
 async function checkLiveContact(person){return new Promise(async resolve=>{
   let dc=null,timeout=null,done=false;const finish=data=>{if(done)return;done=true;clearTimeout(timeout);try{dc?.close();}catch{}resolve(data);};
