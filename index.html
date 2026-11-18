@@ -1,194 +1,389 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="theme-color" content="#0d1021" />
-  <title>BULIGO — Live Voice Chat</title>
-  <meta name="description" content="BULIGO — meet, talk and have fun in live voice rooms." />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0c1020">
+  <meta name="description" content="BULIGO — simple, direct one-to-one video calling. No rooms or room codes.">
+  <title>BULIGO — Video Calls</title>
   <style>
-    :root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#f9f9ff;background:#0d1021}
-    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 75% 0%,#49339d55,transparent 45%),#0d1021}
-    .wrap{width:min(680px,calc(100% - 32px));margin:0 auto;padding:26px 0 70px}
-    header{display:flex;align-items:center;justify-content:space-between;gap:12px}.logo{font-size:27px;font-weight:900;letter-spacing:.06em}.logo span{color:#a9a0ff}
-    .pill{padding:8px 12px;border-radius:999px;border:1px solid #51516d;color:#c7c8e3;font-size:12px}
-    .hero{padding:65px 0 18px}h1{font-size:clamp(40px,9vw,64px);line-height:1.05;letter-spacing:-.06em;margin:0 0 18px}.gradient{background:linear-gradient(110deg,#a7a2ff,#ed9ce5);background-clip:text;color:transparent}
-    .sub{font-size:17px;line-height:1.6;color:#b8bbd6;max-width:540px;margin:0 0 28px}
-    .panel{background:#191b33;border:1px solid #393b5d;border-radius:24px;padding:24px;box-shadow:0 16px 60px #0003}
-    .panel h2{font-size:22px;margin:0 0 8px}.hint{font-size:14px;color:#b7bad2;margin:0 0 22px;line-height:1.5}
-    label{display:block;font-weight:700;font-size:14px;margin-bottom:9px}input{width:100%;background:#0e1125;color:#fff;border:1px solid #60617b;border-radius:12px;padding:15px;font-size:16px;outline:none}input:focus{border-color:#bdacff}
-    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}button{font:inherit;border:0;border-radius:13px;padding:14px 18px;font-weight:800;cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}
-    .primary{background:#b1a4ff;color:#16132d;flex:1}.secondary{color:#fff;background:#343657}.danger{background:#f17f9d;color:#2e1020}.ghost{background:transparent;color:#d7d3ff;border:1px solid #68658d}
-    .status{background:#101329;border-radius:12px;padding:15px;margin:18px 0 0;line-height:1.5;font-size:14px;color:#e0e0f5;min-height:50px}
-    .status.error{background:#481f36;color:#ffd7df}.status.ok{background:#153b39;color:#c1fff2}
-    .hidden{display:none!important}.roomline{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:16px 0}.roomid{font-weight:900;color:#c5bcff;overflow-wrap:anywhere}
-    .people{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}.person{background:#11142a;border:1px solid #393a59;border-radius:16px;padding:20px 12px;text-align:center}.avatar{width:58px;height:58px;display:grid;place-items:center;border-radius:50%;margin:0 auto 12px;background:#5550a6;font-size:26px}.person strong{display:block}.person small{display:block;color:#bec0d9;margin-top:7px}
-    footer{color:#9295b7;font-size:12px;line-height:1.6;margin-top:24px}a{color:#cdc6ff}
-    .auth-form{display:grid;gap:9px}.auth-form input{margin-bottom:9px}.auth-options{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-start;margin-top:12px}.auth-options button{font-size:14px}
-    .userbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:0 0 18px;padding:12px 14px;background:#191b33;border-radius:15px;border:1px solid #393b5d}.userbar strong{overflow-wrap:anywhere;font-size:14px}.userbar button{padding:9px 14px;font-size:13px}
-    @media(max-width:400px){.panel{padding:18px}.people{grid-template-columns:1fr}.hero{padding:45px 0 18px}}
+    :root{color-scheme:dark;font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;--bg:#0c1020;--card:#181e34;--line:#363f5c;--muted:#b0bad3;--purple:#af9fff;--mint:#72e3ba}
+    *{box-sizing:border-box}body{margin:0;min-height:100dvh;color:#f8f9ff;background:radial-gradient(circle at 80% 0,#5537a155,transparent 40%),var(--bg)}
+    .wrap{max-width:590px;margin:auto;padding:22px 16px 70px}header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:40px}
+    .logo{font-weight:950;letter-spacing:.05em;font-size:27px}.logo span{color:var(--purple)}.tag{font-size:12px;border:1px solid var(--line);border-radius:99px;padding:7px 10px;color:#dedaff;white-space:nowrap}
+    h1{font-size:clamp(34px,9vw,53px);letter-spacing:-.045em;line-height:1.12;margin:0 0 10px}.accent{color:var(--purple)}.lede{color:var(--muted);margin:0 0 28px}
+    .panel{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:22px;box-shadow:0 14px 50px #0002;margin-bottom:16px}
+    h2{font-size:21px;margin:0 0 7px}.muted{color:var(--muted);font-size:14px;margin:0 0 18px}label{display:block;font-size:14px;font-weight:700;margin:14px 0 7px}
+    input{width:100%;border:1px solid #626b88;background:#10162b;color:white;border-radius:13px;padding:14px 15px;font:inherit;font-size:16px;outline:none}input:focus{border-color:var(--purple)}
+    button,.navlink{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:0;border-radius:13px;padding:13px 17px;font:inherit;font-weight:750;cursor:pointer;text-decoration:none;min-height:48px}
+    button:disabled{opacity:.48;cursor:wait}.primary{color:#15112b;background:var(--purple)}.green{background:var(--mint);color:#07382c}.secondary{background:#333c5b;color:#fff}.danger{background:#fa7296;color:#2b0f1a}.outline{background:transparent;color:#eee;border:1px solid #616b87}
+    .row{display:flex;gap:10px;flex-wrap:wrap}.row>*{flex:1}.small{font-size:13px;padding:10px 13px;min-height:40px}
+    .status{padding:12px 14px;margin-top:16px;border-radius:12px;background:#10172b;color:#dde5ff;font-size:14px;min-height:46px;overflow-wrap:anywhere}.status.error{background:#50253a;color:#ffe5ea}.status.ok{background:#153d35;color:#c4ffeb}
+    .hidden{display:none!important}.userbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:16px;font-size:14px;overflow-wrap:anywhere}.userbar strong{min-width:0;overflow-wrap:anywhere}
+    .stage{position:relative;overflow:hidden;background:#0a0e19;border:1px solid #3d4560;border-radius:23px;aspect-ratio:3/4;max-height:70dvh;margin-bottom:13px}
+    #remoteVideo{position:absolute;width:100%;height:100%;object-fit:cover;background:#0a0e19}#localVideo{position:absolute;width:30%;height:30%;right:12px;top:12px;border-radius:16px;object-fit:cover;transform:scaleX(-1);border:2px solid #f2f2ff80;background:#182039;z-index:2}
+    .waiting{position:absolute;inset:0;display:grid;place-items:center;align-content:center;gap:10px;text-align:center;color:#e6e6f5;pointer-events:none}.waiting .circle{font-size:47px}.callcontrols{display:flex;gap:9px;justify-content:center;flex-wrap:wrap}.callcontrols button{flex:1;min-width:95px}
+    .incoming-backdrop{position:fixed;inset:0;z-index:20;background:#000b;display:flex;align-items:center;justify-content:center;padding:18px}.incoming-box{background:#202844;border:1px solid #64719b;border-radius:25px;padding:28px 20px;text-align:center;max-width:410px;width:100%;box-shadow:0 24px 100px #0009}.incoming-icon{font-size:55px}.incoming-box h2{margin:10px 0}.incoming-box p{overflow-wrap:anywhere}
+    footer{font-size:12px;color:#9aa7c5;line-height:1.55;margin-top:25px}.navlink{color:#cfc7ff;border:1px solid var(--line);font-size:13px;min-height:38px;padding:8px 12px}
+    @media(max-width:360px){.panel{padding:17px}.row>*{min-width:100%}.callcontrols button{min-width:0;padding:11px 8px;font-size:13px}}
   </style>
 </head>
 <body>
-  <main class="wrap">
-    <header><div class="logo">BULI<span>GO</span></div><div class="pill">🎙️ Voice chat beta</div></header>
-    <section class="hero"><h1>Good vibes.<br><span class="gradient">Real voices.</span></h1><p class="sub">Create an account, start a voice room, invite a friend and talk live.</p></section>
+<main class="wrap">
+  <header><div class="logo">BULI<span>GO</span></div><span class="tag">📹 Direct video calls</span></header>
+  <h1>Call a friend.<br><span class="accent">Face to face.</span></h1>
+  <p class="lede">One person calls, the other answers. No rooms, no room codes.</p>
 
-    <!-- Firebase Authentication: registration and sign-in. -->
-    <section class="panel" id="authPanel">
-      <h2>Welcome to BULIGO</h2>
-      <p class="hint">Sign in, or create your own free account with your email address and a password.</p>
-      <form class="auth-form" id="authForm">
-        <label for="email">Email address</label>
-        <input id="email" name="email" type="email" required autocomplete="email" placeholder="you@example.com" />
-        <label for="password">Password</label>
-        <input id="password" name="password" type="password" required minlength="6" autocomplete="current-password" placeholder="At least 6 characters" />
-        <div class="actions">
-          <button class="primary" id="signInButton" type="submit">Sign in</button>
-          <button class="secondary" id="signUpButton" type="button">Create account</button>
-        </div>
-      </form>
-      <div class="auth-options"><button class="ghost" id="resetPasswordButton" type="button">Forgot password?</button></div>
-      <div class="status" id="authStatus" role="status" aria-live="polite">Checking your sign-in status...</div>
+  <section class="panel" id="authPanel">
+    <h2>Welcome to BULIGO</h2>
+    <p class="muted">Create a free account or sign in to make video calls.</p>
+    <form id="authForm">
+      <label for="email">Your email address</label>
+      <input id="email" type="email" autocomplete="email" required placeholder="you@example.com">
+      <label for="password">Password</label>
+      <input id="password" type="password" autocomplete="current-password" minlength="6" required placeholder="At least 6 characters">
+      <div class="row" style="margin-top:17px"><button class="primary" id="signIn" type="submit">Sign in</button><button class="secondary" id="signUp" type="button">Create account</button></div>
+    </form>
+    <div class="row" style="margin-top:12px"><button class="outline small" type="button" id="forgotPassword">Forgot password?</button></div>
+    <div id="authStatus" class="status" role="status" aria-live="polite">Checking your account…</div>
+  </section>
+
+  <div id="mainApp" class="hidden">
+    <div class="userbar"><strong id="signedInAs"></strong><button class="outline small" id="signOut" type="button">Sign out</button></div>
+    <section class="panel" id="dialPanel">
+      <h2>📞 Start a video call</h2>
+      <p class="muted">Ask your friend to create a BULIGO account and keep this website open.</p>
+      <label for="myName">Your name (shown when you call)</label>
+      <div class="row"><input id="myName" maxlength="40" placeholder="Your name" autocomplete="nickname"><button class="secondary" id="saveName" type="button" style="flex:0 0 auto">Save</button></div>
+      <label for="friendEmail">Friend's BULIGO email address</label>
+      <input id="friendEmail" type="email" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="friend@example.com">
+      <div id="recentContacts" class="hidden" style="margin-top:13px"><p class="muted" style="margin:0 0 6px">Call again with one tap:</p><div class="row" id="recentButtons"></div></div>
+      <div class="row" style="margin-top:16px"><button class="green" id="startCall" type="button">📹 Video call</button></div>
+      <div class="status" id="appStatus" role="status" aria-live="polite">Ready. Enter your friend's email to call.</div>
     </section>
-
-    <div class="userbar hidden" id="userbar"><strong id="signedInAs"></strong><button class="ghost" id="signOutButton" type="button">Sign out</button></div>
-
-    <!-- Existing two-person PeerJS voice chat retained. -->
-    <section class="panel hidden" id="welcome">
-      <h2>Join the conversation</h2><p class="hint">This first test supports <b>two people per room</b>. Both should use a modern browser and allow microphone access.</p>
-      <label for="nickname">Your display name</label><input id="nickname" maxlength="30" autocomplete="nickname" placeholder="Your name" />
-      <div class="actions"><button class="primary" id="create">🎙️ Create a room</button></div>
-      <div style="margin:26px 0 12px;border-top:1px solid #484865;padding-top:22px"><label for="roomCode">Or join using a room code</label><input id="roomCode" maxlength="24" placeholder="Room code" autocapitalize="off" spellcheck="false" /></div>
-      <button class="secondary" id="join" style="width:100%">Join room</button>
-      <div id="welcomeStatus" class="status" role="status">Ready to connect.</div>
+    <section id="callPanel" class="hidden" aria-live="polite">
+      <div class="stage">
+        <video id="remoteVideo" autoplay playsinline></video>
+        <div class="waiting" id="waiting"><span class="circle">📹</span><strong id="waitingText">Calling…</strong></div>
+        <video id="localVideo" autoplay playsinline muted></video>
+      </div>
+      <p class="status" id="callStatus" role="status">Connecting…</p>
+      <div class="callcontrols"><button class="secondary" id="toggleMic" type="button">🎙️ Mute</button><button class="secondary" id="toggleCamera" type="button">📷 Camera off</button><button class="danger" id="hangUp" type="button">📞 End</button></div>
+      <div class="row" style="margin-top:10px"><button id="enableSound" class="outline small hidden" type="button">🔊 Tap for sound</button></div>
     </section>
-    <section class="panel hidden" id="active">
-      <h2>🎙️ Voice room</h2><div class="roomline"><span>Room code: <span class="roomid" id="shownCode"></span></span><button class="ghost" id="copy">Copy invite link</button></div>
-      <div class="people"><div class="person"><div class="avatar">🙂</div><strong id="meName">You</strong><small id="meState">Microphone on</small></div><div class="person"><div class="avatar">🎧</div><strong id="guestName">Waiting for a friend</strong><small id="guestState">Share your invite link</small></div></div>
-      <div class="status" id="callStatus" role="status">Connecting...</div>
-      <div class="actions"><button class="secondary" id="mute">Mute mic</button><button class="danger" id="leave">Leave room</button></div>
-    </section>
-    <footer>Early demonstration using a public peer-signalling service. Room codes are not passwords. Do not share private information or use this for sensitive calls. A production service needs its own infrastructure, moderation, privacy policy and abuse prevention. Video uploads and a public video feed are not part of this version.</footer>
-  </main>
-  <script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js"></script>
-  <script>
-  (() => {
-    'use strict';
-    const $ = (id) => document.getElementById(id);
-    let peer=null, stream=null, call=null, host=false, code='', muted=false;
-    let remoteAudio=null;
-    const roomPrefix='buligo-room-';
-    const params=new URLSearchParams(location.search);
-    if(params.has('room')) $('roomCode').value = cleanCode(params.get('room'));
-    function cleanCode(value){return String(value||'').toLowerCase().replace(/[^a-z0-9-]/g,'').slice(0,24);}
-    function msg(id, text, type=''){$(id).textContent=text;$(id).className='status '+type;}
-    function lockInputs(locked){['create','join'].forEach(id=>$(id).disabled=locked);}
-    function name(){return $('nickname').value.trim().slice(0,30)||'Guest';}
-    async function mic(){if(!navigator.mediaDevices?.getUserMedia)throw Error('Microphone requires HTTPS or localhost and a supported browser.');return navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true},video:false});}
-    function cleanup(){if(call){try{call.close()}catch{} call=null;}if(peer){try{peer.destroy()}catch{}peer=null;}if(stream){stream.getTracks().forEach(t=>t.stop());stream=null;}if(remoteAudio){remoteAudio.srcObject=null;remoteAudio.remove();remoteAudio=null;}history.replaceState(null,'',location.pathname);$('active').classList.add('hidden');if(window.buligoAuthUser)$('welcome').classList.remove('hidden');lockInputs(false);muted=false;$('mute').textContent='Mute mic';msg('welcomeStatus','Ready to connect.');}
-    window.buligoLeaveRoom=cleanup;
-    function peerInstance(id){return new Promise((resolve,reject)=>{const p=new Peer(id, {debug:0});let settled=false;const timeout=setTimeout(()=>{if(!settled){settled=true;p.destroy();reject(Error('Connection timed out. Please retry.'));}},15000);p.on('open',()=>{if(settled)return;settled=true;clearTimeout(timeout);resolve(p);});p.on('error',err=>{if(!settled){settled=true;clearTimeout(timeout);reject(err);}else{msg('callStatus',err.message||'Network problem.','error');}});});}
-    function attachCall(c){if(call){c.close();return;}call=c;msg('callStatus','Connecting voice...');c.on('stream',remote=>{if(!remoteAudio){remoteAudio=document.createElement('audio');remoteAudio.autoplay=true;remoteAudio.playsInline=true;document.body.appendChild(remoteAudio);}remoteAudio.srcObject=remote;remoteAudio.play().catch(()=>msg('callStatus','Tap the screen to enable audio playback.','error'));$('guestName').textContent='Friend connected';$('guestState').textContent='In the room';msg('callStatus','Connected! You can speak now.','ok');});c.on('close',()=>{call=null;if(remoteAudio){remoteAudio.srcObject=null;} $('guestName').textContent='Waiting for a friend';$('guestState').textContent='Not connected';msg('callStatus','The other person left.');});c.on('error',e=>msg('callStatus',e.message||'Voice connection failed.','error'));}
-    function show(){ $('welcome').classList.add('hidden');$('active').classList.remove('hidden');$('shownCode').textContent=code;$('meName').textContent=name();history.replaceState(null,'',location.pathname+'?room='+encodeURIComponent(code));}
-    $('create').onclick=async()=>{if(!window.buligoAuthUser)return;lockInputs(true);host=true;code=Math.random().toString(36).slice(2,8)+Math.random().toString(36).slice(2,5);msg('welcomeStatus','Requesting microphone permission...');try{stream=await mic();peer=await peerInstance(roomPrefix+code);show();msg('callStatus','Room ready! Copy the link and invite one friend.','ok');peer.on('call',c=>{if(call){c.close();return;}attachCall(c);c.answer(stream);});}catch(e){cleanup();msg('welcomeStatus',e.type==='unavailable-id'?'Room ID unavailable. Please create another room.':(e.message||'Could not start the room.'),'error');}};
-    $('join').onclick=async()=>{if(!window.buligoAuthUser)return;code=cleanCode($('roomCode').value);if(!code){msg('welcomeStatus','Enter a valid room code.','error');return;}lockInputs(true);host=false;msg('welcomeStatus','Requesting microphone permission...');try{stream=await mic();peer=await peerInstance(undefined);show();msg('callStatus','Calling room host...');attachCall(peer.call(roomPrefix+code,stream));setTimeout(()=>{if(call&&!remoteAudio?.srcObject)msg('callStatus','Still waiting. Check the code and make sure the host has the room open.','error');},12000);}catch(e){cleanup();msg('welcomeStatus',e.message||'Could not join room.','error');}};
-    $('copy').onclick=async()=>{const link=location.origin+location.pathname+'?room='+encodeURIComponent(code);try{await navigator.clipboard.writeText(link);$('copy').textContent='Copied!';setTimeout(()=>$('copy').textContent='Copy invite link',1800);}catch{window.prompt('Copy this invite link:',link);}};
-    $('mute').onclick=()=>{if(!stream)return;muted=!muted;stream.getAudioTracks().forEach(t=>t.enabled=!muted);$('meState').textContent=muted?'Microphone muted':'Microphone on';$('mute').textContent=muted?'Unmute mic':'Mute mic';};
-    $('leave').onclick=cleanup;
-    window.addEventListener('beforeunload',()=>{if(stream)stream.getTracks().forEach(t=>t.stop());if(peer)peer.destroy();});
-  })();
-  </script>
-  <script type="module">
-    import { initializeApp } from 'https://www.gstatic.com/firebasejs/13.3.0/firebase-app.js';
-    import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, signOut } from 'https://www.gstatic.com/firebasejs/13.3.0/firebase-auth.js';
+  </div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap"><a class="navlink" href="videos.html">▶ Videos</a></div>
+  <footer>Beta: both people must be signed in with BULIGO open in a browser. Allow camera and microphone access. Calls use WebRTC, which may need a TURN relay on some networks. Please do not use this beta for confidential or emergency calls.</footer>
+</main>
+<div class="incoming-backdrop hidden" id="incomingOverlay" role="dialog" aria-modal="true" aria-labelledby="incomingTitle">
+  <div class="incoming-box"><div class="incoming-icon">📲</div><h2 id="incomingTitle">Incoming video call</h2><p id="incomingFrom">Someone is calling…</p><div class="row" style="margin-top:22px"><button class="green" id="acceptCall" type="button">📹 Answer</button><button class="danger" id="declineCall" type="button">Decline</button></div></div>
+</div>
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/13.3.0/firebase-app.js';
+  import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, signOut } from 'https://www.gstatic.com/firebasejs/13.3.0/firebase-auth.js';
+  import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, addDoc, collection, onSnapshot, query, where } from 'https://www.gstatic.com/firebasejs/13.3.0/firebase-firestore.js';
 
-    // BULIGO public Firebase web-app configuration (NOT an admin credential).
-    const firebaseConfig = {
-      apiKey: 'AIzaSyC3y_C5X3U0GMyCzdkHQmv7eTBp5QPi3NY',
-      authDomain: 'buligo-6c67a.firebaseapp.com',
-      projectId: 'buligo-6c67a',
-      storageBucket: 'buligo-6c67a.firebasestorage.app',
-      messagingSenderId: '740875040307',
-      appId: '1:740875040307:web:3382bbc9692c2eac199546',
-      measurementId: 'G-RZQCMXXDVW'
+  // Public Firebase client configuration. Not an admin key.
+  const firebaseConfig = {
+    apiKey: 'AIzaSyC3y_C5X3U0GMyCzdkHQmv7eTBp5QPi3NY',
+    authDomain: 'buligo-6c67a.firebaseapp.com',
+    projectId: 'buligo-6c67a',
+    storageBucket: 'buligo-6c67a.firebasestorage.app',
+    messagingSenderId: '740875040307',
+    appId: '1:740875040307:web:3382bbc9692c2eac199546',
+    measurementId: 'G-RZQCMXXDVW'
+  };
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  const $ = id => document.getElementById(id);
+  const hide = id => $(id).classList.add('hidden');
+  const show = id => $(id).classList.remove('hidden');
+  const say = (id, txt, kind='') => {$(id).textContent = txt; $(id).className = 'status' + (kind ? ' ' + kind : '');};
+  const cleanEmail = str => String(str || '').trim().toLowerCase();
+  function contactsKey(){ return user ? 'buligo_recent_'+user.uid : ''; }
+  function savedContacts(){
+    try{return JSON.parse(localStorage.getItem(contactsKey()) || '[]').filter(x=>typeof x==='string').slice(0,5);}
+    catch{return [];}
+  }
+  function renderContacts(){
+    const list=$('recentButtons');list.replaceChildren();
+    const contacts=user?savedContacts():[];
+    if(!contacts.length){hide('recentContacts');return;}
+    show('recentContacts');
+    for(const email of contacts){
+      const b=document.createElement('button');b.type='button';b.className='outline small';b.textContent='📹 '+email;
+      b.onclick=()=>{$('friendEmail').value=email;startVideoCall();};list.appendChild(b);
+    }
+  }
+  function rememberContact(email){
+    const contacts=[email,...savedContacts().filter(x=>x!==email)].slice(0,5);
+    localStorage.setItem(contactsKey(),JSON.stringify(contacts));renderContacts();
+  }
+  const errorText = e => {
+    if(e?.code === 'auth/email-already-in-use') return 'That email already has an account. Please sign in.';
+    if(e?.code === 'auth/invalid-credential') return 'Wrong email or password.';
+    if(e?.code === 'auth/unauthorized-domain') return 'This website must be added to Firebase authorized domains.';
+    if(e?.code === 'permission-denied') return 'Firestore permission denied. The security rules must be published first.';
+    if(e?.name === 'NotAllowedError') return 'Camera or microphone permission was denied. Please allow both in Safari/Chrome.';
+    if(e?.name === 'NotFoundError') return 'No camera or microphone was found.';
+    return e?.message || 'Something went wrong. Please try again.';
+  };
+  const iceServers = {iceServers:[{urls:['stun:stun.l.google.com:19302','stun:stun1.l.google.com:19302']}]};
+  let user = null, unsubInbox = null, incoming = null, call = null, authBusy = false;
+
+  function authButtonsBusy(flag) {
+    authBusy = flag;
+    for(const id of ['signIn','signUp','forgotPassword']) $(id).disabled = flag;
+  }
+  async function login(create) {
+    if(authBusy) return;
+    const email = cleanEmail($('email').value), password = $('password').value;
+    if(!email || !password || password.length < 6) {say('authStatus','Enter a valid email and a password of at least 6 characters.','error');return;}
+    authButtonsBusy(true);
+    try {
+      if(create) await createUserWithEmailAndPassword(auth,email,password);
+      else await signInWithEmailAndPassword(auth,email,password);
+      $('password').value = '';
+    } catch(e) {say('authStatus',errorText(e),'error');}
+    finally {authButtonsBusy(false);}
+  }
+  $('authForm').addEventListener('submit',e=>{e.preventDefault();login(false);});
+  $('signUp').onclick=()=>login(true);
+  $('forgotPassword').onclick=async()=>{
+    const email=cleanEmail($('email').value);
+    if(!email){say('authStatus','Enter your email address first.','error');return;}
+    authButtonsBusy(true);
+    try{await sendPasswordResetEmail(auth,email);say('authStatus','If this email has an account, password reset instructions will arrive.','ok');}
+    catch(e){say('authStatus',errorText(e),'error');}
+    finally{authButtonsBusy(false);}
+  };
+  $('signOut').onclick=async()=>{await endCall(true);try{await signOut(auth);}catch(e){say('appStatus',errorText(e),'error');}};
+  async function publishProfile() {
+    if(!user?.email) throw Error('You must sign in with an email account.');
+    const email=cleanEmail(user.email), name=$('myName').value.trim().slice(0,40) || email.split('@')[0];
+    $('myName').value = name;
+    await setDoc(doc(db,'profiles',email),{uid:user.uid,email,name,updatedAt:Date.now()},{merge:true});
+    localStorage.setItem('buligo_name',name);
+  }
+  $('saveName').onclick=async()=>{try{await publishProfile();say('appStatus','Name saved. Your friends can now call you.','ok');}catch(e){say('appStatus',errorText(e),'error');}};
+
+  onAuthStateChanged(auth,async nextUser=>{
+    if(unsubInbox){unsubInbox();unsubInbox=null;}
+    if(call) await endCall(false);
+    incoming=null;hide('incomingOverlay');
+    user=nextUser;
+    if(!user){show('authPanel');hide('mainApp');say('authStatus','Sign in to make or receive calls.');return;}
+    hide('authPanel');show('mainApp');$('signedInAs').textContent = '👤 '+user.email;
+    $('myName').value = localStorage.getItem('buligo_name') || cleanEmail(user.email).split('@')[0];
+    renderContacts();
+    try {
+      await publishProfile();
+      say('appStatus','Ready. Ask a friend to sign in, then enter their email.','ok');
+    } catch(e) {say('appStatus','Account signed in, but contacts need setup: '+errorText(e),'error');}
+    if(user !== nextUser) return;
+    const inboxQuery=collection(db,'users',user.uid,'incoming');
+    unsubInbox=onSnapshot(inboxQuery,snapshot=>{
+      if(!user || !snapshot) return;
+      // A caller can cancel before the call is answered: close that notification.
+      if(incoming && !snapshot.docs.some(d=>d.id === incoming.id)) {
+        incoming = null; hide('incomingOverlay');
+      }
+      const entries = snapshot.docs.map(d=>({id:d.id,...d.data()}))
+        .filter(c=>c.toUid===user.uid && Date.now()-c.createdAt < 120000 && Date.now()>=c.createdAt-30000)
+        .sort((a,b)=>b.createdAt-a.createdAt);
+      if(call || incoming || !entries.length) return;
+      incoming=entries[0];
+      $('incomingFrom').textContent = (incoming.fromName || 'A BULIGO user') + ' is calling you';
+      show('incomingOverlay');
+    },err=>say('appStatus','Incoming calls unavailable: '+errorText(err),'error'));
+  });
+
+  function setCallUI(on){
+    if(on){hide('dialPanel');show('callPanel');show('waiting');$('waitingText').textContent='Connecting…';}
+    else{hide('callPanel');show('dialPanel');hide('enableSound');}
+  }
+  async function prepareMedia(s) {
+    if(!navigator.mediaDevices?.getUserMedia) throw Error('Video calling requires a secure HTTPS website.');
+    const stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true},video:{facingMode:'user'}});
+    s.stream=stream;
+    $('localVideo').srcObject=stream;
+    $('localVideo').play().catch(()=>{});
+    const pc=new RTCPeerConnection(iceServers);s.pc=pc;
+    s.remoteStream=new MediaStream();$('remoteVideo').srcObject=s.remoteStream;
+    for(const track of stream.getTracks()) pc.addTrack(track,stream);
+    pc.ontrack=event=>{
+      if(call!==s) return;
+      const tracks=event.streams[0]?.getTracks() || [event.track];
+      for(const track of tracks) if(!s.remoteStream.getTracks().some(t=>t.id===track.id)) s.remoteStream.addTrack(track);
+      hide('waiting');say('callStatus','Connected — enjoy your call!','ok');
+      $('remoteVideo').play().catch(()=>show('enableSound'));
     };
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const $ = (id) => document.getElementById(id);
-    const authForm = $('authForm');
-    const emailField = $('email');
-    const passwordField = $('password');
-    const authStatus = $('authStatus');
-    const buttons = [$('signInButton'), $('signUpButton'), $('resetPasswordButton')];
-    let busy = false;
-
-    function say(message, kind='') { authStatus.textContent=message; authStatus.className='status '+kind; }
-    function loading(flag) {busy=flag; buttons.forEach(button=>button.disabled=flag);}
-    function readableError(error) {
-      switch(error?.code) {
-        case 'auth/email-already-in-use': return 'This email address already has an account. Please sign in.';
-        case 'auth/invalid-email': return 'Please enter a valid email address.';
-        case 'auth/weak-password': return 'Please choose a stronger password (at least 6 characters).';
-        case 'auth/invalid-credential':
-        case 'auth/wrong-password':
-        case 'auth/user-not-found': return 'The email or password was not recognised.';
-        case 'auth/too-many-requests': return 'Too many attempts. Try again later.';
-        case 'auth/network-request-failed': return 'Network connection failed. Please try again.';
-        case 'auth/operation-not-allowed': return 'Email/password sign-in is not enabled in Firebase.';
-        case 'auth/unauthorized-domain': return 'This website must be added to Firebase authorised domains.';
-        default: return 'Something went wrong. Please try again. ('+(error?.code||'unknown')+')';
-      }
-    }
-    async function handleEmailAction(action) {
-      if(busy) return;
-      if(!authForm.reportValidity()) return;
-      loading(true);
-      say(action==='signup'?'Creating your account...':'Signing in...');
-      try {
-        const email=emailField.value.trim();
-        const password=passwordField.value;
-        if(action==='signup') await createUserWithEmailAndPassword(auth,email,password);
-        else await signInWithEmailAndPassword(auth,email,password);
-        passwordField.value='';
-      } catch(error) { say(readableError(error),'error'); }
-      finally { loading(false); }
-    }
-    authForm.addEventListener('submit',(event)=>{event.preventDefault();handleEmailAction('signin');});
-    $('signUpButton').addEventListener('click',()=>handleEmailAction('signup'));
-    $('resetPasswordButton').addEventListener('click',async()=>{
-      if(busy) return;
-      const email=emailField.value.trim();
-      if(!email || !emailField.checkValidity()) {say('Enter your email address first.','error');emailField.focus();return;}
-      loading(true);
-      say('Sending password reset email...');
-      try {await sendPasswordResetEmail(auth,email);say('If this address is registered, a password reset email will arrive shortly.','ok');}
-      catch(error) {say(readableError(error),'error');}
-      finally {loading(false);}
+    pc.onicecandidate=event=>{
+      if(!event.candidate || call!==s) return;
+      const candidate=event.candidate.toJSON();
+      if(!s.signalingReady) s.pendingLocal.push(candidate);
+      else sendCandidate(s,candidate);
+    };
+    pc.onconnectionstatechange=()=>{
+      if(call!==s) return;
+      if(pc.connectionState==='failed') say('callStatus','Connection failed. Try again or change network.','error');
+      else if(pc.connectionState==='disconnected') say('callStatus','Network interrupted. Trying to reconnect…');
+      else if(pc.connectionState==='connected') {hide('waiting');say('callStatus','Connected — enjoy your call!','ok');}
+    };
+    s.micMuted=false;s.cameraOff=false;
+    $('toggleMic').textContent='🎙️ Mute';$('toggleCamera').textContent='📷 Camera off';
+    setCallUI(true);
+  }
+  function newSession(id,fromUid,toUid,direction){
+    return {id,fromUid,toUid,direction,pc:null,stream:null,remoteStream:null,signalingReady:false,
+      pendingLocal:[],pendingRemote:[],remoteReady:false,answerApplying:false,unsubs:[],timer:null};
+  }
+  function sendCandidate(s,candidate){
+    const side=s.direction==='outgoing'?'callerCandidates':'calleeCandidates';
+    addDoc(collection(db,'calls',s.id,side),candidate).catch(e=>{
+      if(call===s) say('callStatus','Network signaling problem: '+errorText(e),'error');
     });
-    $('signOutButton').addEventListener('click',async()=>{
-      $('signOutButton').disabled=true;
-      try {
-        if(typeof window.buligoLeaveRoom==='function' && !$('active').classList.contains('hidden'))window.buligoLeaveRoom();
-        await signOut(auth);
-      } catch(error){window.alert(readableError(error));}
-      finally {$('signOutButton').disabled=false;}
-    });
-    onAuthStateChanged(auth,(user)=>{
-      window.buligoAuthUser=user||null;
-      $('authPanel').classList.toggle('hidden',!!user);
-      $('userbar').classList.toggle('hidden',!user);
-      if(user){
-        $('signedInAs').textContent='Signed in: '+(user.email||'BULIGO member');
-        if(!$('nickname').value.trim())$('nickname').value=(user.email||'Guest').split('@')[0].slice(0,30);
-        if($('active').classList.contains('hidden'))$('welcome').classList.remove('hidden');
-      } else {
-        if(typeof window.buligoLeaveRoom==='function' && !$('active').classList.contains('hidden'))window.buligoLeaveRoom();
-        $('welcome').classList.add('hidden');
-        $('active').classList.add('hidden');
-        say('Sign in or create an account to use BULIGO.');
+  }
+  function startCandidateSending(s){
+    s.signalingReady=true;
+    for(const candidate of s.pendingLocal.splice(0)) sendCandidate(s,candidate);
+  }
+  async function receiveCandidate(s,data){
+    if(call!==s)return;
+    if(!s.remoteReady){s.pendingRemote.push(data);return;}
+    try{await s.pc.addIceCandidate(new RTCIceCandidate(data));}catch(e){console.warn('ICE candidate rejected',e);}
+  }
+  async function applyRemote(s,description){
+    await s.pc.setRemoteDescription(new RTCSessionDescription(description));
+    s.remoteReady=true;
+    for(const cand of s.pendingRemote.splice(0)) await receiveCandidate(s,cand);
+  }
+  function listenCandidates(s,collectionName){
+    const q=collection(db,'calls',s.id,collectionName);
+    const unsub=onSnapshot(q,snap=>{
+      for(const change of snap.docChanges()) if(change.type==='added') receiveCandidate(s,change.doc.data());
+    },err=>{if(call===s)say('callStatus','Call network error: '+errorText(err),'error');});
+    s.unsubs.push(unsub);
+  }
+  function listenSession(s){
+    const ref=doc(db,'calls',s.id);
+    s.unsubs.push(onSnapshot(ref,async snap=>{
+      if(call!==s||!snap.exists())return;
+      const data=snap.data();
+      if(['ended','rejected','busy'].includes(data.status)){
+        say('appStatus',data.status==='rejected'?'The other person declined the call.':'The call has ended.');
+        await endCall(false);return;
       }
-    },(error)=>say('Could not check sign-in: '+readableError(error),'error'));
-  </script>
+      if(s.direction==='outgoing' && data.answer && !s.answerApplying){
+        s.answerApplying=true;
+        try{await applyRemote(s,data.answer);say('callStatus','Connecting video…');}
+        catch(e){if(call===s)say('callStatus',errorText(e),'error');}
+      }
+    },err=>{if(call===s)say('callStatus',errorText(err),'error');}));
+  }
+  async function startVideoCall(){
+    if(!user || call || incoming) return;
+    const friend=cleanEmail($('friendEmail').value);
+    if(!friend || !friend.includes('@')) {say('appStatus','Enter your friend’s BULIGO email address.','error');return;}
+    if(friend===cleanEmail(user.email)){say('appStatus','You cannot call your own account.','error');return;}
+    $('startCall').disabled=true;
+    let s=null;
+    try{
+      await publishProfile();
+      say('appStatus','Finding your friend…');
+      const profile=await getDoc(doc(db,'profiles',friend));
+      if(!profile.exists()) throw Error('Friend not found. Ask them to create a BULIGO account and sign in once.');
+      const toUid=profile.data().uid;
+      if(!toUid || toUid===user.uid) throw Error('This account cannot be called.');
+      const ref=doc(collection(db,'calls'));
+      s=newSession(ref.id,user.uid,toUid,'outgoing');call=s;
+      say('appStatus','Allow camera and microphone when asked.');
+      await prepareMedia(s);
+      $('waitingText').textContent='Calling '+(profile.data().name||friend)+'…';
+      const offer=await s.pc.createOffer();
+      await s.pc.setLocalDescription(offer);
+      await setDoc(ref,{
+        fromUid:user.uid,toUid,fromName:$('myName').value,status:'ringing',
+        offer:{type:offer.type,sdp:offer.sdp},createdAt:Date.now()
+      });
+      startCandidateSending(s);listenCandidates(s,'calleeCandidates');listenSession(s);
+      await setDoc(doc(db,'users',toUid,'incoming',s.id),{
+        fromUid:user.uid,toUid,fromName:$('myName').value,createdAt:Date.now()
+      });
+      rememberContact(friend);
+      say('callStatus','Ringing… Your friend must have BULIGO open.');
+      s.timer=setTimeout(async()=>{if(call===s && !s.remoteReady){
+        await endCall(true);say('appStatus','No answer. Ask your friend to open BULIGO and try again.','error');
+      }},60000);
+    }catch(e){
+      if(s && call===s) await endCall(true);
+      say('appStatus',errorText(e),'error');
+    }finally{$('startCall').disabled=false;}
+  }
+  $('startCall').onclick=startVideoCall;
+  async function clearIncoming(c){
+    try{await deleteDoc(doc(db,'users',c.toUid,'incoming',c.id));}catch(e){console.warn('Could not clear call notification',e);}
+  }
+  $('declineCall').onclick=async()=>{
+    if(!incoming)return;
+    const c=incoming;incoming=null;hide('incomingOverlay');
+    try{await updateDoc(doc(db,'calls',c.id),{status:'rejected'});}catch(e){say('appStatus',errorText(e),'error');}
+    await clearIncoming(c);
+  };
+  $('acceptCall').onclick=async()=>{
+    if(!incoming||!user||call)return;
+    const c=incoming;incoming=null;hide('incomingOverlay');
+    let s=null;
+    try{
+      const snap=await getDoc(doc(db,'calls',c.id));
+      if(!snap.exists() || snap.data().status!=='ringing' || snap.data().toUid!==user.uid || Date.now()-snap.data().createdAt>120000)
+        throw Error('This call is no longer available.');
+      s=newSession(c.id,c.fromUid,user.uid,'incoming');call=s;
+      say('appStatus','Allow camera and microphone to answer.');
+      await prepareMedia(s);
+      $('waitingText').textContent='Answering '+(c.fromName||'friend')+'…';
+      await applyRemote(s,snap.data().offer);
+      listenCandidates(s,'callerCandidates');listenSession(s);
+      const answer=await s.pc.createAnswer();await s.pc.setLocalDescription(answer);
+      await updateDoc(doc(db,'calls',s.id),{answer:{type:answer.type,sdp:answer.sdp},status:'active'});
+      startCandidateSending(s);
+      say('callStatus','Connecting to '+(c.fromName||'friend')+'…');
+    }catch(e){
+      if(s && call===s) await endCall(false);
+      try{await updateDoc(doc(db,'calls',c.id),{status:'rejected'});}catch{}
+      say('appStatus',errorText(e),'error');
+    }finally{await clearIncoming(c);}
+  };
+  async function endCall(tellOther){
+    const s=call;call=null;
+    if(!s){setCallUI(false);return;}
+    if(s.timer)clearTimeout(s.timer);
+    for(const unsubscribe of s.unsubs){try{unsubscribe();}catch{}}
+    if(s.pc){s.pc.ontrack=null;s.pc.onicecandidate=null;s.pc.onconnectionstatechange=null;try{s.pc.close();}catch{}}
+    if(s.stream){for(const t of s.stream.getTracks())t.stop();}
+    $('localVideo').srcObject=null;$('remoteVideo').srcObject=null;
+    setCallUI(false);
+    if(tellOther){try{await updateDoc(doc(db,'calls',s.id),{status:'ended'});}catch{}}
+    if(s.direction==='outgoing'){
+      try{await deleteDoc(doc(db,'users',s.toUid,'incoming',s.id));}catch{}
+    }
+  }
+  $('hangUp').onclick=async()=>{await endCall(true);say('appStatus','Call ended. You can call someone again.');};
+  $('toggleMic').onclick=()=>{
+    if(!call?.stream)return;
+    call.micMuted=!call.micMuted;
+    for(const t of call.stream.getAudioTracks()) t.enabled=!call.micMuted;
+    $('toggleMic').textContent=call.micMuted?'🔇 Unmute':'🎙️ Mute';
+  };
+  $('toggleCamera').onclick=()=>{
+    if(!call?.stream)return;
+    call.cameraOff=!call.cameraOff;
+    for(const t of call.stream.getVideoTracks()) t.enabled=!call.cameraOff;
+    $('toggleCamera').textContent=call.cameraOff?'📷 Camera on':'📷 Camera off';
+  };
+  $('enableSound').onclick=()=>{$('remoteVideo').play().then(()=>hide('enableSound')).catch(()=>say('callStatus','Please turn up the volume and tap the video.','error'));};
+  window.addEventListener('beforeunload',()=>{if(call?.stream)for(const t of call.stream.getTracks())t.stop();});
+</script>
 </body>
 </html>
