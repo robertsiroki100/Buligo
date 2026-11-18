@@ -205,10 +205,64 @@ body.home-mode .feed-search{position:absolute;right:15px;top:max(18px,env(safe-a
 .media-delete{position:absolute;right:7px;top:7px;z-index:5;background:#73283ce8;color:white;border:1px solid #ffd0dd91;border-radius:999px;min-height:35px;min-width:35px;font-size:18px}
 .draft-notice{font-size:13px;color:#d7d1f0;background:#26243d;border:1px solid #514c76;border-radius:12px;padding:10px 12px}
 #postVisibility{width:100%;background:#0f1527;color:#fff;font-size:16px;border:1px solid #5d668a;border-radius:13px;padding:14px}
+
+/* BULIGO iPhone layout repair: no overlapping LIVE card and side actions. */
+#buligoBackupNotice{position:fixed;z-index:50;left:12px;right:12px;top:calc(10px + env(safe-area-inset-top));padding:11px 14px;border:1px solid #a67b4c;border-radius:13px;background:#422e1fee;color:#ffe9c7;font-size:12px;line-height:1.35;box-shadow:0 7px 20px #0008}
+body.home-mode .public-live-container{margin:0;padding:8px 12px;border-radius:0;min-height:0;position:relative;z-index:1}
+body.home-mode .public-live-title{padding-top:34px;font-size:13px}
+body.home-mode .public-live-title button{min-height:33px;padding:5px 9px;font-size:12px}
+body.home-mode .public-live-grid{padding:3px 0 0;min-height:0}
+body.home-mode .public-live-empty{margin:3px 0;font-size:12px}
+body.home-mode .pillrow{position:fixed;top:calc(5px + env(safe-area-inset-top));}
+body.home-mode .feed-search{position:fixed;top:calc(10px + env(safe-area-inset-top));}
+body.home-mode .feed-scroll{height:calc(100dvh - 160px - env(safe-area-inset-bottom));}
+body.home-mode .clip-side{gap:6px;bottom:76px;right:4px;width:60px}
+body.home-mode .clip-action{gap:0;padding:1px 0;font-size:10px;min-width:50px}
+body.home-mode .clip-action .sym{font-size:25px}
+body.home-mode .clip-avatar{width:40px;height:40px}
+body.home-mode .clip-details{left:12px;right:73px;bottom:16px}
+body.home-mode .clip-own-delete{top:36px;left:13px}
+body.home-mode .clip-demo-tag{top:8px}
+@media(max-height:750px){body.home-mode .clip-side{gap:2px;bottom:60px}body.home-mode .clip-action .sym{font-size:22px}body.home-mode .clip-action{font-size:9px}}
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/peerjs@1.5.5/dist/peerjs.min.js"></script>
 </head>
 <body>
+<script>
+/* BULIGO navigation backup: keep tabs usable if the remote Firebase modules fail to load. */
+(function () {
+  var tabs = ['home','search','create','inbox','calls','live','profile','call'];
+  function go(page) {
+    if (tabs.indexOf(page) < 0) return;
+    document.body.classList.toggle('home-mode', page === 'home');
+    tabs.forEach(function(key){var el=document.getElementById(key+'Tab');if(el)el.classList.toggle('hidden',key!==page)});
+    document.querySelectorAll('.bottom-nav .navbtn').forEach(function(button){
+      var chosen=button.dataset.page===page;
+      button.classList.toggle('active',chosen);
+      button.setAttribute('aria-current',chosen?'page':'false');
+    });
+    window.scrollTo(0,0);
+    var note=document.getElementById('buligoBackupNotice');
+    if(note)note.classList.remove('hidden');
+  }
+  document.addEventListener('click',function(event){
+    if(window.__buligoMainReady)return;
+    var trigger=event.target.closest('[data-page]');
+    if(!trigger)return;
+    event.preventDefault();
+    go(trigger.dataset.page);
+  },true);
+  document.addEventListener('DOMContentLoaded',function(){
+    window.setTimeout(function(){
+      if(window.__buligoMainReady)return;
+      var note=document.getElementById('buligoBackupNotice');
+      if(note)note.classList.remove('hidden');
+    },4000);
+  });
+})();
+</script>
+
+<div id="buligoBackupNotice" class="hidden" role="status">⚠️ Limited connection: the menus work, but sign-in, LIVE and uploads may need you to open BULIGO in Safari and refresh.</div>
 <main>
 <header><div class="logo">BULI<span>GO</span></div><div style="display:flex;gap:6px;align-items:center"><button class="header-action" id="ringEnable" type="button" title="Enable audible ringing while BULIGO is open">🔔 Enable ringing</button><button class="header-action" data-page="live" type="button">🔴 LIVE</button><button class="header-action" data-page="search" type="button">⌕ Find friends</button></div></header>
 <section class="tabpage" id="homeTab">
@@ -1202,5 +1256,7 @@ function showInvitedLive(){const id=liveCodeFromText(new URLSearchParams(locatio
  if(id){$('liveCode').value=id;switchTab('live');say('liveViewerStatus','You have a LIVE invitation. Sign in, then tap Watch LIVE.');}}
 showInvitedLive();
 setInterval(()=>{if(!document.hidden&&user)renderPublicLives();},15000);
+window.__buligoMainReady=true;
+const backupNote=document.getElementById("buligoBackupNotice");if(backupNote)backupNote.classList.add("hidden");
 </script>
 </body></html>
