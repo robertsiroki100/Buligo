@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0a0c17">
 <meta name="description" content="BULIGO — swipe short-video previews, find people by first name and surname, live chat and video calls.">
-<title>BULIGO – Videos, Friends, Calls & LIVE</title>
+<title>BULIGO – LIVE on-video chat V2</title>
 <style>
 :root{font:16px/1.45 -apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;color-scheme:dark;--bg:#090a12;--panel:#15192a;--panel2:#20253d;--line:#373c56;--light:#f8f9ff;--dim:#bbc3d7;--mint:#67e1b4;--purple:#ba9eff;--danger:#fb8196}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--light);min-height:100dvh}main{max-width:560px;margin:auto;padding:12px 14px 105px}button,a,input{font:inherit}button{cursor:pointer}button:disabled{opacity:.5;cursor:wait}.hidden{display:none!important}
@@ -144,6 +144,21 @@ body.home-mode .feed-search{position:absolute;right:15px;top:max(18px,env(safe-a
 @keyframes buligoHeartRise{0%{transform:translate(0,0) scale(.65);opacity:0}15%{opacity:1}80%{opacity:1}100%{transform:translate(-16px,-145px) scale(1.22);opacity:0}}
 @media(max-width:380px){.live-chat-overlay{right:43px;bottom:56px;max-height:41%}.live-chat-overlay p{font-size:12px;padding:5px 8px}.live-stage-live-label{font-size:11px}}
 @media(prefers-reduced-motion:reduce){.live-float-heart{animation-duration:.3s}}
+
+/* BULIGO LIVE V2: both incoming messages and composer are INSIDE video frames */
+.live-version-label{color:#88e5c4;display:inline-block;border:1px solid #367b6b;background:#0d2b2b;border-radius:999px;padding:5px 10px;margin:0 0 12px;font-size:12px;font-weight:900;letter-spacing:.025em}
+.live-stage{aspect-ratio:9/14;max-height:65dvh;scroll-margin-top:80px}
+.live-chat-overlay{left:10px;right:55px;bottom:76px;max-height:48%;gap:5px;mask-image:linear-gradient(to bottom,transparent,black 17%);-webkit-mask-image:linear-gradient(to bottom,transparent,black 17%)}
+.live-chat-overlay p{font-size:13px;padding:6px 10px;max-width:100%;line-height:1.35}
+.live-chat-overlay p.live-heart{background:#4a152d9c}
+.live-hearts{right:10px;bottom:92px}
+.live-composer{position:absolute;left:9px;right:9px;bottom:10px;z-index:7;display:flex;align-items:center;gap:5px;padding:6px;background:#070b16be;border:1px solid #f4f5ff55;border-radius:16px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.live-composer input:not([type=file]){min-width:0;flex:1;border:0;outline:none;background:#ffffff18;border-radius:10px;padding:10px 9px;font-size:16px;color:white;height:43px}
+.live-composer input::placeholder{color:#e0e2f4}
+.live-composer button{flex:none;border:0;min-height:43px;padding:4px 10px;border-radius:10px;font-size:17px;line-height:1}
+.live-send-btn{color:#161129;background:#bba1ff}.live-heart-btn{color:white;background:#5c2a4a}
+.live-overlay-note{color:#bac4e0;padding:8px 12px;font-size:12px;line-height:1.4}
+@media(max-width:360px){.live-composer{left:5px;right:5px;gap:4px;padding:5px}.live-composer button{padding:4px 8px}.live-chat-overlay{bottom:72px;right:47px}}
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/peerjs@1.5.5/dist/peerjs.min.js"></script>
 </head>
@@ -179,7 +194,7 @@ body.home-mode .feed-search{position:absolute;right:15px;top:max(18px,env(safe-a
 </section>
 
 <section class="tabpage hidden" id="liveTab">
- <div class="live-head"><h1 class="section-title">🔴 BULIGO LIVE</h1><span class="live-badge off" id="liveBadge">OFF AIR</span></div>
+ <div class="live-head"><h1 class="section-title">🔴 BULIGO LIVE</h1><span class="live-badge off" id="liveBadge">OFF AIR</span></div><p class="live-version-label">✅ VIDEO CHAT ON SCREEN · V2</p>
  <p class="subtle">Discover LIVE broadcasts automatically in the LIVE now list. This early peer-to-peer beta is still limited to 3 concurrent viewers per broadcast.</p>
  <div class="empty-state" id="liveGuest"><div class="emoji">📺</div><h2>Sign in to use LIVE</h2><p>Sign in to start a live stream or watch a friend.</p><button class="primary" data-page="profile" type="button">Sign in</button></div>
  <div id="liveSigned" class="hidden">
@@ -195,6 +210,11 @@ body.home-mode .feed-search{position:absolute;right:15px;top:max(18px,env(safe-a
     <span class="live-stage-live-label">🔴 LIVE</span>
     <div id="liveHostChat" class="live-chat-overlay" role="log" aria-live="polite" aria-label="Incoming comments displayed over your video"></div>
     <div id="liveHostHearts" class="live-hearts" aria-hidden="true"></div>
+    <form id="liveHostCommentForm" class="live-composer" autocomplete="off">
+     <input id="liveHostCommentInput" aria-label="Write a LIVE comment" maxlength="140" required placeholder="Write a comment…">
+     <button class="live-send-btn" type="submit" aria-label="Send live comment">➤</button>
+     <button id="liveHostHeartBtn" class="live-heart-btn" type="button" aria-label="Send a LIVE heart">❤️</button>
+    </form>
    </div>
    <p id="liveHostStatus" class="status">Not broadcasting.</p>
    <div class="row" style="margin-top:11px"><button id="startLive" class="danger" type="button">🔴 Go LIVE</button><button id="endLive" class="outline hidden" type="button">■ End LIVE</button></div>
@@ -209,14 +229,16 @@ body.home-mode .feed-search{position:absolute;right:15px;top:max(18px,env(safe-a
     <span class="live-stage-live-label">🔴 LIVE</span>
     <div id="liveGuestChat" class="live-chat-overlay" role="log" aria-live="polite" aria-label="Comments displayed over the live video"></div>
     <div id="liveGuestHearts" class="live-hearts" aria-hidden="true"></div>
+    <form id="liveGuestCommentForm" class="live-composer" autocomplete="off">
+     <input id="liveGuestCommentInput" aria-label="Write a LIVE comment" maxlength="140" required placeholder="Write a comment…">
+     <button class="live-send-btn" type="submit" aria-label="Send live comment">➤</button>
+     <button id="liveGuestHeartBtn" class="live-heart-btn" type="button" aria-label="Send a LIVE heart">❤️</button>
+    </form>
    </div>
    <button id="livePlayAudio" class="secondary fullbtn hidden" type="button">🔊 Tap to play LIVE with sound</button>
    <p id="liveViewerStatus" class="status">Not watching a LIVE.</p>
   </section>
-  <section class="card"><h2>❤️ LIVE reactions and chat</h2><p class="smalltext">Comments appear directly over the LIVE video for the broadcaster and viewers. Write below to join the conversation, or send a heart. Messages are temporary and names are not verified.</p>
-   <form id="liveChatForm" class="live-chat-form"><input id="liveMessage" maxlength="140" required placeholder="Write a LIVE comment…" aria-label="Live comment"><button class="primary small" type="submit">Send</button></form>
-   <button id="liveHeart" class="outline fullbtn" type="button" style="margin-top:10px">❤️ Send heart</button>
-  </section>
+  <p class="live-overlay-note">💬 LIVE messages and ❤️ reactions appear inside the video, with the comment field at the bottom of the picture. The sender's name is not verified.</p>
   <section class="card"><h2>👥 LIVE from your contacts</h2><p class="smalltext">Check only saved friends and followed accounts. The app cannot browse all public live streams yet.</p><button class="secondary fullbtn" type="button" id="checkLiveFriends">↻ Check LIVE friends</button><div id="liveFriendsList" aria-live="polite"></div><p class="smalltext">A missing result does not prove somebody is offline; phone browsers may pause connections.</p></section>
  </div>
 </section>
@@ -911,8 +933,12 @@ function sendLiveMessage(data){const now=Date.now();if(now-liveChatLastSent<1100
  if(liveWatchChannel?.open){try{liveWatchChannel.send({...data,name});return true;}catch{}}
  notifyPreview('Start or join a LIVE first.');return false;
 }
-$('liveChatForm').onsubmit=e=>{e.preventDefault();const msg=norm($('liveMessage').value).slice(0,140);if(!msg)return;if(sendLiveMessage({kind:'buligo-live-comment',text:msg})){$('liveMessage').value='';}};
-$('liveHeart').onclick=()=>{if(sendLiveMessage({kind:'buligo-live-heart'}))notifyPreview('❤️ Heart sent');};
+for(const role of ['Host','Guest']){
+ const form=$('live'+role+'CommentForm'),input=$('live'+role+'CommentInput');
+ form.onsubmit=e=>{e.preventDefault();const msg=norm(input.value).slice(0,140);if(!msg)return;
+   if(sendLiveMessage({kind:'buligo-live-comment',text:msg})){input.value='';input.blur();}};
+ $('live'+role+'HeartBtn').onclick=()=>{if(sendLiveMessage({kind:'buligo-live-heart'}))notifyPreview('❤️ Heart sent');};
+}
 async function checkLiveContact(person){return new Promise(async resolve=>{
   let dc=null,timeout=null,done=false;const finish=data=>{if(done)return;done=true;clearTimeout(timeout);try{dc?.close();}catch{}resolve(data);};
   try{const p=await peerReady();if(person.id===p.id){finish(null);return;}dc=p.connect(person.id,{reliable:true,metadata:{kind:'buligo-live-check-v1'}});dc.on('data',info=>{if(info?.kind==='buligo-live-status-v1')finish(info.live?{...person,title:String(info.title||'LIVE').slice(0,75)}:null);});dc.on('error',()=>finish(null));dc.on('close',()=>finish(null));timeout=setTimeout(()=>finish(null),4800);}catch{finish(null);}
