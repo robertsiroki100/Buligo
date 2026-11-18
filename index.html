@@ -224,6 +224,31 @@ body.home-mode .clip-details{left:12px;right:73px;bottom:16px}
 body.home-mode .clip-own-delete{top:36px;left:13px}
 body.home-mode .clip-demo-tag{top:8px}
 @media(max-height:750px){body.home-mode .clip-side{gap:2px;bottom:60px}body.home-mode .clip-action .sym{font-size:22px}body.home-mode .clip-action{font-size:9px}}
+
+/* BULIGO stable homepage V3 for mobile Safari: a single document scroll eliminates
+   nested-snap/fixed-layer ghosting of LIVE banners and reaction buttons. */
+body.home-mode{overflow-x:hidden;-webkit-overflow-scrolling:touch}
+body.home-mode main{max-width:560px;padding:0 0 calc(80px + env(safe-area-inset-bottom))}
+body.home-mode #homeTab{position:relative;overflow:visible;min-height:0}
+body.home-mode .pillrow{position:relative!important;left:auto!important;top:auto!important;transform:none!important;width:max-content;max-width:calc(100% - 90px);margin:10px auto!important;padding:4px 12px!important;z-index:2;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+body.home-mode .feed-search{position:absolute!important;top:12px!important;right:14px!important;left:auto!important;z-index:3}
+body.home-mode .public-live-container{position:relative;margin:6px 12px 14px!important;padding:12px!important;border-radius:16px!important;contain:layout style;z-index:auto!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+body.home-mode .public-live-title{padding-top:0!important;min-height:30px;font-size:14px;gap:8px}
+body.home-mode .public-live-title span{min-width:0;overflow-wrap:anywhere}
+body.home-mode .public-live-title button{flex:none}
+body.home-mode .feed-scroll{height:auto!important;overflow:visible!important;scroll-snap-type:none!important;overscroll-behavior:auto!important;scrollbar-width:auto!important;display:block!important;transform:none!important;contain:none!important;-webkit-overflow-scrolling:auto!important}
+body.home-mode .clip{height:calc(100dvh - 98px);min-height:500px;max-height:900px;scroll-snap-align:none!important;scroll-snap-stop:normal!important;contain:layout paint style;transform:translateZ(0);-webkit-backface-visibility:hidden;backface-visibility:hidden}
+body.home-mode .clip-side{position:absolute;right:7px!important;bottom:70px!important;width:53px!important;max-height:calc(100% - 100px);overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;scrollbar-width:none;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:5px!important;z-index:5}
+body.home-mode .clip-side::-webkit-scrollbar{display:none}
+body.home-mode .clip-action{flex:none;min-height:40px;padding:1px 0!important;font-size:10px!important;width:52px;min-width:0!important;line-height:1.17}
+body.home-mode .clip-action .sym{font-size:23px!important;line-height:1.15}
+body.home-mode .clip-avatar{flex:none;height:38px;width:38px}
+body.home-mode .clip-details{bottom:25px;left:13px;right:72px;z-index:4}
+body.home-mode .clip-own-delete{top:43px;left:12px;z-index:5}
+body.home-mode .clip-demo-tag{top:12px}
+body.home-mode .clip::after{will-change:auto}
+body.home-mode .bottom-nav{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;background:#10121e!important}
+@media(max-height:650px){body.home-mode .clip{min-height:520px}body.home-mode .clip-side{bottom:52px!important;gap:2px!important}body.home-mode .clip-action{min-height:36px}}
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/peerjs@1.5.5/dist/peerjs.min.js"></script>
 </head>
@@ -269,10 +294,10 @@ body.home-mode .clip-demo-tag{top:8px}
  <div class="pillrow" role="group" aria-label="Video feed"><button class="selected" id="feedForYou" type="button">For You</button><button id="feedFollowing" type="button">Following</button></div>
  <button type="button" class="feed-search" data-page="search" aria-label="Find people">⌕</button>
 <div id="liveHomeSection" class="public-live-container" aria-live="polite">
-  <div class="public-live-title"><span>🔴 LIVE now on BULIGO</span><button class="outline small" data-page="live" type="button">See all</button></div>
+  <div class="public-live-title"><span>🔴 LIVE now on BULIGO <small style="font-size:10px;color:#9deac9;font-weight:700">V3</small></span><button class="outline small" data-page="live" type="button">See all</button></div>
   <div id="homePublicLives" class="public-live-grid"><p class="public-live-empty">Sign in to discover live broadcasts.</p></div>
 </div>
- <div class="feed-scroll" id="publicFeed" aria-label="Swipe up to view the next video"></div>
+ <div class="feed-scroll" id="publicFeed" aria-label="Scroll to view the next video"><article class="clip" aria-label="BULIGO loading"><div class="clip-bg"><div class="clip-brand">BULIGO<small>Loading your feed…</small></div></div></article></div>
  <div id="followingMessage" class="empty-state hidden"><div class="emoji">♡</div><h2>Following</h2><p>Follow friends you find by name. Saved follows work only on this phone. Public follower counts and following videos need a database.</p><button class="primary" id="goSearchFromHome" type="button">Find people</button></div><div id="followingDirectory" class="hidden" aria-live="polite"></div>
 </section>
 <section class="tabpage hidden" id="searchTab">
