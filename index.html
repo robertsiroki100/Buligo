@@ -119,6 +119,16 @@ body.home-mode .feed-search{position:absolute;right:15px;top:max(18px,env(safe-a
 .live-friend button{min-width:92px}
 .navbtn{min-width:0;flex:1;padding:4px 1px;font-size:10px}
 @media(max-width:360px){.navbtn{font-size:9px}.navbtn .navicon{font-size:20px}}
+
+/* Public LIVE directory, synchronized using Firestore. */
+.public-live-container{margin:9px 0 14px;padding:12px;border-radius:15px;background:#1b223c;border:1px solid #394565}
+.public-live-title{display:flex;align-items:center;justify-content:space-between;gap:8px;font-weight:800}
+.public-live-grid{display:flex;gap:10px;overflow-x:auto;padding:10px 0 2px;scroll-snap-type:x proximity}
+.public-live-card{flex:0 0 min(70vw,230px);border:1px solid #7c415c;border-radius:14px;padding:11px;text-align:left;background:linear-gradient(140deg,#43213f,#1a2240);color:#fff;scroll-snap-align:start}
+.public-live-card strong{display:block;font-size:15px;overflow-wrap:anywhere}
+.public-live-card small{display:block;color:#ebdbe9;font-size:12px;margin-top:4px}
+.public-live-empty{color:#b8c2df;font-size:13px;margin:8px 0}
+.public-live-error{color:#ffd0d5;font-size:12px;margin-top:6px}
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/peerjs@1.5.5/dist/peerjs.min.js"></script>
 </head>
@@ -128,6 +138,10 @@ body.home-mode .feed-search{position:absolute;right:15px;top:max(18px,env(safe-a
 <section class="tabpage" id="homeTab">
  <div class="pillrow" role="group" aria-label="Video feed"><button class="selected" id="feedForYou" type="button">For You</button><button id="feedFollowing" type="button">Following</button></div>
  <button type="button" class="feed-search" data-page="search" aria-label="Find people">⌕</button>
+<div id="liveHomeSection" class="public-live-container" aria-live="polite">
+  <div class="public-live-title"><span>🔴 LIVE now on BULIGO</span><button class="outline small" data-page="live" type="button">See all</button></div>
+  <div id="homePublicLives" class="public-live-grid"><p class="public-live-empty">Sign in to discover live broadcasts.</p></div>
+</div>
  <div class="feed-scroll" id="publicFeed" aria-label="Swipe up to view the next video"></div>
  <div id="followingMessage" class="empty-state hidden"><div class="emoji">♡</div><h2>Following</h2><p>Follow friends you find by name. Saved follows work only on this phone. Public follower counts and following videos need a database.</p><button class="primary" id="goSearchFromHome" type="button">Find people</button></div><div id="followingDirectory" class="hidden" aria-live="polite"></div>
 </section>
@@ -151,10 +165,15 @@ body.home-mode .feed-search{position:absolute;right:15px;top:max(18px,env(safe-a
 
 <section class="tabpage hidden" id="liveTab">
  <div class="live-head"><h1 class="section-title">🔴 BULIGO LIVE</h1><span class="live-badge off" id="liveBadge">OFF AIR</span></div>
- <p class="subtle">Broadcast with your camera, or watch a friend using their LIVE link. Early peer-to-peer test — not a public TikTok-style live platform yet.</p>
+ <p class="subtle">Discover LIVE broadcasts automatically in the LIVE now list. This early peer-to-peer beta is still limited to 3 concurrent viewers per broadcast.</p>
  <div class="empty-state" id="liveGuest"><div class="emoji">📺</div><h2>Sign in to use LIVE</h2><p>Sign in to start a live stream or watch a friend.</p><button class="primary" data-page="profile" type="button">Sign in</button></div>
  <div id="liveSigned" class="hidden">
-  <section class="card"><h2>🎥 Go LIVE</h2><p class="smalltext">Your camera and microphone turn on only after you tap Go LIVE and grant permission. Share the link only with people you want to watch.</p>
+<section class="card" id="publicLiveSection"><h2>🔴 LIVE now – Everyone</h2>
+   <p class="smalltext">All connected BULIGO members can see public broadcasts here, including people who are not your friends. No invitation link needed. Tap Watch to join.</p>
+   <div id="liveDirectory" class="public-live-grid" aria-live="polite"><p class="public-live-empty">Sign in to see LIVE broadcasts.</p></div>
+   <p class="status" id="publicLiveStatus">Connecting to the live directory…</p>
+  </section>
+  <section class="card"><h2>🎥 Go LIVE</h2><p class="smalltext">Your camera and microphone turn on only after you tap Go LIVE and allow access. LIVE broadcasts are public to other BULIGO members once the directory is enabled.</p>
    <label for="liveTitle">LIVE title</label><input id="liveTitle" maxlength="75" placeholder="Chat with me on BULIGO">
    <video id="liveHostVideo" class="live-video is-mine hidden" autoplay playsinline muted></video>
    <p id="liveHostStatus" class="status">Not broadcasting.</p>
@@ -162,7 +181,7 @@ body.home-mode .feed-search{position:absolute;right:15px;top:max(18px,env(safe-a
    <div id="liveSharePanel" class="hidden"><label for="liveInvite">Share this LIVE link</label><div class="live-share-row"><input id="liveInvite" readonly aria-label="Your live stream link"><button id="shareLiveLink" class="secondary small" type="button">➤ Share</button><button id="copyLiveLink" class="outline small" type="button">Copy</button></div><p class="smalltext">Whoever has this link may be able to watch while you are LIVE. Streaming ends when you tap End LIVE, refresh, or close the page.</p></div>
    <p class="smalltext" id="liveAudienceCount">0 connected viewers · maximum 3 in this beta.</p>
   </section>
-  <section class="card"><h2>▶ Watch LIVE</h2><p class="smalltext">Open a BULIGO LIVE invitation or paste its code below. The broadcaster must still be online.</p>
+  <section class="card"><h2>▶ Watch LIVE</h2><p class="smalltext">Tap Watch under LIVE now. You can also join from a shared invitation. The broadcaster must remain connected.</p>
    <label for="liveCode">LIVE link or code</label><input id="liveCode" autocomplete="off" spellcheck="false" placeholder="Paste a LIVE invitation here" maxlength="400">
    <div class="row" style="margin-top:11px"><button id="joinLive" class="primary" type="button">▶ Watch LIVE</button><button id="leaveLive" class="outline hidden" type="button">Leave LIVE</button></div>
    <video id="liveGuestVideo" class="live-video hidden" autoplay playsinline controls></video>
@@ -194,7 +213,7 @@ body.home-mode .feed-search{position:absolute;right:15px;top:max(18px,env(safe-a
  <div class="hidden" id="loggedIn"><div class="account"><strong id="currentEmail"></strong><button class="outline small" id="signOut" type="button">Sign out</button></div><div class="profile-hero"><div class="avatar">B</div><h2>My BULIGO profile</h2><p class="subtle">Friends can find you by name while you are online. Accepted friends are saved on this phone. Videos in this preview are local only.</p></div><section class="card" id="setupPanel"><h2>👤 Your BULIGO profile</h2><p class="smalltext">Choose the name friends search for. Birth year and location stay private on this device.</p><label for="myFirst">First name</label><input id="myFirst" type="text" maxlength="35" autocomplete="given-name" placeholder="e.g. Erika"><label for="myLast">Surname</label><input id="myLast" type="text" maxlength="35" autocomplete="family-name" placeholder="e.g. Siroki"><label for="myYear">Year of birth (private)</label><input id="myYear" type="number" min="1900" max="2013" inputmode="numeric" placeholder="e.g. 1990"><label for="myCountry">Country (private)</label><input id="myCountry" maxlength="60" autocomplete="country-name" placeholder="e.g. United Kingdom"><label for="myCity">City or town (private)</label><input id="myCity" maxlength="60" autocomplete="address-level2" placeholder="e.g. Liverpool"><button id="saveProfile" class="primary fullbtn" type="button" style="margin-top:18px">Save my profile</button><p id="profileStatus" class="status" aria-live="polite">Only your name is used for online searches. Never share an exact street address here.</p></section><div id="profileBox" class="namebox hidden"><span>Your name: <strong id="profileLabel"></strong></span><button class="outline small" type="button" id="editProfile">Edit profile</button></div><div id="privateDetails" class="profile-private"><strong>Private profile details</strong><span id="privateDetailsText">Optional — stored only on this phone.</span><div id="followSummary">Following 0 people on this device</div></div><p id="ringStatus" class="smalltext">Tap “Enable ringing” at the top to hear incoming calls while this page is open.</p><p class="upload-note">Email/password are handled by Firebase Authentication. Your name is saved to your own Firebase account display name; year of birth and location are saved only on this device. Other people cannot browse your birth year or city in this preview. Follows and accepted friends are saved on this phone; invitations only work while both people are online. A real cloud friends list needs a secure backend.</p></div>
 </section>
 <section class="tabpage hidden" id="callTab"><h1 class="section-title">Video call</h1><section class="hidden" id="callPanel"><div class="stage"><video id="remoteVideo" autoplay playsinline></video><div class="waiting" id="waiting"><b id="waitSymbol">📹</b><span id="waitingText">Connecting…</span></div><video id="localVideo" autoplay playsinline muted></video></div><p class="status" id="callStatus" aria-live="polite">Connecting…</p><div class="controls"><button class="secondary" id="toggleMic" type="button">🎙️ Mute</button><button class="secondary" id="toggleCamera" type="button">📷 Camera off</button><button class="danger" id="hangUp" type="button">📞 End call</button></div><button class="outline small hidden" type="button" id="enableSound" style="margin-top:9px">🔊 Enable sound</button></section></section>
-<p class="footer">BULIGO social preview with experimental LIVE: share an invitation link while your page stays open, up to 3 peer-to-peer viewers. There is no public live directory or scalable streaming service. Video quality, connectivity and audio depend on devices and networks. Do not broadcast private information. Email registration is real, using Firebase Authentication. You can preview videos, swipe, like and comment on this device only. Public posting, cloud comments, mutual/cloud followers, saved messages and push alerts are not active. The Share button on a personal video can open the phone share sheet to send its original video file to other apps, but it does not create a public BULIGO post. The Calls tab checks only saved contacts. Offline calls and background push alerts are not active. Incoming calls may ring audibly only after you tap Enable ringing and while BULIGO is open. iPhone Safari does not support website-triggered vibration. Name search, live chats and video calls are experimental; both people must have BULIGO open to answer. An inactive phone cannot be switched on by a website. Names are not verified. Connection depends on an external service and may fail. Do not use for sensitive or emergency communications.</p>
+<p class="footer">BULIGO social preview with experimental public LIVE directory that requires Firebase Firestore rules to be installed. After that, logged-in members can discover live broadcasts automatically, without an invitation. Streams use peer-to-peer technology with a maximum of 3 viewers per broadcaster; this is not a scalable public streaming service. Video quality, connectivity and audio depend on devices and networks. Do not broadcast private information. Email registration is real, using Firebase Authentication. You can preview videos, swipe, like and comment on this device only. Public posting, cloud comments, mutual/cloud followers, saved messages and push alerts are not active. The Share button on a personal video can open the phone share sheet to send its original video file to other apps, but it does not create a public BULIGO post. The Calls tab checks only saved contacts. Offline calls and background push alerts are not active. Incoming calls may ring audibly only after you tap Enable ringing and while BULIGO is open. iPhone Safari does not support website-triggered vibration. Name search, live chats and video calls are experimental; both people must have BULIGO open to answer. An inactive phone cannot be switched on by a website. Names are not verified. Connection depends on an external service and may fail. Do not use for sensitive or emergency communications.</p>
 </main>
 <nav class="bottom-nav" aria-label="Main navigation"><button type="button" class="navbtn active" data-page="home"><span class="navicon">⌂</span>Home</button><button type="button" class="navbtn" data-page="search"><span class="navicon">⌕</span>Search</button><button type="button" class="navbtn create" data-page="create"><span class="navicon">＋</span>Create</button><button type="button" class="navbtn" data-page="inbox"><span class="navicon">✉</span><span id="inboxNavLabel">Inbox</span></button><button type="button" class="navbtn" data-page="calls"><span class="navicon">📞</span>Calls</button><button type="button" class="navbtn" data-page="live"><span class="navicon">🔴</span>LIVE</button><button type="button" class="navbtn" data-page="profile"><span class="navicon">◉</span>Profile</button></nav>
 <aside class="comments-backdrop hidden" id="reactionsOverlay" role="dialog" aria-modal="true" aria-label="React to video"><section class="comments-sheet"><div class="comments-head"><h3>Send a reaction</h3><button id="closeReactions" type="button" aria-label="Close reactions">×</button></div><div class="reaction-bar"><button data-reaction="❤️" type="button">❤️</button><button data-reaction="😂" type="button">😂</button><button data-reaction="😍" type="button">😍</button><button data-reaction="🔥" type="button">🔥</button><button data-reaction="👏" type="button">👏</button></div><p class="privacy">Reaction preview only: it is saved on your phone, not sent to the creator.</p></section></aside><div class="mini-toast hidden" id="miniToast" role="status" aria-live="polite"></div>
@@ -204,8 +223,11 @@ body.home-mode .feed-search{position:absolute;right:15px;top:max(18px,env(safe-a
 <script type="module">
 import {initializeApp} from 'https://www.gstatic.com/firebasejs/13.3.0/firebase-app.js';
 import {getAuth,onAuthStateChanged,createUserWithEmailAndPassword,signInWithEmailAndPassword,sendPasswordResetEmail,signOut,updateProfile} from 'https://www.gstatic.com/firebasejs/13.3.0/firebase-auth.js';
+import {getFirestore,collection,doc,onSnapshot,setDoc,deleteDoc} from 'https://www.gstatic.com/firebasejs/13.3.0/firebase-firestore.js';
 const firebaseConfig={apiKey:'AIzaSyC3y_C5X3U0GMyCzdkHQmv7eTBp5QPi3NY',authDomain:'buligo-6c67a.firebaseapp.com',projectId:'buligo-6c67a',storageBucket:'buligo-6c67a.firebasestorage.app',messagingSenderId:'740875040307',appId:'1:740875040307:web:3382bbc9692c2eac199546',measurementId:'G-RZQCMXXDVW'};
-const auth=getAuth(initializeApp(firebaseConfig));
+const firebaseApp=initializeApp(firebaseConfig);
+const auth=getAuth(firebaseApp);
+const firestore=getFirestore(firebaseApp);
 const $=id=>document.getElementById(id),hide=id=>$(id).classList.add('hidden'),show=id=>$(id).classList.remove('hidden');
 const say=(id,msg,kind='')=>{$(id).textContent=msg;$(id).className='status'+(kind?' '+kind:'');};
 const norm=s=>String(s||'').normalize('NFKC').trim().replace(/\s+/g,' ');
@@ -638,7 +660,7 @@ $('toggleMic').onclick=()=>{const t=stream?.getAudioTracks()[0];if(!t)return;t.e
 $('toggleCamera').onclick=()=>{const t=stream?.getVideoTracks()[0];if(!t)return;t.enabled=!t.enabled;$('toggleCamera').textContent=t.enabled?'📷 Camera off':'📷 Camera on';};
 $('enableSound').onclick=async()=>{try{await $('remoteVideo').play();hide('enableSound');}catch{say('callStatus','Tap Enable sound again.','error');}};
 $('signOut').onclick=async()=>{stopRinging();await endCall();stopPeer();dropChatSessions();followed.clear();friends.clear();friendStatus.clear();callPresence.clear();renderCalls();await signOut(auth);};
-onAuthStateChanged(auth,async next=>{++searchToken;stopRinging();await endCall();stopPeer();dropChatSessions();user=next;updateLiveAuth();firstName='';surname='';followed.clear();friends.clear();friendStatus.clear();callPresence.clear();renderFriends();renderCalls();
+onAuthStateChanged(auth,async next=>{stopLiveDirectoryListener();++searchToken;stopRinging();await endCall();stopPeer();dropChatSessions();user=next;updateLiveAuth();firstName='';surname='';followed.clear();friends.clear();friendStatus.clear();callPresence.clear();renderFriends();renderCalls();
  if(!user){show('authPanel');hide('loggedIn');show('searchGuest');say('authStatus','Sign in to make a call or follow people.');renderFollowSummary();return;}
  hide('authPanel');show('loggedIn');hide('searchGuest');$('currentEmail').textContent='👤 '+(user.email||'BULIGO account');
  let saved=null;try{saved=JSON.parse(localStorage.getItem(myStorageKey(user.uid))||'null');}catch{}
@@ -646,7 +668,7 @@ onAuthStateChanged(auth,async next=>{++searchToken;stopRinging();await endCall()
  try{const stored=JSON.parse(localStorage.getItem(followStorageKey(user.uid))||'[]');if(Array.isArray(stored))for(const person of stored){if(person?.id&&goodName(person.first)&&goodName(person.last))followed.set(person.id,person);}}catch{}
  renderFollowSummary();renderFollowingDirectory();
  try{const previouslySaved=JSON.parse(localStorage.getItem(friendStorageKey(user.uid))||'[]');if(Array.isArray(previouslySaved))for(const person of previouslySaved.slice(0,250)){if(person?.id&&goodName(person.first)&&goodName(person.last)){friends.set(person.id,person);friendStatus.set(person.id,'checking');}}}catch{}
- renderFriends();
+ renderFriends();startLiveDirectoryListener();
  if(saved&&goodName(saved.first)&&goodName(saved.last)){firstName=norm(saved.first);surname=norm(saved.last);fillProfileFields(saved);showPrivateDetails(saved);updateProfileView();trySlot(1);}
  else if(user.displayName&&user.displayName.trim().includes(' ')){const parts=user.displayName.trim().split(/\s+/);firstName=parts.shift()||'';surname=parts.join(' ');if(goodName(firstName)&&goodName(surname)){const details={first:firstName,last:surname,year:'',country:'',city:''};fillProfileFields(details);showPrivateDetails(details);updateProfileView();trySlot(1);}else{firstName='';surname='';updateProfileView();}}
  else{fillProfileFields({});showPrivateDetails({});updateProfileView();say('profileStatus','Enter your first name and surname to be found by other people.');}
@@ -658,6 +680,61 @@ let liveBroadcastStream=null,liveWatchChannel=null,liveReceivedMedia=null,liveWa
 const liveAudience=new Map(),liveMediaCalls=new Map();
 let liveChatLastSent=0,liveViewerCount=0;
 const liveMaxAudience=3;
+// A public directory only; the video streams remain direct peer-to-peer.
+// No email addresses, cities or birth years are published.
+const publicLiveDocuments = new Map();
+let publicLiveUnsubscribe=null,publicLiveHeartbeat=null,publicLivePublished=false;
+const publicLiveCollection=collection(firestore,'buligoPublicLives');
+const PUBLIC_LIVE_TTL=60000; // stale broadcasters are hidden after a minute
+function stopLiveDirectoryListener(){
+ if(publicLiveUnsubscribe){try{publicLiveUnsubscribe();}catch{}publicLiveUnsubscribe=null;}
+ publicLiveDocuments.clear();renderPublicLives();
+}
+function livePublicEntries(){
+ const now=Date.now();return [...publicLiveDocuments.values()].filter(x=>x?.expiresAt>now&&x.expiresAt<=now+120000&&x.peerId&&x.uid&&typeof x.name==='string').sort((a,b)=>b.startedAt-a.startedAt).slice(0,60);
+}
+function renderPublicLives(){
+ const entries=livePublicEntries();
+ for(const id of ['homePublicLives','liveDirectory']){
+  const list=$(id);if(!list)continue;list.replaceChildren();
+  if(!user){list.append(make('p','public-live-empty','Sign in to discover LIVE broadcasts.'));continue;}
+  if(!entries.length){list.append(make('p','public-live-empty','No public LIVE streams at the moment.'));continue;}
+  for(const entry of entries){
+   const card=make('button','public-live-card');card.type='button';
+   card.append(make('strong','','🔴 '+entry.name.slice(0,65)),make('small','',String(entry.title||'BULIGO LIVE').slice(0,75)),make('small','','▶ Watch LIVE'));
+   card.onclick=()=>{switchTab('live');void watchLiveBroadcast(entry.peerId);};
+   list.append(card);
+  }
+ }
+}
+function startLiveDirectoryListener(){
+ if(!user)return;
+ say('publicLiveStatus','Loading public LIVE broadcasts…');
+ try{publicLiveUnsubscribe=onSnapshot(publicLiveCollection,snapshot=>{
+  publicLiveDocuments.clear();snapshot.forEach(row=>{
+   const v=row.data();if(v&&typeof v.uid==='string'&&v.uid===row.id)publicLiveDocuments.set(row.id,v);
+  });
+  say('publicLiveStatus','LIVE list updated automatically. Tap Watch to join.','ok');renderPublicLives();
+ },err=>{
+  publicLiveDocuments.clear();renderPublicLives();
+  say('publicLiveStatus',err?.code==='permission-denied'?'Public LIVE list is not enabled yet. Secure Firestore rules must be published first.':'Could not connect to public LIVE list. Try again later.','error');
+ });}catch{say('publicLiveStatus','Public LIVE directory is not available yet.','error');}
+}
+async function publishPublicLive(){
+ if(!user||!peer?.open||!liveBroadcastStream)return false;
+ const now=Date.now();
+ const record={uid:user.uid,peerId:peer.id,name:liveBroadcasterName().slice(0,70),title:(norm($('liveTitle').value).slice(0,75)||'BULIGO LIVE'),startedAt:publicLivePublished?livePublicStartedAt:now,updatedAt:now,expiresAt:now+PUBLIC_LIVE_TTL};
+ await setDoc(doc(firestore,'buligoPublicLives',user.uid),record);publicLivePublished=true;livePublicStartedAt=record.startedAt;
+ return true;
+}
+let livePublicStartedAt=0;
+function stopPublicLiveUpdates(){if(publicLiveHeartbeat){clearInterval(publicLiveHeartbeat);publicLiveHeartbeat=null;}}
+function unpublishPublicLive(){
+ stopPublicLiveUpdates();
+ if(publicLivePublished&&user){const uid=user.uid;void deleteDoc(doc(firestore,'buligoPublicLives',uid)).catch(()=>{});}
+ publicLivePublished=false;livePublicStartedAt=0;
+}
+
 function updateLiveAuth(){ $('liveGuest').classList.toggle('hidden',!!user);$('liveSigned').classList.toggle('hidden',!user); }
 function updateLiveCount(){liveViewerCount=liveAudience.size;$('liveAudienceCount').textContent=liveViewerCount+' connected viewer'+(liveViewerCount===1?'':'s')+' · maximum '+liveMaxAudience+' in this beta.';}
 function liveLog(who,msg,heart=false){const panel=$('liveChat');if(panel.children.length===1&&panel.firstChild.textContent==='Start or join a LIVE to chat.')panel.replaceChildren();const entry=make('p',heart?'live-heart':'');if(!heart){const bold=make('strong','',String(who||'Guest').slice(0,60)+': ');entry.append(bold,document.createTextNode(String(msg).slice(0,140)));}else entry.textContent='❤️ '+String(who||'Viewer').slice(0,45)+' sent a heart';panel.append(entry);while(panel.children.length>55)panel.firstChild.remove();panel.scrollTop=panel.scrollHeight;}
@@ -689,6 +766,7 @@ function handleLiveWatchRequest(dc){
  dc.on('close',cleanup);dc.on('error',cleanup);
 }
 function endLiveBroadcast(update=true){
+ unpublishPublicLive();
  if(!liveBroadcastStream)return;
  liveStatusToAll({kind:'buligo-live-ended'});
  for(const c of liveAudience.values())try{c.close();}catch{}
@@ -713,7 +791,10 @@ async function startLiveBroadcast(){
   $('liveBadge').textContent='● LIVE';$('liveBadge').classList.remove('off');hide('startLive');show('endLive');
   const invite=new URL(location.pathname,location.origin);invite.searchParams.set('live',p.id);
   $('liveInvite').value=invite.toString();show('liveSharePanel');updateLiveCount();
-  say('liveHostStatus','LIVE started. Share your LIVE link so friends can watch.','ok');
+  say('liveHostStatus','LIVE started. Publishing to public LIVE list…');
+  try{await publishPublicLive();say('liveHostStatus','You are LIVE and listed for other signed-in BULIGO members.','ok');
+   stopPublicLiveUpdates();publicLiveHeartbeat=setInterval(()=>{if(liveBroadcastStream&&user&&peer?.open){void publishPublicLive().catch(()=>say('liveHostStatus','LIVE still running, but directory update failed.','error'));}},20000);
+  }catch(e){say('liveHostStatus','LIVE started, but not publicly listed. Firebase LIVE rules still need to be enabled. Your share link can work meanwhile.','error');}
   liveLog('BULIGO','You are LIVE! You can receive hearts and short comments.');
   for(const track of liveBroadcastStream.getTracks())track.onended=()=>{if(liveBroadcastStream)endLiveBroadcast();};
  }catch(e){candidate?.getTracks().forEach(t=>t.stop());say('liveHostStatus',e?.message||'Could not start LIVE.','error');}
@@ -809,6 +890,6 @@ $('checkLiveFriends').onclick=()=>void refreshLiveFriends();
 function showInvitedLive(){const id=liveCodeFromText(new URLSearchParams(location.search).get('live'));
  if(id){$('liveCode').value=id;switchTab('live');say('liveViewerStatus','You have a LIVE invitation. Sign in, then tap Watch LIVE.');}}
 showInvitedLive();
-
+setInterval(()=>{if(!document.hidden&&user)renderPublicLives();},15000);
 </script>
 </body></html>
