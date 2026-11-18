@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0a0c17">
 <meta name="description" content="BULIGO — swipe short-video previews, find people by first name and surname, live chat and video calls.">
-<title>BULIGO – Friends, Videos, Messages & Calls</title>
+<title>BULIGO – Videos, Friends, Reactions & Calls</title>
 <style>
 :root{font:16px/1.45 -apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;color-scheme:dark;--bg:#090a12;--panel:#15192a;--panel2:#20253d;--line:#373c56;--light:#f8f9ff;--dim:#bbc3d7;--mint:#67e1b4;--purple:#ba9eff;--danger:#fb8196}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--light);min-height:100dvh}main{max-width:560px;margin:auto;padding:12px 14px 105px}button,a,input{font:inherit}button{cursor:pointer}button:disabled{opacity:.5;cursor:wait}.hidden{display:none!important}
@@ -85,6 +85,24 @@ body.home-mode .feed-search{position:absolute;right:15px;top:max(18px,env(safe-a
 #callPanel.voice-only #waiting{display:grid!important}
 #callPanel.voice-only #waiting b{font-size:64px}
 #incomingOverlay .ring-hint{font-size:12px;color:#d8e1fc}
+
+/* BULIGO V8: clear TikTok-style actions and separate Calls directory */
+.clip-side{gap:8px;bottom:92px;width:62px;right:7px}
+.clip-action{font-size:10px;min-width:54px;line-height:1.25}
+.clip-action .sym{font-size:25px}
+.clip-avatar{height:42px;width:42px}
+.clip-details{right:77px}
+@media(max-height:710px){.clip-side{gap:4px;bottom:69px}.clip-action .sym{font-size:23px}.clip-details{bottom:18px}}
+.calls-person{background:#0f1728;border:1px solid #4b5474;border-radius:15px;padding:14px;margin:11px 0}
+.calls-person strong{display:block;font-size:16px}
+.calls-person .call-actions{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}
+.calls-person .call-actions button{flex:1;min-width:87px}
+.calls-note{color:#c5cbe0;font-size:13px;line-height:1.5}
+.calls-dot{color:#94a1bb;font-size:12px;margin-top:5px}
+.calls-dot.online{color:#69e7b2}
+.reaction-bar{display:flex;justify-content:space-around;gap:7px;padding:12px 0}
+.reaction-bar button{font-size:25px;background:#303858;border:1px solid #657092;border-radius:13px;padding:8px 12px}
+.mini-toast{position:fixed;z-index:16;left:50%;bottom:calc(90px + env(safe-area-inset-bottom));transform:translateX(-50%);width:min(90vw,400px);padding:12px 15px;border-radius:14px;background:#29335b;border:1px solid #a9a3db;color:#fff;text-align:center;font-size:13px;box-shadow:0 7px 25px #000a;pointer-events:none}
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/peerjs@1.5.5/dist/peerjs.min.js"></script>
 </head>
@@ -111,12 +129,18 @@ body.home-mode .feed-search{position:absolute;right:15px;top:max(18px,env(safe-a
   <label for="videoCaption">Caption</label><textarea id="videoCaption" maxlength="180" placeholder="Write something about your video…"></textarea>
   <p id="previewStatus" class="not-live">Select a video. You can try it in the feed, but it will not be uploaded publicly.</p>
   <button id="sharePreview" class="primary fullbtn" type="button" style="margin-top:16px" disabled>＋ Add to my feed (this phone only)</button>
- </section><p class="upload-note">These videos are temporary previews. They are not saved online, and other people cannot see them. A public feed requires secure storage, database rules and moderation.</p>
+ </section><p class="upload-note">Videos here stay on your phone only. Use the Share arrow on your preview to send the original video file via another app (when your browser supports it). This does not publish on BULIGO. Public posting requires secure storage, database rules and moderation.</p>
 </section>
 <section class="tabpage hidden" id="inboxTab">
  <h1 class="section-title">Messages</h1><p class="subtle">Find people by first name and surname, then send a private message.</p>
  <section class="card" id="chatListPanel"><h2>💬 Your chats <span id="unreadCounter"></span></h2><p class="chat-note">Live beta: both people must be online with BULIGO open. Messages are not saved to a cloud inbox or delivered offline. Names are not verified.</p><div class="chat-list" id="chatList"></div><button class="primary fullbtn" id="goSearchFromInbox" type="button">⌕ Find someone by name</button></section>
  <section class="card hidden" id="chatPanel"><div class="chat-header"><button class="outline small" id="backToChats" type="button">← Back</button><strong id="chatWith"></strong><button class="green small" id="chatCall" type="button">📹 Video</button><button class="outline small" id="chatVoice" type="button">📞 Voice</button></div><div class="chat-messages" id="chatMessages" role="log" aria-live="polite" aria-label="Conversation"></div><p class="status" id="chatStatus" aria-live="polite">Both people must be online.</p><form id="messageForm" class="chat-compose"><label for="messageText">Your message</label><textarea id="messageText" maxlength="800" rows="2" placeholder="Write a message…" required></textarea><button type="submit" id="sendMessage" class="green">➤ Send message</button></form><p class="chat-note">Live messages only. Not identity-verified. Avoid sensitive information.</p></section>
+</section>
+<section class="tabpage hidden" id="callsTab">
+ <h1 class="section-title">📞 Calls</h1><p class="subtle">Find people you already know. Tap their name to call without searching again.</p>
+ <div class="empty-state" id="callsGuest"><div class="emoji">📞</div><h2>Sign in to see contacts</h2><p>Sign in and add people from Search to your Friends or Following list.</p><button class="primary" data-page="profile" type="button">Sign in</button></div>
+ <div id="callsSigned" class="hidden"><section class="card"><div class="row" style="align-items:center"><h2 style="flex:2">Contacts <span id="callsCount">(0)</span></h2><button class="outline small" type="button" id="refreshCalls">↻ Check now</button></div><p class="calls-note">🟢 Online means we just reached this person's BULIGO page. Grey means we could not reach them — they may be away or the browser may be suspended.</p><div id="callsPeople" aria-live="polite"></div><p id="callsMessage" class="status">Checking your saved contacts…</p><button type="button" id="callsAddFriend" class="primary fullbtn">＋ Find friends</button></section>
+ <section class="card"><h2>🔔 Calling someone who is away</h2><p class="calls-note">In this test version, a person must have BULIGO open to receive a live call. An offline phone cannot be switched on or have its camera or microphone activated by this website.</p><p class="calls-note">Future missed-call notifications require a secure server and permission for push notifications. On iPhone, web push also requires installing BULIGO on the Home Screen. The person must still tap to answer.</p></section></div>
 </section>
 <section class="tabpage hidden" id="profileTab">
  <h1 class="section-title">Profile</h1><p class="subtle">Your BULIGO account.</p>
@@ -124,9 +148,10 @@ body.home-mode .feed-search{position:absolute;right:15px;top:max(18px,env(safe-a
  <div class="hidden" id="loggedIn"><div class="account"><strong id="currentEmail"></strong><button class="outline small" id="signOut" type="button">Sign out</button></div><div class="profile-hero"><div class="avatar">B</div><h2>My BULIGO profile</h2><p class="subtle">Friends can find you by name while you are online. Accepted friends are saved on this phone. Videos in this preview are local only.</p></div><section class="card" id="setupPanel"><h2>👤 Your BULIGO profile</h2><p class="smalltext">Choose the name friends search for. Birth year and location stay private on this device.</p><label for="myFirst">First name</label><input id="myFirst" type="text" maxlength="35" autocomplete="given-name" placeholder="e.g. Erika"><label for="myLast">Surname</label><input id="myLast" type="text" maxlength="35" autocomplete="family-name" placeholder="e.g. Siroki"><label for="myYear">Year of birth (private)</label><input id="myYear" type="number" min="1900" max="2013" inputmode="numeric" placeholder="e.g. 1990"><label for="myCountry">Country (private)</label><input id="myCountry" maxlength="60" autocomplete="country-name" placeholder="e.g. United Kingdom"><label for="myCity">City or town (private)</label><input id="myCity" maxlength="60" autocomplete="address-level2" placeholder="e.g. Liverpool"><button id="saveProfile" class="primary fullbtn" type="button" style="margin-top:18px">Save my profile</button><p id="profileStatus" class="status" aria-live="polite">Only your name is used for online searches. Never share an exact street address here.</p></section><div id="profileBox" class="namebox hidden"><span>Your name: <strong id="profileLabel"></strong></span><button class="outline small" type="button" id="editProfile">Edit profile</button></div><div id="privateDetails" class="profile-private"><strong>Private profile details</strong><span id="privateDetailsText">Optional — stored only on this phone.</span><div id="followSummary">Following 0 people on this device</div></div><p id="ringStatus" class="smalltext">Tap “Enable ringing” at the top to hear incoming calls while this page is open.</p><p class="upload-note">Email/password are handled by Firebase Authentication. Your name is saved to your own Firebase account display name; year of birth and location are saved only on this device. Other people cannot browse your birth year or city in this preview. Follows and accepted friends are saved on this phone; invitations only work while both people are online. A real cloud friends list needs a secure backend.</p></div>
 </section>
 <section class="tabpage hidden" id="callTab"><h1 class="section-title">Video call</h1><section class="hidden" id="callPanel"><div class="stage"><video id="remoteVideo" autoplay playsinline></video><div class="waiting" id="waiting"><b id="waitSymbol">📹</b><span id="waitingText">Connecting…</span></div><video id="localVideo" autoplay playsinline muted></video></div><p class="status" id="callStatus" aria-live="polite">Connecting…</p><div class="controls"><button class="secondary" id="toggleMic" type="button">🎙️ Mute</button><button class="secondary" id="toggleCamera" type="button">📷 Camera off</button><button class="danger" id="hangUp" type="button">📞 End call</button></div><button class="outline small hidden" type="button" id="enableSound" style="margin-top:9px">🔊 Enable sound</button></section></section>
-<p class="footer">BULIGO social preview. Email registration is real, using Firebase Authentication. You can preview videos, swipe, like and comment on this device only. Public posting, cloud comments, mutual/cloud followers, saved messages and push alerts are not active. Incoming calls may ring audibly only after you tap Enable ringing and while BULIGO is open. iPhone Safari does not support website-triggered vibration. Name search, live chats and video calls are experimental; both people must be online with BULIGO open. Names are not verified. Connection depends on an external service and may fail. Do not use for sensitive or emergency communications.</p>
+<p class="footer">BULIGO social preview. Email registration is real, using Firebase Authentication. You can preview videos, swipe, like and comment on this device only. Public posting, cloud comments, mutual/cloud followers, saved messages and push alerts are not active. The Share button on a personal video can open the phone share sheet to send its original video file to other apps, but it does not create a public BULIGO post. The Calls tab checks only saved contacts. Offline calls and background push alerts are not active. Incoming calls may ring audibly only after you tap Enable ringing and while BULIGO is open. iPhone Safari does not support website-triggered vibration. Name search, live chats and video calls are experimental; both people must have BULIGO open to answer. An inactive phone cannot be switched on by a website. Names are not verified. Connection depends on an external service and may fail. Do not use for sensitive or emergency communications.</p>
 </main>
-<nav class="bottom-nav" aria-label="Main navigation"><button type="button" class="navbtn active" data-page="home"><span class="navicon">⌂</span>Home</button><button type="button" class="navbtn" data-page="search"><span class="navicon">⌕</span>Search</button><button type="button" class="navbtn create" data-page="create"><span class="navicon">＋</span>Create</button><button type="button" class="navbtn" data-page="inbox"><span class="navicon">✉</span><span id="inboxNavLabel">Inbox</span></button><button type="button" class="navbtn" data-page="profile"><span class="navicon">◉</span>Profile</button></nav>
+<nav class="bottom-nav" aria-label="Main navigation"><button type="button" class="navbtn active" data-page="home"><span class="navicon">⌂</span>Home</button><button type="button" class="navbtn" data-page="search"><span class="navicon">⌕</span>Search</button><button type="button" class="navbtn create" data-page="create"><span class="navicon">＋</span>Create</button><button type="button" class="navbtn" data-page="inbox"><span class="navicon">✉</span><span id="inboxNavLabel">Inbox</span></button><button type="button" class="navbtn" data-page="calls"><span class="navicon">📞</span>Calls</button><button type="button" class="navbtn" data-page="profile"><span class="navicon">◉</span>Profile</button></nav>
+<aside class="comments-backdrop hidden" id="reactionsOverlay" role="dialog" aria-modal="true" aria-label="React to video"><section class="comments-sheet"><div class="comments-head"><h3>Send a reaction</h3><button id="closeReactions" type="button" aria-label="Close reactions">×</button></div><div class="reaction-bar"><button data-reaction="❤️" type="button">❤️</button><button data-reaction="😂" type="button">😂</button><button data-reaction="😍" type="button">😍</button><button data-reaction="🔥" type="button">🔥</button><button data-reaction="👏" type="button">👏</button></div><p class="privacy">Reaction preview only: it is saved on your phone, not sent to the creator.</p></section></aside><div class="mini-toast hidden" id="miniToast" role="status" aria-live="polite"></div>
 <aside class="comments-backdrop hidden" id="commentsOverlay" role="dialog" aria-modal="true" aria-label="Video comments"><section class="comments-sheet"><div class="comments-head"><h3>Comments <span id="commentCount"></span></h3><button id="closeComments" type="button" aria-label="Close comments">×</button></div><p class="privacy">Comments in this preview are visible only on this phone.</p><div id="commentsList" class="comments-list" role="log" aria-live="polite"></div><form id="commentForm" class="comment-form"><input id="commentInput" maxlength="280" placeholder="Add a comment…" required autocomplete="off"><button class="primary small" type="submit">Post</button></form></section></aside>
 <div class="overlay hidden" id="friendRequestOverlay" role="dialog" aria-modal="true" aria-labelledby="friendInviteTitle"><div class="dialog"><div class="symbol">👋</div><h2 id="friendInviteTitle">Friend request</h2><p id="friendInviteName">Someone wants to add you.</p><p class="smalltext">Names are not verified in this beta. Only accept people you know.</p><div class="row" style="margin-top:20px"><button id="acceptFriend" class="green" type="button">✓ Accept</button><button id="rejectFriend" class="danger" type="button">Decline</button></div></div></div>
 <div class="overlay hidden" id="incomingOverlay" role="dialog" aria-modal="true"><div class="dialog"><div class="symbol" id="incomingIcon">📲</div><h2 id="incomingTitle">Incoming video call</h2><p id="incomingName">Someone is calling…</p><p class="ring-hint" id="incomingRingStatus">For audible ringing, tap Enable ringing when BULIGO is open.</p><button id="enableIncomingRing" class="outline small" type="button">🔔 Enable ringtone</button><div class="row" style="margin-top:20px"><button class="green" id="answerCall" type="button">📹 Answer</button><button class="danger" id="declineCall" type="button">Decline</button></div></div></div>
@@ -145,7 +170,7 @@ const peerId=(first,last,slot)=>'buligo-person-v4-'+fullKey(first,last)+'-'+slot
 const myStorageKey=uid=>'buligo_fullname_v4_'+uid;
 
 // TikTok-style V5 local video feed. This frontend does NOT publish content to other users.
-const tabKeys=['home','search','create','inbox','profile','call'];
+const tabKeys=['home','search','create','inbox','calls','profile','call'];
 let activeTab='home';
 const demoClips=[
  {id:'welcome',username:'@buligo',caption:'Welcome to BULIGO ✨\nScroll up for more. Create your own video and connect with friends.',demo:true,background:0},
@@ -157,13 +182,13 @@ let pendingFriendInvite=null,friendRefreshTick=null,friendCheckInProgress=false;
 function followStorageKey(uid){return 'buligo_follows_v6_'+uid;}
 function saveFollowing(){if(!user)return;try{localStorage.setItem(followStorageKey(user.uid),JSON.stringify([...followed.values()]));}catch{}renderFollowingDirectory();renderFollowSummary();}
 function renderFollowSummary(){if($('followSummary'))$('followSummary').textContent='Following '+followed.size+' account'+(followed.size===1?'':'s')+' on this device';}
-function toggleFollow(person){if(!user){switchTab('profile');return;}if(followed.has(person.id))followed.delete(person.id);else followed.set(person.id,{first:person.first,last:person.last,id:person.id,slot:person.slot});saveFollowing();if(activeTab==='search'&&$('searchResults').children.length){for(const btn of $('searchResults').querySelectorAll('[data-follow-id]'))if(btn.dataset.followId===person.id){btn.textContent=followed.has(person.id)?'✓ Following':'＋ Follow';btn.setAttribute('aria-pressed',String(followed.has(person.id)));}}}
+function toggleFollow(person){if(!user){switchTab('profile');return;}if(followed.has(person.id))followed.delete(person.id);else followed.set(person.id,{first:person.first,last:person.last,id:person.id,slot:person.slot});saveFollowing();renderCalls();if(activeTab==='search'&&$('searchResults').children.length){for(const btn of $('searchResults').querySelectorAll('[data-follow-id]'))if(btn.dataset.followId===person.id){btn.textContent=followed.has(person.id)?'✓ Following':'＋ Follow';btn.setAttribute('aria-pressed',String(followed.has(person.id)));}}}
 function friendStorageKey(uid){return 'buligo_accepted_friends_v1_'+uid;}
 function storeFriend(person){
  if(!user||!person?.id||!goodName(person.first)||!goodName(person.last)||person.id===peer?.id)return;
  friends.set(person.id,{id:person.id,first:norm(person.first),last:norm(person.last),slot:Number(person.slot)||0});
  try{localStorage.setItem(friendStorageKey(user.uid),JSON.stringify([...friends.values()]));}catch{}
- friendStatus.set(person.id,'checking');renderFriends();void refreshFriendPresence(person);
+ friendStatus.set(person.id,'checking');renderFriends();renderCalls();void refreshFriendPresence(person);
 }
 function makeFriendsCard(person){
  const wrap=make('article','friend-entry');const title=make('strong','',person.first+' '+person.last);wrap.append(title);
@@ -222,7 +247,7 @@ async function requestFriend(person){if(!user||!person?.id||friends.has(person.i
  }catch(e){say('friendsStatus',errorText(e),'error');}
 }
 $('refreshFriends').onclick=()=>void refreshFriends();
-friendRefreshTick=setInterval(()=>{if(!document.hidden&&user&&friends.size)void refreshFriends();},30000);
+friendRefreshTick=setInterval(()=>{if(!document.hidden&&user&&friends.size)void refreshFriends();if(!document.hidden&&user&&activeTab==='calls')void refreshCalls();},30000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&user&&friends.size)void refreshFriends();});
 function renderFollowingDirectory(){const dir=$('followingDirectory');if(!dir)return;dir.replaceChildren();const panel=$('followingMessage');
  if(!followed.size){show('followingMessage');hide('followingDirectory');return;}hide('followingMessage');show('followingDirectory');const heading=make('h2','',`Following ${followed.size} (this phone only)`);const note=make('p','smalltext','Followed names are saved on this device. Public following feeds, mutual follows and follower counts are not active yet.');dir.append(heading,note);
@@ -236,7 +261,7 @@ function switchTab(next){
  activeTab=next;document.body.classList.toggle('home-mode',next==='home');
  for(const key of tabKeys){const el=$(key+'Tab');if(el)el.classList.toggle('hidden',key!==next);}
  document.querySelectorAll('.navbtn').forEach(b=>{const selected=b.dataset.page===next;b.classList.toggle('active',selected);b.setAttribute('aria-current',selected?'page':'false');});
- if(next==='home'){requestAnimationFrame(syncFeedPlayback);}else pauseFeed();
+ if(next==='home'){requestAnimationFrame(syncFeedPlayback);}else pauseFeed();if(next==='calls'){renderCalls();void refreshCalls();}
  window.scrollTo({top:0,behavior:'instant'});
 }
 document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.page)));
@@ -258,6 +283,25 @@ let scrollScheduled=false;
 feed.addEventListener('scroll',()=>{if(scrollScheduled)return;scrollScheduled=true;requestAnimationFrame(()=>{scrollScheduled=false;syncFeedPlayback();});},{passive:true});
 document.addEventListener('visibilitychange',()=>{if(document.hidden)pauseFeed();else syncFeedPlayback();});
 const make=(tag,cls,txt)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(txt!==undefined)e.textContent=txt;return e;};
+// Saved-contact Calls directory: shows ONLY saved friends/follows, never a fictitious global online list.
+const callPresence=new Map();let callsRefreshBusy=false,toastTimer=null,reactionClipId=null;
+function notifyPreview(msg){const el=$('miniToast');el.textContent=msg;show('miniToast');clearTimeout(toastTimer);toastTimer=setTimeout(()=>hide('miniToast'),3600);}
+function savedContacts(){const all=new Map([...followed.entries(),...friends.entries()]);return [...all.values()].filter(p=>p?.id&&goodName(p.first)&&goodName(p.last));}
+function renderCalls(){if(!$('callsPeople'))return;
+ const guest=!user||!firstName||!surname;$('callsGuest').classList.toggle('hidden',!guest);$('callsSigned').classList.toggle('hidden',guest);if(guest)return;
+ const list=$('callsPeople');list.replaceChildren();const people=savedContacts();$('callsCount').textContent='('+people.length+')';
+ if(!people.length){list.append(make('p','smalltext','Nobody saved yet. Find someone by name, then Follow or Add friend.'));return;}
+ for(const person of people){const card=make('article','calls-person');card.append(make('strong','',person.first+' '+person.last));const state=callPresence.get(person.id)||friendStatus.get(person.id)||'unknown';card.append(make('div','calls-dot'+(state==='online'?' online':''),state==='online'?'● Online – reachable':state==='checking'?'◌ Checking connection…':'○ Not reachable right now'));
+ const actions=make('div','call-actions');const b1=make('button','secondary small','📞 Voice');b1.type='button';const b2=make('button','green small','📹 Video');b2.type='button';const b3=make('button','outline small','✉ Message');b3.type='button';b1.onclick=()=>state==='online'?void dial(person,'audio'):notifyPreview('Cannot ring this person while unreachable. Check again when they open BULIGO.');b2.onclick=()=>state==='online'?void dial(person,'video'):notifyPreview('This preview cannot wake an offline phone. They need BULIGO open to receive the call.');b3.onclick=()=>openConversation(person);actions.append(b1,b2,b3);card.append(actions);list.append(card);}
+}
+async function checkCallPresence(person){if(!user||!person?.id||document.hidden)return;callPresence.set(person.id,'checking');renderCalls();
+ let dc=null,tm=null,finished=false;const finish=ok=>{if(finished)return;finished=true;clearTimeout(tm);try{dc?.close();}catch{}callPresence.set(person.id,ok?'online':'unreachable');renderCalls();};
+ try{const p=await peerReady();if(!user||document.hidden||p.id===person.id){finish(false);return;}dc=p.connect(person.id,{reliable:true,metadata:{kind:'buligo-presence-v1'}});if(!dc){finish(false);return;}dc.on('data',v=>{if(v?.kind==='buligo-presence-online')finish(true);});dc.on('error',()=>finish(false));dc.on('close',()=>finish(false));tm=setTimeout(()=>finish(false),5500);}catch{finish(false);}
+}
+async function refreshCalls(){if(callsRefreshBusy||!user)return;callsRefreshBusy=true;const people=savedContacts();say('callsMessage',people.length?'Checking who can receive a call now…':'Find people and save them to your contacts.');
+ try{await Promise.all(people.map(checkCallPresence));say('callsMessage',people.length?'Checked. Grey does not necessarily mean offline.':'No contacts saved on this phone.');}finally{callsRefreshBusy=false;}}
+$('refreshCalls').onclick=()=>void refreshCalls();$('callsAddFriend').onclick=()=>switchTab('search');
+
 function renderFeed(restoreId){
  feed.replaceChildren();const clips=viewFollowing?[]:[...localClips,...demoClips];
  if(viewFollowing){feed.classList.add('hidden');renderFollowingDirectory();return;}feed.classList.remove('hidden');hide('followingMessage');hide('followingDirectory');if(!clips.length){const article=make('article','clip');const bg=make('div','clip-bg');const msg=make('div','clip-brand','BULIGO');msg.append(make('small','', 'Following feed needs published videos.'));bg.append(msg);article.append(bg);const actions=make('div','clip-details');const button=make('button','primary','Find friends');button.onclick=()=>switchTab('search');actions.append(button);article.append(actions);feed.append(article);return;}
@@ -269,8 +313,12 @@ function renderFeed(restoreId){
   const side=make('div','clip-side');const avatar=make('span','clip-avatar',clip.demo?'B':(clip.username[1]||'U').toUpperCase());side.append(avatar);
   const like=make('button','clip-action');like.type='button';like.setAttribute('aria-label','Like video');like.setAttribute('aria-pressed',String(likeIds.has(clip.id)));const heart=make('span','sym',likeIds.has(clip.id)?'♥':'♡');like.append(heart,make('span','',likeIds.has(clip.id)?'1 Like':'Like'));
   like.onclick=()=>{if(likeIds.has(clip.id))likeIds.delete(clip.id);else likeIds.add(clip.id);like.setAttribute('aria-pressed',String(likeIds.has(clip.id)));heart.textContent=likeIds.has(clip.id)?'♥':'♡';like.lastChild.textContent=likeIds.has(clip.id)?'1 Like':'Like';};side.append(like);
-  const comment=make('button','clip-action');comment.type='button';comment.setAttribute('aria-label','Show comments');comment.append(make('span','sym','▤'),make('span','', 'Comment'));comment.onclick=()=>openComments(clip.id);side.append(comment);
-  const share=make('button','clip-action');share.type='button';share.setAttribute('aria-label','Share BULIGO website');share.append(make('span','sym','➤'),make('span','', 'Share'));share.onclick=()=>void shareSite();side.append(share);
+  const reaction=make('button','clip-action');reaction.type='button';reaction.setAttribute('aria-label','Send an emoji reaction');reaction.append(make('span','sym','🥰'),make('span','', 'React'));reaction.onclick=()=>{reactionClipId=clip.id;show('reactionsOverlay');pauseFeed();};side.append(reaction);
+  const comment=make('button','clip-action');comment.type='button';comment.setAttribute('aria-label','Show comments');comment.append(make('span','sym','💬'),make('span','', 'Comment'));comment.onclick=()=>openComments(clip.id);side.append(comment);
+  const bookmark=make('button','clip-action');bookmark.type='button';bookmark.setAttribute('aria-label','Save video on this phone');const saved=make('span','sym','♧');bookmark.append(saved,make('span','', 'Save'));bookmark.onclick=()=>{const has=bookmark.getAttribute('aria-pressed')==='true';bookmark.setAttribute('aria-pressed',String(!has));saved.textContent=has?'♧':'🔖';notifyPreview(has?'Removed from saved videos.':'Saved in this browser session only.');};side.append(bookmark);
+  const share=make('button','clip-action');share.type='button';share.setAttribute('aria-label',clip.demo?'Share BULIGO website':'Share this video with another app');share.append(make('span','sym','➤'),make('span','', 'Share'));share.onclick=()=>void shareClip(clip);side.append(share);
+  const dm=make('button','clip-action');dm.type='button';dm.setAttribute('aria-label','Send a private message');dm.append(make('span','sym','✉'),make('span','', 'Message'));dm.onclick=()=>{if(!user){switchTab('profile');notifyPreview('Sign in first to send a message.');}else{switchTab('inbox');notifyPreview('Choose a contact to send a private message.');}};side.append(dm);
+  const callsAction=make('button','clip-action');callsAction.type='button';callsAction.setAttribute('aria-label','Open video calls and online contacts');callsAction.append(make('span','sym','📹'),make('span','', 'Call'));callsAction.onclick=()=>switchTab('calls');side.append(callsAction);
   if(!clip.demo){const mute=make('button','clip-action');mute.type='button';mute.setAttribute('aria-label','Enable sound on your preview');mute.append(make('span','sym','♫'),make('span','', 'Sound'));mute.onclick=()=>{const v=article.querySelector('video');if(!v)return;v.muted=!v.muted;mute.lastChild.textContent=v.muted?'Sound':'Mute';};side.append(mute);}
   article.append(side);
   const info=make('div','clip-details');info.append(make('strong','',clip.username));info.append(make('p','',clip.caption));info.append(make('div','music','♫ Original audio'));info.append(make('span','clip-local',clip.demo?'Example post — not a real upload':'Only visible on this phone'));article.append(info);
@@ -283,11 +331,27 @@ function renderFeed(restoreId){
 function toggleFeed(follow){viewFollowing=follow;$('feedForYou').classList.toggle('selected',!follow);$('feedFollowing').classList.toggle('selected',follow);feed.scrollTop=0;renderFeed();}
 $('feedFollowing').onclick=()=>toggleFeed(true);
 $('feedForYou').onclick=()=>toggleFeed(false);
+async function shareClip(clip){
+ // Share the user's original file with an app they choose. Never call this public BULIGO posting.
+ if(!clip.demo && clip.file){
+  try{
+   if(navigator.share && navigator.canShare?.({files:[clip.file]})){
+    await navigator.share({files:[clip.file],title:'BULIGO video',text:clip.caption||'Video shared from BULIGO'});return;
+   }
+  }catch(e){if(e?.name==='AbortError')return;}
+  notifyPreview('This browser cannot share the video file directly. Share it from Photos or Files instead. It is not publicly uploaded to BULIGO.');return;
+ }
+ await shareSite();
+}
 async function shareSite(){const url=location.origin+location.pathname;try{if(navigator.share){await navigator.share({title:'BULIGO',text:'Explore BULIGO',url});return;}if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(url);alert('BULIGO website link copied. Personal video previews are not shared.');return;}}catch(e){if(e?.name==='AbortError')return;}alert('BULIGO website: '+url+'\nPersonal video previews cannot be shared yet.');}
 function openComments(id){commentsClipId=id;show('commentsOverlay');renderComments();$('commentInput').focus();pauseFeed();}
 function closeComments(){commentsClipId=null;hide('commentsOverlay');$('commentInput').value='';syncFeedPlayback();}
 function renderComments(){const arr=commentStore.get(commentsClipId)||[];$('commentCount').textContent='('+arr.length+')';const list=$('commentsList');list.replaceChildren();if(!arr.length)list.append(make('p','smalltext','No comments yet on this phone. Be the first!'));for(const c of arr){const d=make('div','comment');d.append(make('small','',c.name+' · '+c.time),make('span','',c.text));list.append(d);}list.scrollTop=list.scrollHeight;}
 $('closeComments').onclick=closeComments;
+$('closeReactions').onclick=()=>{reactionClipId=null;hide('reactionsOverlay');syncFeedPlayback();};
+$('reactionsOverlay').addEventListener('click',e=>{if(e.target===$('reactionsOverlay'))$('closeReactions').click();});
+$('reactionsOverlay').querySelectorAll('[data-reaction]').forEach(b=>b.onclick=()=>{const emoji=b.dataset.reaction;const clip=reactionClipId;reactionClipId=null;hide('reactionsOverlay');notifyPreview(emoji+' Reaction added on your phone only — not sent to other users.');syncFeedPlayback();});
+
 $('commentsOverlay').addEventListener('click',e=>{if(e.target===$('commentsOverlay'))closeComments();});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&commentsClipId)closeComments();});
 $('commentForm').onsubmit=e=>{e.preventDefault();if(!commentsClipId)return;const text=norm($('commentInput').value);if(!text||text.length>280)return;const arr=commentStore.get(commentsClipId)||[];arr.push({name:firstName&&surname?firstName+' '+surname:'You',text,time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})});commentStore.set(commentsClipId,arr);$('commentInput').value='';renderComments();};
@@ -303,7 +367,7 @@ $('videoPicker').onchange=e=>{
 $('sharePreview').onclick=()=>{
  if(!selectedVideo)return;
  const caption=norm($('videoCaption').value)||selectedVideo.file.name.replace(/\.[^/.]+$/,'');
- const clip={id:'local-'+Date.now()+'-'+Math.random().toString(36).slice(2,8),url:selectedVideo.url,username:firstName&&surname?'@'+firstName.toLowerCase()+'.'+surname.toLowerCase():'@mybuligo',caption:caption.slice(0,180),demo:false};
+ const clip={id:'local-'+Date.now()+'-'+Math.random().toString(36).slice(2,8),url:selectedVideo.url,file:selectedVideo.file,username:firstName&&surname?'@'+firstName.toLowerCase()+'.'+surname.toLowerCase():'@mybuligo',caption:caption.slice(0,180),demo:false};
  localClips.unshift(clip);selectedVideo=null;
  $('uploadPreview').removeAttribute('src');$('uploadPreview').load();hide('uploadPreview');$('videoPicker').value='';$('videoCaption').value='';$('sharePreview').disabled=true;
  $('previewStatus').textContent='Added to your private preview feed. Other people cannot see this video.';
@@ -525,8 +589,8 @@ $('answerCall').onclick=()=>void answer();$('declineCall').onclick=()=>{stopRing
 $('toggleMic').onclick=()=>{const t=stream?.getAudioTracks()[0];if(!t)return;t.enabled=!t.enabled;$('toggleMic').textContent=t.enabled?'🎙️ Mute':'🎙️ Unmute';};
 $('toggleCamera').onclick=()=>{const t=stream?.getVideoTracks()[0];if(!t)return;t.enabled=!t.enabled;$('toggleCamera').textContent=t.enabled?'📷 Camera off':'📷 Camera on';};
 $('enableSound').onclick=async()=>{try{await $('remoteVideo').play();hide('enableSound');}catch{say('callStatus','Tap Enable sound again.','error');}};
-$('signOut').onclick=async()=>{stopRinging();await endCall();stopPeer();dropChatSessions();followed.clear();friends.clear();friendStatus.clear();await signOut(auth);};
-onAuthStateChanged(auth,async next=>{++searchToken;stopRinging();await endCall();stopPeer();dropChatSessions();user=next;firstName='';surname='';followed.clear();friends.clear();friendStatus.clear();renderFriends();
+$('signOut').onclick=async()=>{stopRinging();await endCall();stopPeer();dropChatSessions();followed.clear();friends.clear();friendStatus.clear();callPresence.clear();renderCalls();await signOut(auth);};
+onAuthStateChanged(auth,async next=>{++searchToken;stopRinging();await endCall();stopPeer();dropChatSessions();user=next;firstName='';surname='';followed.clear();friends.clear();friendStatus.clear();callPresence.clear();renderFriends();renderCalls();
  if(!user){show('authPanel');hide('loggedIn');show('searchGuest');say('authStatus','Sign in to make a call or follow people.');renderFollowSummary();return;}
  hide('authPanel');show('loggedIn');hide('searchGuest');$('currentEmail').textContent='👤 '+(user.email||'BULIGO account');
  let saved=null;try{saved=JSON.parse(localStorage.getItem(myStorageKey(user.uid))||'null');}catch{}
