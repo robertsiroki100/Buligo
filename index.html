@@ -129,6 +129,21 @@ body.home-mode .feed-search{position:absolute;right:15px;top:max(18px,env(safe-a
 .public-live-card small{display:block;color:#ebdbe9;font-size:12px;margin-top:4px}
 .public-live-empty{color:#b8c2df;font-size:13px;margin:8px 0}
 .public-live-error{color:#ffd0d5;font-size:12px;margin-top:6px}
+
+/* LIVE overlay: show chat and hearts directly on the broadcaster/viewer video. */
+.live-stage{position:relative;isolation:isolate;width:100%;aspect-ratio:9/12;max-height:56dvh;overflow:hidden;border-radius:18px;background:#070a13;border:1px solid #4b526e;margin:12px 0;box-shadow:0 10px 25px #0005}
+.live-stage .live-video{position:absolute;inset:0;width:100%;height:100%;max-height:none;margin:0;border:0;border-radius:0;object-fit:cover;background:#070a13}
+.live-stage::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(to bottom,#0008,transparent 20%,transparent 45%,#000a 100%);z-index:1}
+.live-stage-live-label{position:absolute;top:12px;left:12px;z-index:3;background:#c91a43;color:#fff;border-radius:7px;padding:4px 9px;font-size:12px;font-weight:900;letter-spacing:.02em;box-shadow:0 2px 12px #0007}
+.live-chat-overlay{position:absolute;z-index:4;left:9px;right:50px;bottom:62px;min-height:0;max-height:42%;margin:0;padding:0;overflow:hidden;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:6px;border:0;border-radius:0;background:transparent;pointer-events:none;mask-image:linear-gradient(to bottom,transparent,#000 19%);-webkit-mask-image:linear-gradient(to bottom,transparent,#000 19%)}
+.live-chat-overlay p{flex:0 0 auto;max-width:100%;color:white;font-size:13px;line-height:1.35;letter-spacing:0;padding:6px 9px;border-radius:11px;background:#060914b8;backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);text-shadow:0 1px 3px #000;box-shadow:0 2px 6px #0004;overflow-wrap:anywhere;white-space:pre-wrap}
+.live-chat-overlay strong{color:#9cf5d5}
+.live-chat-overlay .live-heart{font-size:13px}
+.live-hearts{position:absolute;z-index:5;right:11px;bottom:88px;width:39px;height:55%;pointer-events:none;overflow:visible}
+.live-float-heart{position:absolute;bottom:2px;right:2px;font-size:29px;line-height:1;filter:drop-shadow(0 3px 6px #000b);animation:buligoHeartRise 2.2s ease-out forwards;opacity:0}
+@keyframes buligoHeartRise{0%{transform:translate(0,0) scale(.65);opacity:0}15%{opacity:1}80%{opacity:1}100%{transform:translate(-16px,-145px) scale(1.22);opacity:0}}
+@media(max-width:380px){.live-chat-overlay{right:43px;bottom:56px;max-height:41%}.live-chat-overlay p{font-size:12px;padding:5px 8px}.live-stage-live-label{font-size:11px}}
+@media(prefers-reduced-motion:reduce){.live-float-heart{animation-duration:.3s}}
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/peerjs@1.5.5/dist/peerjs.min.js"></script>
 </head>
@@ -175,7 +190,12 @@ body.home-mode .feed-search{position:absolute;right:15px;top:max(18px,env(safe-a
   </section>
   <section class="card"><h2>🎥 Go LIVE</h2><p class="smalltext">Your camera and microphone turn on only after you tap Go LIVE and allow access. LIVE broadcasts are public to other BULIGO members once the directory is enabled.</p>
    <label for="liveTitle">LIVE title</label><input id="liveTitle" maxlength="75" placeholder="Chat with me on BULIGO">
-   <video id="liveHostVideo" class="live-video is-mine hidden" autoplay playsinline muted></video>
+   <div id="liveHostStage" class="live-stage hidden" aria-label="Your live video with comments overlaid">
+    <video id="liveHostVideo" class="live-video is-mine" autoplay playsinline muted></video>
+    <span class="live-stage-live-label">🔴 LIVE</span>
+    <div id="liveHostChat" class="live-chat-overlay" role="log" aria-live="polite" aria-label="Incoming comments displayed over your video"></div>
+    <div id="liveHostHearts" class="live-hearts" aria-hidden="true"></div>
+   </div>
    <p id="liveHostStatus" class="status">Not broadcasting.</p>
    <div class="row" style="margin-top:11px"><button id="startLive" class="danger" type="button">🔴 Go LIVE</button><button id="endLive" class="outline hidden" type="button">■ End LIVE</button></div>
    <div id="liveSharePanel" class="hidden"><label for="liveInvite">Share this LIVE link</label><div class="live-share-row"><input id="liveInvite" readonly aria-label="Your live stream link"><button id="shareLiveLink" class="secondary small" type="button">➤ Share</button><button id="copyLiveLink" class="outline small" type="button">Copy</button></div><p class="smalltext">Whoever has this link may be able to watch while you are LIVE. Streaming ends when you tap End LIVE, refresh, or close the page.</p></div>
@@ -184,12 +204,16 @@ body.home-mode .feed-search{position:absolute;right:15px;top:max(18px,env(safe-a
   <section class="card"><h2>▶ Watch LIVE</h2><p class="smalltext">Tap Watch under LIVE now. You can also join from a shared invitation. The broadcaster must remain connected.</p>
    <label for="liveCode">LIVE link or code</label><input id="liveCode" autocomplete="off" spellcheck="false" placeholder="Paste a LIVE invitation here" maxlength="400">
    <div class="row" style="margin-top:11px"><button id="joinLive" class="primary" type="button">▶ Watch LIVE</button><button id="leaveLive" class="outline hidden" type="button">Leave LIVE</button></div>
-   <video id="liveGuestVideo" class="live-video hidden" autoplay playsinline controls></video>
+   <div id="liveGuestStage" class="live-stage hidden" aria-label="Live broadcast video with comments overlaid">
+    <video id="liveGuestVideo" class="live-video" autoplay playsinline controls></video>
+    <span class="live-stage-live-label">🔴 LIVE</span>
+    <div id="liveGuestChat" class="live-chat-overlay" role="log" aria-live="polite" aria-label="Comments displayed over the live video"></div>
+    <div id="liveGuestHearts" class="live-hearts" aria-hidden="true"></div>
+   </div>
    <button id="livePlayAudio" class="secondary fullbtn hidden" type="button">🔊 Tap to play LIVE with sound</button>
    <p id="liveViewerStatus" class="status">Not watching a LIVE.</p>
   </section>
-  <section class="card"><h2>❤️ LIVE reactions and chat</h2><p class="smalltext">People connected to the same stream can send hearts and short comments. Messages are temporary and names are not verified.</p>
-   <div id="liveChat" class="live-chat" role="log" aria-live="polite"><p>Start or join a LIVE to chat.</p></div>
+  <section class="card"><h2>❤️ LIVE reactions and chat</h2><p class="smalltext">Comments appear directly over the LIVE video for the broadcaster and viewers. Write below to join the conversation, or send a heart. Messages are temporary and names are not verified.</p>
    <form id="liveChatForm" class="live-chat-form"><input id="liveMessage" maxlength="140" required placeholder="Write a LIVE comment…" aria-label="Live comment"><button class="primary small" type="submit">Send</button></form>
    <button id="liveHeart" class="outline fullbtn" type="button" style="margin-top:10px">❤️ Send heart</button>
   </section>
@@ -737,7 +761,20 @@ function unpublishPublicLive(){
 
 function updateLiveAuth(){ $('liveGuest').classList.toggle('hidden',!!user);$('liveSigned').classList.toggle('hidden',!user); }
 function updateLiveCount(){liveViewerCount=liveAudience.size;$('liveAudienceCount').textContent=liveViewerCount+' connected viewer'+(liveViewerCount===1?'':'s')+' · maximum '+liveMaxAudience+' in this beta.';}
-function liveLog(who,msg,heart=false){const panel=$('liveChat');if(panel.children.length===1&&panel.firstChild.textContent==='Start or join a LIVE to chat.')panel.replaceChildren();const entry=make('p',heart?'live-heart':'');if(!heart){const bold=make('strong','',String(who||'Guest').slice(0,60)+': ');entry.append(bold,document.createTextNode(String(msg).slice(0,140)));}else entry.textContent='❤️ '+String(who||'Viewer').slice(0,45)+' sent a heart';panel.append(entry);while(panel.children.length>55)panel.firstChild.remove();panel.scrollTop=panel.scrollHeight;}
+function resetLiveOverlay(){for(const id of ['liveHostChat','liveGuestChat','liveHostHearts','liveGuestHearts'])$(id).replaceChildren();}
+function floatLiveHeart(){for(const stage of ['liveHostHearts','liveGuestHearts']){
+ const panel=$(stage);const heart=make('span','live-float-heart','❤️');panel.append(heart);
+ heart.addEventListener('animationend',()=>heart.remove(),{once:true});
+ setTimeout(()=>heart.remove(),2800);}}
+function liveLog(who,msg,heart=false){
+ for(const id of ['liveHostChat','liveGuestChat']){
+  const panel=$(id),entry=make('p',heart?'live-heart':'');
+  if(!heart){const bold=make('strong','',String(who||'Guest').slice(0,60)+': ');entry.append(bold,document.createTextNode(String(msg).slice(0,140)));}
+  else entry.textContent='❤️ '+String(who||'Viewer').slice(0,45)+' sent a heart';
+  panel.append(entry);while(panel.children.length>15)panel.firstChild.remove();panel.scrollTop=panel.scrollHeight;
+ }
+ if(heart)floatLiveHeart();
+}
 function liveBroadcasterName(){return firstName&&surname?firstName+' '+surname:'BULIGO user';}
 function liveStatusToAll(msg){for(const [id,channel] of liveAudience){if(channel?.open){try{channel.send(msg);}catch{}}}}
 function handleLiveCheck(dc){dc.on('open',()=>{try{dc.send({kind:'buligo-live-status-v1',live:!!liveBroadcastStream,title:norm($('liveTitle').value).slice(0,75),first:firstName,last:surname});}catch{}setTimeout(()=>{try{dc.close();}catch{}},550);});}
@@ -773,7 +810,7 @@ function endLiveBroadcast(update=true){
  for(const c of liveMediaCalls.values())try{c.close();}catch{}
  liveAudience.clear();liveMediaCalls.clear();
  for(const t of liveBroadcastStream.getTracks())try{t.stop();}catch{}
- liveBroadcastStream=null;$('liveHostVideo').srcObject=null;hide('liveHostVideo');hide('liveSharePanel');hide('endLive');show('startLive');$('liveBadge').textContent='OFF AIR';$('liveBadge').classList.add('off');updateLiveCount();
+ liveBroadcastStream=null;$('liveHostVideo').srcObject=null;hide('liveHostStage');hide('liveSharePanel');hide('endLive');show('startLive');$('liveBadge').textContent='OFF AIR';$('liveBadge').classList.add('off');updateLiveCount();
  if(update)say('liveHostStatus','LIVE ended. Your camera and microphone are off.','ok');
 }
 async function startLiveBroadcast(){
@@ -786,8 +823,8 @@ async function startLiveBroadcast(){
   const p=await peerReady();
   candidate=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user'},audio:{echoCancellation:true,noiseSuppression:true}});
   if(!p.open||p!==peer)throw Error('Calling service disconnected; retry Go LIVE.');
-  liveBroadcastStream=candidate;candidate=null;
-  const v=$('liveHostVideo');v.srcObject=liveBroadcastStream;show('liveHostVideo');v.play().catch(()=>{});
+  resetLiveOverlay();liveBroadcastStream=candidate;candidate=null;
+  const v=$('liveHostVideo');v.srcObject=liveBroadcastStream;show('liveHostStage');v.play().catch(()=>{});$('liveHostStage').scrollIntoView({behavior:'smooth',block:'center'});
   $('liveBadge').textContent='● LIVE';$('liveBadge').classList.remove('off');hide('startLive');show('endLive');
   const invite=new URL(location.pathname,location.origin);invite.searchParams.set('live',p.id);
   $('liveInvite').value=invite.toString();show('liveSharePanel');updateLiveCount();
@@ -806,7 +843,7 @@ function receiveLiveStreamCall(c){
  liveReceivedMedia=c;
  c.on('stream',mediaStream=>{
   if(liveReceivedMedia!==c)return;
-  const v=$('liveGuestVideo');v.srcObject=mediaStream;v.muted=false;v.playsInline=true;show('liveGuestVideo');
+  const v=$('liveGuestVideo');v.srcObject=mediaStream;v.muted=false;v.playsInline=true;show('liveGuestStage');$('liveGuestStage').scrollIntoView({behavior:'smooth',block:'center'});
   say('liveViewerStatus','LIVE connected! Tap play or the sound button if needed.','ok');
   v.play().then(()=>hide('livePlayAudio')).catch(()=>show('livePlayAudio'));
  });
@@ -824,7 +861,7 @@ function leaveLiveBroadcast(update=true){
  const c=liveWatchChannel;liveWatchChannel=null;liveWatchingId=null;
  if(liveReceivedMedia){try{liveReceivedMedia.close();}catch{}liveReceivedMedia=null;}
  if(c)try{c.close();}catch{}
- const v=$('liveGuestVideo');try{v.pause();}catch{}v.srcObject=null;hide('liveGuestVideo');hide('livePlayAudio');hide('leaveLive');show('joinLive');
+ const v=$('liveGuestVideo');try{v.pause();}catch{}v.srcObject=null;hide('liveGuestStage');hide('livePlayAudio');hide('leaveLive');show('joinLive');
  if(update)say('liveViewerStatus','You left the LIVE.','ok');
 }
 async function watchLiveBroadcast(input){
@@ -834,7 +871,7 @@ async function watchLiveBroadcast(input){
  const id=liveCodeFromText(input);
  if(!id){say('liveViewerStatus','Paste a valid BULIGO LIVE invitation link or code.','error');return;}
  $('liveCode').value=id;
- leaveLiveBroadcast(false);
+ leaveLiveBroadcast(false);resetLiveOverlay();
  $('joinLive').disabled=true;say('liveViewerStatus','Connecting to LIVE…');
  try{
   const p=await peerReady();if(id===p.id)throw Error('This is your own LIVE. Tap Go LIVE instead.');
