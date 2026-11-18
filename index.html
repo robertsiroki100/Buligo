@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0c1020">
-<meta name="description" content="BULIGO — simple one-to-one video calls with no rooms or room codes.">
-<title>BULIGO – Video Calls</title>
+<meta name="description" content="BULIGO – find friends by first name and surname and make video calls.">
+<title>BULIGO – Find Friends & Video Call</title>
 <style>
 :root{font:16px/1.5 -apple-system,BlinkMacSystemFont,Segoe UI,Arial,sans-serif;color-scheme:dark;--bg:#0c1020;--panel:#181e34;--line:#39425c;--light:#f8f9ff;--dim:#b4bfd5;--mint:#72e3ba;--purple:#b4a3ff}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 85% 0,#593ca44d,transparent 40%),var(--bg);color:var(--light);min-height:100dvh}
@@ -13,7 +13,7 @@ main{max-width:600px;margin:auto;padding:24px 16px 65px}header{display:flex;alig
 h1{font-size:clamp(34px,8.3vw,48px);letter-spacing:-.045em;line-height:1.1;margin:0 0 12px}h1 span{color:var(--purple)}.intro{color:var(--dim);margin:0 0 26px}h2{font-size:21px;margin:0 0 5px}.smalltext{color:var(--dim);font-size:14px;margin:4px 0 18px}.card{background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:23px;margin-bottom:17px}
 label{font-weight:700;display:block;margin:15px 0 7px;font-size:14px}input{width:100%;padding:14px 15px;color:white;font:inherit;font-size:16px;border:1px solid #636e92;border-radius:12px;background:#10162b;outline:none}input:focus{border-color:var(--purple)}button,.link{font:inherit;font-weight:750;border:0;display:inline-flex;align-items:center;justify-content:center;border-radius:13px;min-height:49px;padding:12px 16px;text-decoration:none;cursor:pointer}button:disabled{opacity:.5;cursor:wait}.primary{background:var(--purple);color:#18152a}.green{background:var(--mint);color:#09382d}.secondary{background:#343e60;color:white}.danger{background:#f17b99;color:#2c1019}.outline{color:white;background:transparent;border:1px solid #5b6784}.row{display:flex;gap:9px;flex-wrap:wrap}.row>*{flex:1}.status{font-size:14px;overflow-wrap:anywhere;border-radius:12px;background:#10172d;color:#e5ecff;padding:13px 14px;margin-top:15px;min-height:45px}.status.error{background:#50243a;color:#ffe6ed}.status.ok{background:#173c32;color:#ceffec}.hidden{display:none!important}
 .account{font-size:14px;display:flex;gap:10px;align-items:center;justify-content:space-between;margin-bottom:15px;overflow-wrap:anywhere}.account strong{min-width:0;overflow-wrap:anywhere}.small{padding:8px 12px;min-height:39px;font-size:13px}.contacts button{margin:4px 5px 2px 0;max-width:100%;overflow-wrap:anywhere}
-.stage{position:relative;aspect-ratio:3/4;max-height:69dvh;background:#070b14;border:1px solid var(--line);border-radius:23px;overflow:hidden;margin-bottom:12px}#remoteVideo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#080b17}#localVideo{position:absolute;z-index:2;right:12px;top:12px;width:29%;height:29%;object-fit:cover;transform:scaleX(-1);border-radius:15px;border:2px solid #ddd8ff70;background:#182039}.waiting{position:absolute;inset:0;display:grid;place-content:center;text-align:center;gap:12px;color:#e5e8fa;pointer-events:none}.waiting b{font-size:42px}.controls{display:flex;flex-wrap:wrap;gap:8px}.controls button{flex:1;min-width:105px;font-size:14px;padding:10px 12px}
+.stage{position:relative;aspect-ratio:3/4;max-height:69dvh;background:#070b14;border:1px solid var(--line);border-radius:23px;overflow:hidden;margin-bottom:12px}#remoteVideo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#080b17}#localVideo{position:absolute;z-index:2;right:12px;top:12px;width:29%;height:29%;object-fit:cover;transform:scaleX(-1);border-radius:15px;border:2px solid #ddd8ff70;background:#182039}.waiting{position:absolute;inset:0;display:grid;place-content:center;text-align:center;gap:12px;color:#e5e8fa;pointer-events:none}.waiting b{font-size:42px}.controls{display:flex;flex-wrap:wrap;gap:8px}.controls button{flex:1;min-width:105px;font-size:14px;padding:10px 12px}.namebox{border:1px solid var(--line);border-radius:13px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 15px}.namebox strong{color:var(--purple)}.found{background:#10172c;border:1px solid #56627c;border-radius:13px;padding:12px;margin:10px 0;display:flex;align-items:center;justify-content:space-between;gap:9px}.found strong{font-size:16px}.found small{display:block;color:var(--dim)}.found button{min-width:100px}.privacy{font-size:12px;color:var(--dim)}
 .overlay{position:fixed;inset:0;z-index:10;background:#000c;display:flex;align-items:center;justify-content:center;padding:16px}.dialog{max-width:410px;width:100%;padding:26px 18px;text-align:center;background:#222c4a;border:1px solid #666f98;border-radius:24px}.dialog p{overflow-wrap:anywhere}.dialog h2{margin:5px 0}.dialog .symbol{font-size:55px}footer{color:#aab5cf;font-size:12px;line-height:1.5;margin-top:23px}.link{color:#d9d2ff;border:1px solid var(--line);font-size:13px;padding:8px 14px;min-height:40px}
 @media(max-width:360px){.card{padding:16px}.controls button{min-width:0}.account{flex-wrap:wrap}}
 </style>
@@ -21,9 +21,9 @@ label{font-weight:700;display:block;margin:15px 0 7px;font-size:14px}input{width
 </head>
 <body>
 <main>
-<header><div class="logo">BULI<span>GO</span></div><div class="tag">📹 Video calls</div></header>
+<header><div class="logo">BULI<span>GO</span></div><div class="tag">📹 Find & call</div></header>
 <h1>Call a friend.<br><span>Face to face.</span></h1>
-<p class="intro">Simple one-to-one video calls. No rooms, no room codes.</p>
+<p class="intro">Find a friend by first name and surname. Call them without an email address or a room code.</p>
 <section class="card" id="authPanel">
 <h2>Sign in to BULIGO</h2><p class="smalltext">Use your existing BULIGO account or create a new one.</p>
 <form id="authForm">
@@ -35,13 +35,23 @@ label{font-weight:700;display:block;margin:15px 0 7px;font-size:14px}input{width
 </section>
 <div class="hidden" id="loggedIn">
 <div class="account"><strong id="currentEmail"></strong><button class="outline small" id="signOut" type="button">Sign out</button></div>
-<section class="card" id="dialPanel">
-<h2>📞 Start a video call</h2>
-<p class="smalltext">Ask your friend to sign in to BULIGO and keep this page open. Then call them using their email address.</p>
-<label for="friendEmail">Friend’s BULIGO email address</label>
-<input id="friendEmail" type="email" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="friend@example.com">
-<div class="contacts hidden" id="recentContacts" style="margin-top:14px"><p class="smalltext" style="margin:0 0 5px">Recent contacts:</p><div id="contactButtons"></div></div>
-<button class="green" id="startCall" type="button" style="width:100%;margin-top:18px">📹 Video call</button>
+<section class="card" id="setupPanel">
+<h2>👤 Your name on BULIGO</h2>
+<p class="smalltext">Set your first name and surname once. Friends can find you by name while you have BULIGO open.</p>
+<label for="myFirst">First name</label><input id="myFirst" type="text" maxlength="35" autocomplete="given-name" placeholder="e.g. Erika">
+<label for="myLast">Surname</label><input id="myLast" type="text" maxlength="35" autocomplete="family-name" placeholder="e.g. Siroki">
+<button id="saveProfile" class="primary" type="button" style="width:100%;margin-top:18px">Save my name</button>
+<p id="profileStatus" class="status" aria-live="polite">Use your real name only if you are comfortable displaying it to other users.</p>
+</section>
+<div id="profileBox" class="namebox hidden"><span>Your name: <strong id="profileLabel"></strong></span><button class="outline small" type="button" id="editProfile">Edit name</button></div>
+<section class="card hidden" id="dialPanel">
+<h2>🔎 Find friends</h2>
+<p class="smalltext">Search using both names. Only people currently connected to BULIGO can appear.</p>
+<label for="findFirst">First name</label><input id="findFirst" type="text" maxlength="35" autocomplete="off" placeholder="e.g. Erika">
+<label for="findLast">Surname</label><input id="findLast" type="text" maxlength="35" autocomplete="off" placeholder="e.g. Siroki">
+<button class="primary" id="findPeople" type="button" style="width:100%;margin-top:17px">🔎 Find people</button>
+<p class="status" id="searchStatus" aria-live="polite">Enter a first name and surname to search.</p>
+<div id="searchResults" aria-live="polite"></div>
 <p id="appStatus" class="status" aria-live="polite">Connecting…</p>
 </section>
 <section class="hidden" id="callPanel">
@@ -52,7 +62,7 @@ label{font-weight:700;display:block;margin:15px 0 7px;font-size:14px}input{width
 </section>
 </div>
 <a href="videos.html" class="link">▶ Videos</a>
-<footer>Test version. Both people must sign in and keep BULIGO open. Allow camera and microphone access. Calls use an external PeerJS connection service and may not work on every network. This test version does not independently verify callers’ identities. Do not use it for sensitive or emergency conversations.</footer>
+<footer>Test version. People are discoverable only while online with BULIGO open. First names and surnames are not verified; different people can use the same name. Search is limited to a few same-name matches. The PeerJS Cloud service may disconnect, and video calls can fail on some networks. Do not use this test version for sensitive or emergency calls.</footer>
 </main>
 <div class="overlay hidden" id="incomingOverlay" role="dialog" aria-modal="true"><div class="dialog"><div class="symbol">📲</div><h2>Incoming video call</h2><p id="incomingName">Someone is calling…</p><div class="row" style="margin-top:20px"><button class="green" id="answerCall" type="button">📹 Answer</button><button class="danger" id="declineCall" type="button">Decline</button></div></div></div>
 <script type="module">
@@ -61,53 +71,143 @@ import {getAuth,onAuthStateChanged,createUserWithEmailAndPassword,signInWithEmai
 const firebaseConfig={apiKey:'AIzaSyC3y_C5X3U0GMyCzdkHQmv7eTBp5QPi3NY',authDomain:'buligo-6c67a.firebaseapp.com',projectId:'buligo-6c67a',storageBucket:'buligo-6c67a.firebasestorage.app',messagingSenderId:'740875040307',appId:'1:740875040307:web:3382bbc9692c2eac199546',measurementId:'G-RZQCMXXDVW'};
 const auth=getAuth(initializeApp(firebaseConfig));
 const $=id=>document.getElementById(id),hide=id=>$(id).classList.add('hidden'),show=id=>$(id).classList.remove('hidden');
-const say=(id,msg,kind='')=>{ $(id).textContent=msg;$(id).className='status'+(kind?' '+kind:''); };
-const emailClean=email=>String(email||'').trim().toLowerCase();
-const errMsg=e=>{
+const say=(id,msg,kind='')=>{$(id).textContent=msg;$(id).className='status'+(kind?' '+kind:'');};
+const norm=s=>String(s||'').normalize('NFKC').trim().replace(/\s+/g,' ');
+const goodName=s=>norm(s).length>=2&&norm(s).length<=35&&!/[<>\u0000-\u001F]/.test(s);
+const fullKey=(first,last)=>{const raw=(norm(first)+'|'+norm(last)).toLocaleLowerCase('en').normalize('NFD').replace(/[\u0300-\u036f]/g,'');return Array.from(new TextEncoder().encode(raw)).map(n=>n.toString(16).padStart(2,'0')).join('').slice(0,150);};
+const maxSlots=6;
+const peerId=(first,last,slot)=>'buligo-person-v4-'+fullKey(first,last)+'-'+slot;
+const myStorageKey=uid=>'buligo_fullname_v4_'+uid;
+let user=null,firstName='',surname='',peer=null,slot=0,connection=null,incoming=null,stream=null;
+let instance=0,retryTimer=null,openTimer=null,retryDelay=2000,callTimer=null,searchToken=0,searching=false,ending=false;
+function errorText(e){
  if(e?.code==='auth/invalid-credential')return 'Incorrect email or password.';
- if(e?.code==='auth/email-already-in-use')return 'An account already exists for this email. Choose Sign in.';
- if(e?.code==='auth/unauthorized-domain')return 'This website must be added to the authorised domains in Firebase Authentication.';
- if(e?.name==='NotAllowedError')return 'Allow access to your camera and microphone in your browser.';
+ if(e?.code==='auth/email-already-in-use')return 'This email already has an account. Sign in instead.';
+ if(e?.code==='auth/unauthorized-domain')return 'This website needs to be authorised in Firebase Authentication.';
+ if(e?.name==='NotAllowedError')return 'Please allow camera and microphone access.';
  if(e?.name==='NotFoundError')return 'No camera or microphone was found.';
- if(e?.type==='peer-unavailable')return 'Your friend is not online on BULIGO. Ask them to open the page and sign in.';
- if(e?.type==='unavailable-id')return 'This account is already open in another phone or browser tab. Close BULIGO there first.';
- if(e?.type==='network'||e?.type==='server-error')return 'Connection error. Try again or check your internet connection.';
- return e?.message||String(e)||'Something went wrong. Please try again.';
-};
-let user=null,peer=null,myPeerId='',connection=null,incoming=null,localStream=null,loggedInSeq=0,ending=false,timeoutHandle=null;
-function getSaved(){try{let a=JSON.parse(localStorage.getItem('buligo_recen_v2_'+(user?.uid||''))||'[]');return Array.isArray(a)?a.filter(x=>typeof x==='string').slice(0,5):[];}catch{return [];}}
-function saveContact(email){const contacts=[email,...getSaved().filter(x=>x!==email)].slice(0,5);localStorage.setItem('buligo_recen_v2_'+user.uid,JSON.stringify(contacts));renderContacts();}
-function renderContacts(){const container=$('contactButtons');container.replaceChildren();let list=getSaved();if(!list.length){hide('recentContacts');return;}show('recentContacts');for(const email of list){const b=document.createElement('button');b.className='outline small';b.type='button';b.textContent='📹 '+email;b.onclick=()=>{$('friendEmail').value=email;void dial();};container.appendChild(b);}}
-async function peerIdForEmail(email){const bytes=new TextEncoder().encode('buligo-video-v2:'+emailClean(email));const digest=await crypto.subtle.digest('SHA-256',bytes);return 'buligo-'+Array.from(new Uint8Array(digest)).slice(0,16).map(x=>x.toString(16).padStart(2,'0')).join('');}
-async function login(create){const email=emailClean($('email').value),password=$('password').value;if(!email||password.length<6){say('authStatus','Enter your email address and a password of at least 6 characters.','error');return;}$('signIn').disabled=$('signUp').disabled=true;try{if(create)await createUserWithEmailAndPassword(auth,email,password);else await signInWithEmailAndPassword(auth,email,password);$('password').value='';}catch(e){say('authStatus',errMsg(e),'error');}finally{$('signIn').disabled=$('signUp').disabled=false;}}
-$('authForm').onsubmit=e=>{e.preventDefault();void login(false);};$('signUp').onclick=()=>void login(true);
-$('resetPassword').onclick=async()=>{const email=emailClean($('email').value);if(!email){say('authStatus','Enter your email address first.','error');return;}try{await sendPasswordResetEmail(auth,email);say('authStatus','If an account exists, you will receive a password reset email.','ok');}catch(e){say('authStatus',errMsg(e),'error');}};
-function peerReady(p){return new Promise((resolve,reject)=>{if(p?.open){resolve();return;}if(!p||p.destroyed){reject(Error('The connection is not ready yet.'));return;}const a=()=>{p.off('error',b);resolve();},b=e=>{p.off('open',a);reject(e);};p.once('open',a);p.once('error',b);});}
-function initPeer(id){if(peer&&!peer.destroyed){peer.destroy();}if(!window.Peer){say('appStatus','The calling service did not load. Refresh the page.','error');return;}const p=new window.Peer(id,{debug:0});peer=p;
- p.on('open',()=>{if(peer===p&&user)say('appStatus','Ready! Enter your friend’s email address and start a call.','ok');});
- p.on('error',e=>{if(peer!==p)return;say('appStatus',errMsg(e),'error');if(connection)say('callStatus',errMsg(e),'error');});
- p.on('disconnected',()=>{if(peer===p)say('appStatus','Disconnected from the calling service. Refresh the page.','error');});
- p.on('call',c=>{if(peer!==p||!user||connection||incoming){try{c.close();}catch{}return;}incoming=c;const name=String(c.metadata?.fromEmail||'Unknown caller').slice(0,140);$('incomingName').textContent=name+' is calling. Only answer if you recognise them!';show('incomingOverlay');c.on('close',()=>{if(incoming===c){incoming=null;hide('incomingOverlay');}});});
+ if(e?.type==='unavailable-id')return 'That name already has a person online.';
+ if(e?.type==='peer-unavailable')return 'That person is not online right now.';
+ if(['network','server-error','socket-closed','socket-error'].includes(e?.type))return 'Calling service is temporarily unavailable. Trying again…';
+ return e?.message||String(e)||'An error occurred.';
 }
-async function getMedia(){if(!navigator.mediaDevices?.getUserMedia)throw Error('Camera access requires HTTPS and a supported browser.');return await navigator.mediaDevices.getUserMedia({video:{facingMode:'user'},audio:true});}
-function clearTimer(){if(timeoutHandle){clearTimeout(timeoutHandle);timeoutHandle=null;}}
-function attachCall(c){connection=c;hide('dialPanel');show('callPanel');show('waiting');$('waitingText').textContent='Connecting…';say('callStatus','Waiting for the other person to connect…');$('remoteVideo').srcObject=null;
- c.on('stream',stream=>{if(connection!==c)return;$('remoteVideo').srcObject=stream;hide('waiting');say('callStatus','Your video call is connected.','ok');$('remoteVideo').play().catch(()=>show('enableSound'));clearTimer();});
- c.on('close',()=>{if(connection===c)void endCall(false,'The call has ended.');});
- c.on('error',e=>{if(connection===c)void endCall(false,errMsg(e));});
- timeoutHandle=setTimeout(()=>{if(connection===c&&!$('waiting').classList.contains('hidden'))say('callStatus','Still connecting. If it does not work, end the call and try again.','error');},25000);
+async function login(create){const email=norm($('email').value).toLowerCase(),password=$('password').value;
+ if(!email||password.length<6){say('authStatus','Enter an email address and a password of at least 6 characters.','error');return;}
+ $('signIn').disabled=$('signUp').disabled=true;
+ try{if(create)await createUserWithEmailAndPassword(auth,email,password);else await signInWithEmailAndPassword(auth,email,password);$('password').value='';}
+ catch(e){say('authStatus',errorText(e),'error');}
+ finally{$('signIn').disabled=$('signUp').disabled=false;}
 }
-async function dial(){if(!user){return;}if(connection||incoming){say('appStatus','You already have an active call.','error');return;}
- const email=emailClean($('friendEmail').value);if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){say('appStatus','Enter your friend’s full email address.','error');return;}if(email===emailClean(user.email)){say('appStatus','You cannot call yourself.','error');return;}
- const button=$('startCall');button.disabled=true;say('appStatus','Starting camera and microphone…');try{await peerReady(peer);localStream=await getMedia();$('localVideo').srcObject=localStream;const toId=await peerIdForEmail(email);const c=peer.call(toId,localStream,{metadata:{fromEmail:emailClean(user.email)}});if(!c)throw Error('Unable to start the call.');attachCall(c);saveContact(email);$('waitingText').textContent=email+' — calling…';}catch(e){if(localStream){localStream.getTracks().forEach(t=>t.stop());localStream=null;}say('appStatus',errMsg(e),'error');}finally{button.disabled=false;}}
-async function answer(){const c=incoming;incoming=null;hide('incomingOverlay');if(!c||!user||connection){try{c?.close();}catch{}return;}try{localStream=await getMedia();$('localVideo').srcObject=localStream;attachCall(c);c.answer(localStream);}catch(e){try{c.close();}catch{}if(localStream){localStream.getTracks().forEach(t=>t.stop());localStream=null;}say('appStatus',errMsg(e),'error');hide('callPanel');show('dialPanel');}}
-async function endCall(closeConnection=true,message='Call ended.'){if(ending)return;ending=true;clearTimer();const c=connection;connection=null;if(closeConnection&&c){try{c.close();}catch{}}if(incoming){try{incoming.close();}catch{}incoming=null;}hide('incomingOverlay');if(localStream){localStream.getTracks().forEach(t=>t.stop());localStream=null;}$('localVideo').srcObject=null;$('remoteVideo').srcObject=null;hide('callPanel');hide('enableSound');show('waiting');show('dialPanel');$('toggleMic').textContent='🎙️ Mute';$('toggleCamera').textContent='📷 Camera off';say('appStatus',message,(message.toLowerCase().includes('error')||message.toLowerCase().includes('failed'))?'error':'');ending=false;}
-$('startCall').onclick=()=>void dial();$('answerCall').onclick=()=>void answer();$('declineCall').onclick=()=>{if(incoming){try{incoming.close();}catch{}incoming=null;}hide('incomingOverlay');};$('hangUp').onclick=()=>void endCall();
-$('toggleMic').onclick=()=>{const track=localStream?.getAudioTracks()[0];if(!track)return;track.enabled=!track.enabled;$('toggleMic').textContent=track.enabled?'🎙️ Mute':'🎙️ Unmute';};
-$('toggleCamera').onclick=()=>{const track=localStream?.getVideoTracks()[0];if(!track)return;track.enabled=!track.enabled;$('toggleCamera').textContent=track.enabled?'📷 Camera off':'📷 Camera on';};
-$('enableSound').onclick=async()=>{try{await $('remoteVideo').play();hide('enableSound');}catch(e){say('callStatus','Tap Enable sound again.','error');}};
-$('signOut').onclick=async()=>{await endCall();await signOut(auth);};
-onAuthStateChanged(auth,async next=>{const seq=++loggedInSeq;await endCall();if(peer){peer.destroy();peer=null;}user=next;myPeerId='';if(!user){show('authPanel');hide('loggedIn');say('authStatus','Sign in to make video calls.');return;}hide('authPanel');show('loggedIn');$('currentEmail').textContent='👤 '+(user.email||'BULIGO account');renderContacts();say('appStatus','Connecting to the calling service…');try{myPeerId=await peerIdForEmail(user.email||'');if(seq!==loggedInSeq)return;initPeer(myPeerId);}catch(e){say('appStatus',errMsg(e),'error');}});
+$('authForm').onsubmit=e=>{e.preventDefault();void login(false);};
+$('signUp').onclick=()=>void login(true);
+$('resetPassword').onclick=async()=>{const email=norm($('email').value);if(!email){say('authStatus','Enter your email address first.','error');return;}try{await sendPasswordResetEmail(auth,email);say('authStatus','If the account exists, a reset email will be sent.','ok');}catch(e){say('authStatus',errorText(e),'error');}};
+function stopPeer(){if(retryTimer)clearTimeout(retryTimer);if(openTimer)clearTimeout(openTimer);retryTimer=openTimer=null;const p=peer;peer=null;instance++;if(p){try{p.destroy();}catch{}}}
+function updateProfileView(){if(firstName&&surname){hide('setupPanel');show('profileBox');show('dialPanel');$('profileLabel').textContent=firstName+' '+surname;}
+ else{show('setupPanel');hide('profileBox');hide('dialPanel');}}
+function scheduleReconnect(p){if(!user||!firstName||!surname||peer!==p||retryTimer)return;
+ say('appStatus','Calling service disconnected. Reconnecting…','error');
+ const delay=retryDelay;retryDelay=Math.min(retryDelay*2,20000);
+ retryTimer=setTimeout(()=>{retryTimer=null;if(peer!==p||!user)return;try{p.destroy();}catch{}peer=null;trySlot(1);},delay);
+}
+function trySlot(next){if(!user||!firstName||!surname)return;
+ if(next>maxSlots){say('appStatus','Too many people have this same name online. Try again later.','error');return;}
+ const old=peer;peer=null;if(old){try{old.destroy();}catch{}}
+ if(openTimer)clearTimeout(openTimer);openTimer=null;
+ if(typeof window.Peer!=='function'){say('appStatus','Calling service could not load. Check internet or reopen this page.','error');return;}
+ const token=++instance,p=new window.Peer(peerId(firstName,surname,next),{host:'0.peerjs.com',port:443,path:'/',secure:true,debug:0});peer=p;
+ say('appStatus','Connecting…');
+ p.on('open',()=>{if(peer!==p||token!==instance)return;slot=next;retryDelay=2000;if(openTimer)clearTimeout(openTimer);openTimer=null;say('appStatus','Ready! Friends can find '+firstName+' '+surname+'.','ok');});
+ p.on('connection',data=>{if(peer!==p)return;data.on('open',()=>{try{data.send({kind:'buligo-profile',first:firstName,last:surname,slot:next});}catch{}});
+ data.on('error',()=>{});setTimeout(()=>{try{data.close();}catch{}},6500);});
+ p.on('call',c=>{if(peer!==p||!user||connection||incoming){try{c.close();}catch{}return;}
+ incoming=c;const caller=norm(c.metadata?.first)+' '+norm(c.metadata?.last);
+ $('incomingName').textContent=(caller.trim()||'Unknown caller')+' is calling. The caller’s identity is not verified.';show('incomingOverlay');
+ c.on('close',()=>{if(incoming===c){incoming=null;hide('incomingOverlay');}});});
+ p.on('error',e=>{if(peer!==p||token!==instance)return;
+ if(e?.type==='unavailable-id'){trySlot(next+1);return;}
+ if(e?.type==='peer-unavailable'){if(connection){void endCall(true,'This person is not online.');}return;}
+ say('appStatus',errorText(e),'error');
+ if(['network','server-error','socket-closed','socket-error'].includes(e?.type))scheduleReconnect(p);
+ });
+ p.on('disconnected',()=>{if(peer!==p)return;say('appStatus','Connection interrupted. Reconnecting…','error');try{if(!p.destroyed)p.reconnect();}catch{}if(openTimer)clearTimeout(openTimer);openTimer=setTimeout(()=>{openTimer=null;if(peer===p&&!p.open)scheduleReconnect(p);},9000);});
+ p.on('close',()=>{if(peer===p)scheduleReconnect(p);});
+ openTimer=setTimeout(()=>{openTimer=null;if(peer===p&&!p.open)scheduleReconnect(p);},14000);
+}
+async function changeProfile(){await endCall();stopPeer();firstName=norm($('myFirst').value);surname=norm($('myLast').value);
+ if(!goodName(firstName)||!goodName(surname)){firstName='';surname='';updateProfileView();say('profileStatus','Enter a first name and surname (2–35 characters each).','error');return;}
+ try{localStorage.setItem(myStorageKey(user.uid),JSON.stringify({first:firstName,last:surname}));}catch{}
+ updateProfileView();say('searchStatus','Search for a friend using their first name and surname.');$('searchResults').replaceChildren();trySlot(1);
+}
+$('saveProfile').onclick=()=>void changeProfile();
+$('editProfile').onclick=async()=>{await endCall();stopPeer();firstName='';surname='';updateProfileView();$('myFirst').focus();};
+function peerReady(){return new Promise((resolve,reject)=>{const p=peer;if(p?.open&&!p.disconnected){resolve(p);return;}
+ if(!p||p.destroyed){reject(Error('Calling service is not connected. Please try again.'));return;}
+ const t=setTimeout(()=>{done();reject(Error('Calling service is not connected. Please retry shortly.'));},9500);
+ const yes=()=>{done();resolve(p);},done=()=>{clearTimeout(t);p.off('open',yes);};p.on('open',yes);});}
+function probePerson(p,first,last,targetSlot,token){return new Promise(resolve=>{
+ let finished=false,dc=null;const finish=entry=>{if(finished)return;finished=true;clearTimeout(timer);if(dc){try{dc.close();}catch{}}resolve(entry);};
+ const timer=setTimeout(()=>finish(null),6200);
+ if(token!==searchToken||!p.open){finish(null);return;}
+ try{dc=p.connect(peerId(first,last,targetSlot),{reliable:true});if(!dc){finish(null);return;}
+ dc.on('data',info=>{if(info?.kind==='buligo-profile'&&norm(info.first).toLocaleLowerCase()===norm(first).toLocaleLowerCase()&&norm(info.last).toLocaleLowerCase()===norm(last).toLocaleLowerCase())finish({first:norm(info.first),last:norm(info.last),slot:targetSlot,id:peerId(first,last,targetSlot)});});
+ dc.on('error',()=>finish(null));dc.on('close',()=>finish(null));
+ }catch{finish(null);}
+ });}
+function addResult(person){const outer=document.createElement('div');outer.className='found';
+ const left=document.createElement('div'),strong=document.createElement('strong'),small=document.createElement('small');
+ strong.textContent=person.first+' '+person.last;small.textContent='Online • Profile '+person.slot+' (name not verified)';left.append(strong,small);
+ const b=document.createElement('button');b.type='button';b.className='green small';b.textContent='📹 Video call';b.onclick=()=>void dial(person);outer.append(left,b);$('searchResults').append(outer);
+}
+async function findPeople(){if(!user||!firstName||!surname)return;
+ const first=norm($('findFirst').value),last=norm($('findLast').value);
+ if(!goodName(first)||!goodName(last)){say('searchStatus','Enter both a first name and a surname.','error');return;}
+ if(first.toLocaleLowerCase()===firstName.toLocaleLowerCase()&&last.toLocaleLowerCase()===surname.toLocaleLowerCase()){
+ say('searchStatus','Searching your own name may also find other people with the same name.');}
+ const token=++searchToken;searching=true;$('findPeople').disabled=true;$('searchResults').replaceChildren();say('searchStatus','Searching for online people named '+first+' '+last+'…');
+ let found=0;
+ try{const p=await peerReady();const res=await Promise.all(Array.from({length:maxSlots},(_,i)=>probePerson(p,first,last,i+1,token)));
+ if(token!==searchToken)return;
+ for(const person of res){if(person){if(person.id===p.id)continue;found++;addResult(person);}}
+ say('searchStatus',found?found+' online match'+(found===1?'':'es')+' found. Choose Video call.':'No online matches found. Ask your friend to sign in, save their name and keep BULIGO open.',found?'ok':'');
+ }catch(e){if(token===searchToken)say('searchStatus',errorText(e),'error');}
+ finally{if(token===searchToken){searching=false;$('findPeople').disabled=false;}}
+}
+$('findPeople').onclick=()=>void findPeople();
+function stopCallTimer(){if(callTimer)clearTimeout(callTimer);callTimer=null;}
+async function media(){if(!navigator.mediaDevices?.getUserMedia)throw Error('Video calling requires HTTPS and a supported browser.');return navigator.mediaDevices.getUserMedia({video:{facingMode:'user'},audio:true});}
+function attachCall(c){connection=c;hide('dialPanel');show('callPanel');show('waiting');$('remoteVideo').srcObject=null;$('waitingText').textContent='Connecting…';say('callStatus','Waiting for the other person…');
+ c.on('stream',s=>{if(connection!==c)return;$('remoteVideo').srcObject=s;hide('waiting');stopCallTimer();say('callStatus','Video call connected.','ok');$('remoteVideo').play().catch(()=>show('enableSound'));});
+ c.on('close',()=>{if(connection===c)void endCall(false,'Call ended.');});c.on('error',e=>{if(connection===c)void endCall(false,errorText(e));});
+ stopCallTimer();callTimer=setTimeout(()=>{if(connection===c)void endCall(true,'The call was not answered. Please try again.');},40000);
+}
+async function dial(person){if(connection||incoming){say('appStatus','Please end your current call first.','error');return;}
+ if(!person?.id){say('appStatus','First search for your friend and choose a result.','error');return;}
+ say('appStatus','Preparing a video call to '+person.first+' '+person.last+'…');
+ try{const p=await peerReady();stream=await media();$('localVideo').srcObject=stream;const c=p.call(person.id,stream,{metadata:{first:firstName,last:surname}});if(!c)throw Error('The video call did not start.');attachCall(c);$('waitingText').textContent='Calling '+person.first+' '+person.last+'…';}
+ catch(e){if(stream){stream.getTracks().forEach(t=>t.stop());stream=null;}$('localVideo').srcObject=null;say('appStatus',errorText(e),'error');}
+}
+async function answer(){const c=incoming;incoming=null;hide('incomingOverlay');if(!c||connection){try{c?.close();}catch{}return;}
+ try{stream=await media();$('localVideo').srcObject=stream;attachCall(c);c.answer(stream);}
+ catch(e){try{c.close();}catch{}if(stream){stream.getTracks().forEach(t=>t.stop());stream=null;}$('localVideo').srcObject=null;hide('callPanel');show('dialPanel');say('appStatus',errorText(e),'error');}
+}
+async function endCall(close=true,message='Call ended.'){if(ending)return;ending=true;stopCallTimer();const c=connection;connection=null;if(close&&c){try{c.close();}catch{}}
+ if(incoming){try{incoming.close();}catch{}incoming=null;}hide('incomingOverlay');
+ if(stream){stream.getTracks().forEach(t=>t.stop());stream=null;}$('localVideo').srcObject=null;$('remoteVideo').srcObject=null;
+ hide('callPanel');hide('enableSound');show('waiting');if(firstName&&surname)show('dialPanel');
+ $('toggleMic').textContent='🎙️ Mute';$('toggleCamera').textContent='📷 Camera off';
+ if(user&&firstName&&surname)say('appStatus',message,/fail|error|not answer|not online/i.test(message)?'error':'');ending=false;
+}
+$('answerCall').onclick=()=>void answer();$('declineCall').onclick=()=>{if(incoming){try{incoming.close();}catch{}incoming=null;}hide('incomingOverlay');};$('hangUp').onclick=()=>void endCall();
+$('toggleMic').onclick=()=>{const t=stream?.getAudioTracks()[0];if(!t)return;t.enabled=!t.enabled;$('toggleMic').textContent=t.enabled?'🎙️ Mute':'🎙️ Unmute';};
+$('toggleCamera').onclick=()=>{const t=stream?.getVideoTracks()[0];if(!t)return;t.enabled=!t.enabled;$('toggleCamera').textContent=t.enabled?'📷 Camera off':'📷 Camera on';};
+$('enableSound').onclick=async()=>{try{await $('remoteVideo').play();hide('enableSound');}catch{say('callStatus','Tap Enable sound again.','error');}};
+$('signOut').onclick=async()=>{await endCall();stopPeer();await signOut(auth);};
+onAuthStateChanged(auth,async next=>{++searchToken;await endCall();stopPeer();user=next;firstName='';surname='';if(!user){show('authPanel');hide('loggedIn');say('authStatus','Sign in to make a video call.');return;}
+ hide('authPanel');show('loggedIn');$('currentEmail').textContent='👤 '+(user.email||'BULIGO account');
+ let saved=null;try{saved=JSON.parse(localStorage.getItem(myStorageKey(user.uid))||'null');}catch{}
+ if(saved&&goodName(saved.first)&&goodName(saved.last)){firstName=norm(saved.first);surname=norm(saved.last);$('myFirst').value=firstName;$('myLast').value=surname;updateProfileView();trySlot(1);}
+ else{updateProfileView();say('profileStatus','Enter your first name and surname to be found by other people.');}
+});
 </script>
 </body>
 </html>
