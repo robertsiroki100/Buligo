@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0a0c17">
 <meta name="description" content="BULIGO — photo and video previews, followers, reposts, LIVE, chat and calls.">
-<title>BULIGO – Photos, Videos & LIVE</title>
+<title>BULIGO – Videos &amp; Community (14+)</title>
 <style>
 :root{font:16px/1.45 -apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;color-scheme:dark;--bg:#090a12;--panel:#15192a;--panel2:#20253d;--line:#373c56;--light:#f8f9ff;--dim:#bbc3d7;--mint:#67e1b4;--purple:#ba9eff;--danger:#fb8196}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--light);min-height:100dvh}main{max-width:560px;margin:auto;padding:12px 14px 105px}button,a,input{font:inherit}button{cursor:pointer}button:disabled{opacity:.5;cursor:wait}.hidden{display:none!important}
@@ -420,9 +420,11 @@ body.home-mode .bottom-nav{-webkit-backdrop-filter:none!important;backdrop-filte
  <section class="card"><h2>🔔 Calling someone who is away</h2><p class="calls-note">In this test version, a person must have BULIGO open to receive a live call. An offline phone cannot be switched on or have its camera or microphone activated by this website.</p><p class="calls-note">Future missed-call notifications require a secure server and permission for push notifications. On iPhone, web push also requires installing BULIGO on the Home Screen. The person must still tap to answer.</p></section></div>
 </section>
 <section class="tabpage hidden" id="profileTab">
- <h1 class="section-title">Profile</h1><p class="subtle">Your BULIGO account, photo and friends.</p>
- <section class="card" id="authPanel"><h2>Sign in to BULIGO</h2><p class="smalltext">Sign in with your email. New users can register with their name, birth year, country and city.</p><form id="authForm"><label for="email">Your email address</label><input id="email" type="email" required autocomplete="email" placeholder="you@example.com"><label for="password">Password</label><input id="password" type="password" required minlength="6" autocomplete="current-password" placeholder="At least 6 characters"><div id="signupExtras" class="hidden"><h3>Create your BULIGO account</h3><p>Fill in your information. Your birth year, country and city are private in this preview and saved only on this phone, not displayed in search.</p><label for="regFirst">First name</label><input id="regFirst" maxlength="35" autocomplete="given-name" placeholder="First name"><label for="regLast">Surname</label><input id="regLast" maxlength="35" autocomplete="family-name" placeholder="Surname"><label for="regYear">Year of birth</label><input id="regYear" type="number" min="1900" max="2013" inputmode="numeric" placeholder="e.g. 1990"><label for="regCountry">Country where you live</label><input id="regCountry" maxlength="60" autocomplete="country-name" placeholder="e.g. United Kingdom"><label for="regCity">City or town</label><input id="regCity" maxlength="60" autocomplete="address-level2" placeholder="e.g. Liverpool"><p>Do not enter a street address, postcode, or full date of birth.</p><label class="checkline" for="regConsent"><input type="checkbox" id="regConsent"> I understand that my name may be shown to other online BULIGO users, but my birth year and location are not public in this demo.</label></div><div class="row" style="margin-top:16px"><button class="primary" id="signIn" type="submit">Sign in</button><button class="secondary" id="signUp" type="button">Create account</button></div></form><button class="outline small" id="resetPassword" type="button" style="margin-top:12px">Forgot password?</button><p class="status" id="authStatus" role="status" aria-live="polite">Checking your account…</p></section>
- <div class="hidden" id="loggedIn"><div class="account"><strong id="currentEmail"></strong><button class="outline small" id="signOut" type="button">Sign out</button></div><div class="profile-hero profile-hero-social">
+ <h1 class="section-title">Profile</h1><p class="subtle">Your BULIGO account, photo and friends. 14+ · LIVE and calls 18+.</p>
+ <section class="card" id="authPanel"><h2>Sign in to BULIGO</h2><p class="smalltext">BULIGO is for ages 14+. LIVE, calls and interactive messaging are for adults 18+ only. New members enter their date of birth.</p><form id="authForm"><label for="email">Your email address</label><input id="email" type="email" required autocomplete="email" placeholder="you@example.com"><label for="password">Password</label><input id="password" type="password" required minlength="6" autocomplete="current-password" placeholder="At least 6 characters"><div id="signupExtras" class="hidden"><h3>Create your BULIGO account</h3><p>BULIGO is 14+. Enter your real date of birth to check eligibility. The date is saved only on this device in this demo, not sent to the public profile. This is not verified age assurance.</p><label for="regFirst">First name</label><input id="regFirst" maxlength="35" autocomplete="given-name" placeholder="First name"><label for="regLast">Surname</label><input id="regLast" maxlength="35" autocomplete="family-name" placeholder="Surname"><label for="regDob">Date of birth (required)</label><input id="regDob" type="date" autocomplete="bday" aria-describedby="signupAgeNotice"><p id="signupAgeNotice" class="privacy">You must be 14 or older to register. LIVE, calls and chat require age 18+.</p><label for="regCountry">Country where you live</label><input id="regCountry" maxlength="60" autocomplete="country-name" placeholder="e.g. United Kingdom"><label for="regCity">City or town</label><input id="regCity" maxlength="60" autocomplete="address-level2" placeholder="e.g. Liverpool"><p>Never enter a street address or postcode. Do not share your date of birth in posts or chats.</p><label class="checkline" for="regConsent"><input type="checkbox" id="regConsent"> I confirm this is my real date of birth. I understand that this demo only checks my own declaration and is not verified age assurance.</label></div><div class="row" style="margin-top:16px"><button class="primary" id="signIn" type="submit">Sign in</button><button class="secondary" id="signUp" type="button">Create account</button></div></form><button class="outline small" id="resetPassword" type="button" style="margin-top:12px">Forgot password?</button><p class="status" id="authStatus" role="status" aria-live="polite">Checking your account…</p></section>
+ <div class="hidden" id="loggedIn"><div class="account"><strong id="currentEmail"></strong><button class="outline small" id="signOut" type="button">Sign out</button></div>
+  <section class="card" id="ageGatePanel"><h2>🛡️ Age & safety</h2><p class="smalltext" id="ageGateText">Before using BULIGO's interactive features, enter your real date of birth. Accounts aged 14–17 can only use private, on-device previews in this beta. Age under 14 is not permitted.</p><label for="ageGateDob">Date of birth</label><input id="ageGateDob" type="date" autocomplete="bday"><button type="button" id="ageGateConfirm" class="primary fullbtn" style="margin-top:12px">Confirm my age</button><p class="status" id="ageGateStatus" aria-live="polite">This is a self-declared date, not an official age verification.</p></section>
+  <p id="ageSafetyStatus" class="smalltext" role="status">Age not confirmed. LIVE, calls and messaging are locked.</p><div class="profile-hero profile-hero-social">
   <button id="profileAvatarButton" class="profile-avatar-select" type="button" aria-label="Choose a profile photo" title="Change profile photo"><span id="profileAvatarLetter">B</span><img class="hidden" id="profileAvatarImage" alt="Your chosen profile photo"><span class="profile-avatar-plus" aria-hidden="true">+</span></button>
   <h2 class="profile-social-name" id="profileSocialName">My BULIGO profile</h2>
   <p class="profile-social-handle" id="profileSocialHandle">Optional profile photo</p>
@@ -430,11 +432,11 @@ body.home-mode .bottom-nav{-webkit-backdrop-filter:none!important;backdrop-filte
   <div class="avatar-edit-row"><button type="button" id="chooseProfilePhoto" class="primary small">📷 Choose photo</button><button type="button" id="removeProfilePhoto" class="outline small" disabled>Remove photo</button></div>
   <input type="file" id="profilePhotoInput" accept="image/*" class="hidden" aria-label="Select profile picture from your photos">
   <p id="profilePhotoStatus" class="profile-photo-note" aria-live="polite">Photo is optional. Saved privately on this phone only, not shown to other users yet. *Follower count needs cloud profiles.</p>
- </div><section class="card" id="setupPanel"><h2>👤 Your BULIGO profile</h2><p class="smalltext">Choose the name friends search for. Birth year and location stay private on this device.</p><label for="myFirst">First name</label><input id="myFirst" type="text" maxlength="35" autocomplete="given-name" placeholder="e.g. Erika"><label for="myLast">Surname</label><input id="myLast" type="text" maxlength="35" autocomplete="family-name" placeholder="e.g. Siroki"><label for="myYear">Year of birth (private)</label><input id="myYear" type="number" min="1900" max="2013" inputmode="numeric" placeholder="e.g. 1990"><label for="myCountry">Country (private)</label><input id="myCountry" maxlength="60" autocomplete="country-name" placeholder="e.g. United Kingdom"><label for="myCity">City or town (private)</label><input id="myCity" maxlength="60" autocomplete="address-level2" placeholder="e.g. Liverpool"><button id="saveProfile" class="primary fullbtn" type="button" style="margin-top:18px">Save my profile</button><p id="profileStatus" class="status" aria-live="polite">Only your name is used for online searches. Never share an exact street address here.</p></section><div id="profileBox" class="namebox hidden"><span>Your name: <strong id="profileLabel"></strong></span><button class="outline small" type="button" id="editProfile">Edit profile</button></div><div id="privateDetails" class="profile-private"><strong>Private profile details</strong><span id="privateDetailsText">Optional — stored only on this phone.</span><div id="followSummary">Following 0 people on this device</div></div>
-<section class="card" id="myMediaPanel"><h2>📷 My photos and videos</h2><p class="smalltext">Your private drafts on this phone. Tap 🗑️ to permanently remove your own draft. Public uploading is not active yet.</p><div class="media-count"><span id="myPhotoCount">0 photos</span><span id="myVideoCount">0 videos</span></div><div id="myMediaGallery" class="media-grid" aria-label="My photo and video previews"></div><p class="smalltext" id="myMediaEmpty">Tap Create to choose a photo or video.</p><button class="outline fullbtn" data-page="create" type="button">＋ Add a photo or video</button></section><section class="card" id="myRepostsPanel"><h2>↻ My repost previews</h2><p class="smalltext">Saved on this device only. Other BULIGO users cannot view these reposts.</p><div id="myRepostsList"></div></section><p id="ringStatus" class="smalltext">Tap “Enable ringing” at the top to hear incoming calls while this page is open.</p><p class="upload-note">Email/password are handled by Firebase Authentication. Your name is saved to your own Firebase account display name; year of birth and location are saved only on this device. Other people cannot browse your birth year or city in this preview. Follows and accepted friends are saved on this phone; invitations only work while both people are online. A real cloud friends list needs a secure backend.</p></div>
+ </div><section class="card" id="setupPanel"><h2>👤 Your BULIGO profile</h2><p class="smalltext">Choose the name friends search for. Birth year and location stay private on this device. Date of birth is managed separately in Age &amp; safety.</p><label for="myFirst">First name</label><input id="myFirst" type="text" maxlength="35" autocomplete="given-name" placeholder="e.g. Erika"><label for="myLast">Surname</label><input id="myLast" type="text" maxlength="35" autocomplete="family-name" placeholder="e.g. Siroki"><label for="myYear">Year of birth (private)</label><input id="myYear" type="number" min="1900" max="2013" inputmode="numeric" placeholder="e.g. 1990"><label for="myCountry">Country (private)</label><input id="myCountry" maxlength="60" autocomplete="country-name" placeholder="e.g. United Kingdom"><label for="myCity">City or town (private)</label><input id="myCity" maxlength="60" autocomplete="address-level2" placeholder="e.g. Liverpool"><button id="saveProfile" class="primary fullbtn" type="button" style="margin-top:18px">Save my profile</button><p id="profileStatus" class="status" aria-live="polite">Only your name is used for online searches. Never share an exact street address here.</p></section><div id="profileBox" class="namebox hidden"><span>Your name: <strong id="profileLabel"></strong></span><button class="outline small" type="button" id="editProfile">Edit profile</button></div><div id="privateDetails" class="profile-private"><strong>Private profile details</strong><span id="privateDetailsText">Optional — stored only on this phone.</span><div id="followSummary">Following 0 people on this device</div></div>
+<section class="card" id="myMediaPanel"><h2>📷 My photos and videos</h2><p class="smalltext">Your private drafts on this phone. Tap 🗑️ to permanently remove your own draft. Public uploading is not active yet.</p><div class="media-count"><span id="myPhotoCount">0 photos</span><span id="myVideoCount">0 videos</span></div><div id="myMediaGallery" class="media-grid" aria-label="My photo and video previews"></div><p class="smalltext" id="myMediaEmpty">Tap Create to choose a photo or video.</p><button class="outline fullbtn" data-page="create" type="button">＋ Add a photo or video</button></section><section class="card" id="myRepostsPanel"><h2>↻ My repost previews</h2><p class="smalltext">Saved on this device only. Other BULIGO users cannot view these reposts.</p><div id="myRepostsList"></div></section><p id="ringStatus" class="smalltext">Tap “Enable ringing” at the top to hear incoming calls while this page is open.</p><p class="upload-note">Email/password are handled by Firebase Authentication. Your name is saved to your own Firebase account display name; date of birth and location are saved only on this device. Other people cannot browse your date of birth or city in this preview. Follows and accepted friends are saved on this phone; invitations only work while both people are online. A real cloud friends list needs a secure backend.</p></div>
 </section>
 <section class="tabpage hidden" id="callTab"><h1 class="section-title">Video call</h1><section class="hidden" id="callPanel"><div class="stage"><video id="remoteVideo" autoplay playsinline></video><div class="waiting" id="waiting"><b id="waitSymbol">📹</b><span id="waitingText">Connecting…</span></div><video id="localVideo" autoplay playsinline muted></video></div><p class="status" id="callStatus" aria-live="polite">Connecting…</p><div class="controls"><button class="secondary" id="toggleMic" type="button">🎙️ Mute</button><button class="secondary" id="toggleCamera" type="button">📷 Camera off</button><button class="danger" id="hangUp" type="button">📞 End call</button></div><button class="outline small hidden" type="button" id="enableSound" style="margin-top:9px">🔊 Enable sound</button></section></section>
-<p class="footer">BULIGO social preview with experimental public LIVE directory that requires Firebase Firestore rules to be installed. After that, logged-in members can discover live broadcasts automatically, without an invitation. Streams use peer-to-peer technology with a maximum of 3 viewers per broadcaster; this is not a scalable public streaming service. Video quality, connectivity and audio depend on devices and networks. Do not broadcast private information. Email registration is real, using Firebase Authentication. You can preview photos and videos, swipe, like and comment on this device only. Public posting, cloud reposts, global share counts, cloud comments, mutual/cloud followers, saved messages and push alerts are not active. Friend media reposts and share counts are local previews on this phone. Do not repost private or unlicensed content. The Share button on a personal video can open the phone share sheet to send its original video file to other apps, but it does not create a public BULIGO post. The Calls tab checks only saved contacts. Offline calls and background push alerts are not active. Incoming calls may ring audibly only after you tap Enable ringing and while BULIGO is open. iPhone Safari does not support website-triggered vibration. Name search, live chats and video calls are experimental; both people must have BULIGO open to answer. An inactive phone cannot be switched on by a website. Names are not verified. Connection depends on an external service and may fail. Do not use for sensitive or emergency communications.</p>
+<p class="footer">Age policy: BULIGO sign-up is 14+. Accounts aged 14–17 are limited to private, on-device previews; LIVE, voice/video calls, chat, search and friend discovery require 18+. A self-declared birth date in front-end code is NOT reliable age verification, and is not enforced by Firebase server-side rules. Do not publicly launch for minors until independent age assurance, moderation, reporting/blocking, privacy and UK Online Safety Act assessments are implemented. BULIGO social preview with experimental public LIVE directory that requires Firebase Firestore rules to be installed. After that, logged-in members can discover live broadcasts automatically, without an invitation. Streams use peer-to-peer technology with a maximum of 3 viewers per broadcaster; this is not a scalable public streaming service. Video quality, connectivity and audio depend on devices and networks. Do not broadcast private information. Email registration is real, using Firebase Authentication. You can preview photos and videos, swipe, like and comment on this device only. Public posting, cloud reposts, global share counts, cloud comments, mutual/cloud followers, saved messages and push alerts are not active. Friend media reposts and share counts are local previews on this phone. Do not repost private or unlicensed content. The Share button on a personal video can open the phone share sheet to send its original video file to other apps, but it does not create a public BULIGO post. The Calls tab checks only saved contacts. Offline calls and background push alerts are not active. Incoming calls may ring audibly only after you tap Enable ringing and while BULIGO is open. iPhone Safari does not support website-triggered vibration. Name search, live chats and video calls are experimental; both people must have BULIGO open to answer. An inactive phone cannot be switched on by a website. Names are not verified. Connection depends on an external service and may fail. Do not use for sensitive or emergency communications.</p>
 </main>
 <nav class="bottom-nav" aria-label="Main navigation"><button type="button" class="navbtn active" data-page="home"><span class="navicon">⌂</span>Home</button><button type="button" class="navbtn" data-page="search"><span class="navicon">⌕</span>Search</button><button type="button" class="navbtn create" data-page="create"><span class="navicon">＋</span>Create</button><button type="button" class="navbtn" data-page="inbox"><span class="navicon">✉</span><span id="inboxNavLabel">Inbox</span></button><button type="button" class="navbtn" data-page="calls"><span class="navicon">📞</span>Calls</button><button type="button" class="navbtn" data-page="live"><span class="navicon">🔴</span>LIVE</button><button type="button" class="navbtn" data-page="profile"><span class="navicon">◉</span>Profile</button></nav>
 <aside class="comments-backdrop hidden" id="reactionsOverlay" role="dialog" aria-modal="true" aria-label="React to video"><section class="comments-sheet"><div class="comments-head"><h3>Send a reaction</h3><button id="closeReactions" type="button" aria-label="Close reactions">×</button></div><div class="reaction-bar"><button data-reaction="❤️" type="button">❤️</button><button data-reaction="😂" type="button">😂</button><button data-reaction="😍" type="button">😍</button><button data-reaction="🔥" type="button">🔥</button><button data-reaction="👏" type="button">👏</button></div><p class="privacy">Reaction preview only: it is saved on your phone, not sent to the creator.</p></section></aside><div class="mini-toast hidden" id="miniToast" role="status" aria-live="polite"></div>
@@ -457,6 +459,7 @@ const fullKey=(first,last)=>{const raw=(norm(first)+'|'+norm(last)).toLocaleLowe
 const maxSlots=6;
 const peerId=(first,last,slot)=>'buligo-person-v4-'+fullKey(first,last)+'-'+slot;
 const myStorageKey=uid=>'buligo_fullname_v4_'+uid;
+const ageStorageKey=uid=>'buligo_age_declaration_v1_'+uid;
 
 // TikTok-style V5 local video feed. This frontend does NOT publish content to other users.
 const tabKeys=['home','search','create','inbox','calls','live','profile','call'];
@@ -517,7 +520,7 @@ async function refreshFriends(){if(friendCheckInProgress||!user||document.hidden
  try{await Promise.all(list.map(refreshFriendPresence));if(list.length)say('friendsStatus','Updated. Unreachable does not necessarily mean logged out.');}
  finally{friendCheckInProgress=false;}
 }
-function replyFriendInvite(accept){const current=pendingFriendInvite;if(!current)return;pendingFriendInvite=null;hide('friendRequestOverlay');
+function replyFriendInvite(accept){if(!adultAccess())accept=false;const current=pendingFriendInvite;if(!current)return;pendingFriendInvite=null;hide('friendRequestOverlay');
  try{if(accept){storeFriend(current.person);current.dc.send({kind:'buligo-friend-accepted',first:firstName,last:surname,slot});}
  else current.dc.send({kind:'buligo-friend-declined'});
  setTimeout(()=>{try{current.dc.close();}catch{}},500);
@@ -533,7 +536,7 @@ function acceptFriendChannel(dc){
  });dc.on('close',()=>{if(pendingFriendInvite?.dc===dc){pendingFriendInvite=null;hide('friendRequestOverlay');}});
  dc.on('error',()=>{if(pendingFriendInvite?.dc===dc){pendingFriendInvite=null;hide('friendRequestOverlay');}});
 }
-async function requestFriend(person){if(!user||!person?.id||friends.has(person.id))return;
+async function requestFriend(person){if(!adultAccess()||!person?.id||friends.has(person.id))return;
  if(person.id===peer?.id){say('friendsStatus','You cannot add yourself.','error');return;}
  say('friendsStatus','Sending a friend request to '+person.first+' '+person.last+'…');
  let dc=null,timer=null;try{const p=await peerReady();dc=p.connect(person.id,{reliable:true,metadata:{kind:'buligo-friend-v1'}});
@@ -568,6 +571,10 @@ function deleteMyDraft(id){
 const feed=$('publicFeed');
 function switchTab(next){
  if(!tabKeys.includes(next))return;
+ if(user&&!adultAccess()&&['search','calls','live','inbox','call'].includes(next)){
+   next='profile';
+   requestAnimationFrame(()=>{const status=$('ageSafetyStatus');if(status)status.scrollIntoView({block:'center',behavior:'instant'});});
+ }
  if(connection&&next!=='call')next='call';
  activeTab=next;document.body.classList.toggle('home-mode',next==='home');
  for(const key of tabKeys){const el=$(key+'Tab');if(el)el.classList.toggle('hidden',key!==next);}
@@ -817,10 +824,57 @@ function errorText(e){
  if(['network','server-error','socket-closed','socket-error'].includes(e?.type))return 'Calling service is temporarily unavailable. Trying again…';
  return e?.message||String(e)||'An error occurred.';
 }
+// AGE SAFETY (preview only): self-declared birth date in this browser. It is not age assurance.
+// No date of birth is transmitted to Firebase by this page. Real launch needs backend checks.
+let ageDeclaration=null;
+const todayISO=()=>{const d=new Date();return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');};
+function declaredAge(dob){
+ if(typeof dob!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(dob))return -1;
+ const [year,month,day]=dob.split('-').map(Number),d=new Date(year,month-1,day);
+ if(d.getFullYear()!==year||d.getMonth()!==month-1||d.getDate()!==day)return -1;
+ const today=new Date();let age=today.getFullYear()-year;
+ if(today.getMonth()+1<month||(today.getMonth()+1===month&&today.getDate()<day))age--;
+ return age>=0&&age<=120?age:-1;
+}
+function adultAccess(){return !!user&&declaredAge(ageDeclaration)>=18;}
+function childAccess(){const age=declaredAge(ageDeclaration);return !!user&&age>=14&&age<18;}
+function accessText(){if(!user)return 'Sign in first.';const n=declaredAge(ageDeclaration);
+ if(n<0)return 'Confirm your date of birth in Profile before using LIVE, calls, search or messaging.';
+ if(n<14)return 'BULIGO is for ages 14 and over. This account cannot use interactive features.';
+ return 'LIVE, voice/video calls, search and messaging are available only to ages 18+ in this beta.';
+}
+function updateAgeUI(){
+ const n=declaredAge(ageDeclaration),adult=n>=18,child=n>=14&&n<18;
+ $('ageGatePanel').classList.toggle('hidden',n>=14);
+ $('ageSafetyStatus').textContent=adult?'✅ Adult (18+) — interactive features available in this demo. Age is self-declared, not verified.':child?'🛡️ Under 18: private local photo/video previews only. LIVE, calls, chat, search and friend discovery are disabled.':accessText();
+ $('ageSafetyStatus').style.color=adult?'#91e6c2':'#f6d58a';
+ $('liveHomeSection').classList.toggle('hidden',!!user&&!adult);
+ $('ringEnable').disabled=!adult;
+ if(!adult){stopLiveDirectoryListener();if(peer)stopPeer();}
+ renderPublicLives();
+}
+function loadAgeDeclaration(){
+ ageDeclaration=null;if(user){try{const raw=localStorage.getItem(ageStorageKey(user.uid));if(declaredAge(raw)>=14)ageDeclaration=raw;}catch{}}
+ updateAgeUI();
+}
+$('ageGateConfirm').onclick=()=>{
+ if(!user)return;const value=$('ageGateDob').value,age=declaredAge(value);
+ if(age<0){say('ageGateStatus','Enter a valid date of birth.','error');return;}
+ if(age<14){say('ageGateStatus','BULIGO is for ages 14 and over. Registration and interactive access are not permitted.','error');return;}
+ try{localStorage.setItem(ageStorageKey(user.uid),value);}catch{say('ageGateStatus','Unable to save age on this device. Check private browsing settings.','error');return;}
+ ageDeclaration=value;updateAgeUI();updateProfileView();
+ if(adultAccess()){
+   if(firstName&&surname&&!peer)trySlot(1);
+   startLiveDirectoryListener();
+   say('ageGateStatus','Adult declaration saved privately on this device. This is NOT verified age assurance.','ok');
+ }else say('ageGateStatus','Age confirmed. You can use only private photo/video previews in this beta.','ok');
+};
 let pendingSignupDetails=null;
-function gatherDetails(prefix){return {first:norm($(prefix+'First').value),last:norm($(prefix+'Last').value),year:$(prefix+'Year').value.trim(),country:norm($(prefix+'Country').value),city:norm($(prefix+'City').value)};}
+function gatherDetails(prefix){const dob=prefix==='reg'?$('regDob').value.trim():'';
+ return {first:norm($(prefix+'First').value),last:norm($(prefix+'Last').value),dob,year:prefix==='reg'?(dob?dob.slice(0,4):''):$(prefix+'Year').value.trim(),country:norm($(prefix+'Country').value),city:norm($(prefix+'City').value)};}
 function validatedDetails(info,required){if(!goodName(info.first)||!goodName(info.last))return 'Enter first name and surname (2–35 characters).';
- const year=Number(info.year);if((required||info.year)&&(!Number.isInteger(year)||year<1900||year>new Date().getFullYear()-13))return 'Enter a valid birth year. This preview is intended for people aged 13 or older.';
+ if(required){const age=declaredAge(info.dob);if(age<0)return 'Enter your real date of birth.';if(age<14)return 'You must be at least 14 years old to create a BULIGO account.';}
+ const year=Number(info.year);if((required||info.year)&&(!Number.isInteger(year)||year<1900||year>new Date().getFullYear()))return 'Enter a valid birth year.';
  if(required&&(!info.country||!info.city))return 'Enter your country and city or town.';
  if(info.country.length>60||info.city.length>60)return 'Country and city must be 60 characters or fewer.';
  return '';
@@ -833,23 +887,23 @@ async function login(create){const email=norm($('email').value).toLowerCase(),pa
  if(!email||password.length<6){say('authStatus','Enter an email address and a password of at least 6 characters.','error');return;}
  $('signIn').disabled=$('signUp').disabled=true;
  try{if(create){const details=gatherDetails('reg'),validation=validatedDetails(details,true);if(validation){say('authStatus',validation,'error');return;}if(!$('regConsent').checked){say('authStatus','Please confirm you understand the privacy notice.','error');return;}
- pendingSignupDetails={...details,email};const created=await createUserWithEmailAndPassword(auth,email,password);try{await updateProfile(created.user,{displayName:details.first+' '+details.last});}catch{}const updated={first:details.first,last:details.last,year:details.year,country:details.country,city:details.city};try{localStorage.setItem(myStorageKey(created.user.uid),JSON.stringify(updated));}catch{}if(user?.uid===created.user.uid){fillProfileFields(updated);firstName=updated.first;surname=updated.last;updateProfileView();trySlot(1);showPrivateDetails(updated);}}else await signInWithEmailAndPassword(auth,email,password);$('password').value='';hide('signupExtras');$('signUp').textContent='Create account';}
+ pendingSignupDetails={...details,email};const created=await createUserWithEmailAndPassword(auth,email,password);try{await updateProfile(created.user,{displayName:details.first+' '+details.last});}catch{}const updated={first:details.first,last:details.last,year:details.year,country:details.country,city:details.city};try{localStorage.setItem(myStorageKey(created.user.uid),JSON.stringify(updated));localStorage.setItem(ageStorageKey(created.user.uid),details.dob);}catch{}if(user?.uid===created.user.uid){loadAgeDeclaration();updateLiveAuth();fillProfileFields(updated);firstName=updated.first;surname=updated.last;updateProfileView();trySlot(1);showPrivateDetails(updated);}}else await signInWithEmailAndPassword(auth,email,password);$('password').value='';hide('signupExtras');$('signUp').textContent='Create account';}
 
  catch(e){say('authStatus',errorText(e),'error');}
  finally{$('signIn').disabled=$('signUp').disabled=false;}
 }
 $('authForm').onsubmit=e=>{e.preventDefault();void login(false);};
-$('signUp').onclick=()=>{if($('signupExtras').classList.contains('hidden')){show('signupExtras');$('signUp').textContent='Complete registration';say('authStatus','Fill in the registration details. No street address is needed.');return;}void login(true);};
+$('signUp').onclick=()=>{if($('signupExtras').classList.contains('hidden')){show('signupExtras');$('signUp').textContent='Complete registration';say('authStatus','BULIGO is 14+. Please enter your real date of birth. LIVE and calls are 18+.');return;}void login(true);};
 $('resetPassword').onclick=async()=>{const email=norm($('email').value);if(!email){say('authStatus','Enter your email address first.','error');return;}try{await sendPasswordResetEmail(auth,email);say('authStatus','If the account exists, a reset email will be sent.','ok');}catch(e){say('authStatus',errorText(e),'error');}};
 function stopPeer(){endLiveBroadcast(false);leaveLiveBroadcast(false);for(const conn of chatChannels.values()){try{conn.close();}catch{}}chatChannels.clear();if(retryTimer)clearTimeout(retryTimer);if(openTimer)clearTimeout(openTimer);retryTimer=openTimer=null;const p=peer;peer=null;instance++;if(p){try{p.destroy();}catch{}}}
-function updateProfileView(){renderProfileIdentity();if(firstName&&surname){hide('setupPanel');show('profileBox');show('dialPanel');show('friendsPanel');$('profileLabel').textContent=firstName+' '+surname;}
+function updateProfileView(){renderProfileIdentity();if(firstName&&surname){hide('setupPanel');show('profileBox');if(adultAccess()){show('dialPanel');show('friendsPanel');}else{hide('dialPanel');hide('friendsPanel');}$('profileLabel').textContent=firstName+' '+surname;}
  else{show('setupPanel');hide('profileBox');hide('dialPanel');hide('friendsPanel');}}
 function scheduleReconnect(p){if(!user||!firstName||!surname||peer!==p||retryTimer)return;
  say('appStatus','Calling service disconnected. Reconnecting…','error');
  const delay=retryDelay;retryDelay=Math.min(retryDelay*2,20000);
  retryTimer=setTimeout(()=>{retryTimer=null;if(peer!==p||!user)return;try{p.destroy();}catch{}peer=null;trySlot(1);},delay);
 }
-function trySlot(next){if(!user||!firstName||!surname)return;
+function trySlot(next){if(!adultAccess()||!firstName||!surname)return;
  if(next>maxSlots){say('appStatus','Too many people have this same name online. Try again later.','error');return;}
  const old=peer;peer=null;if(old){try{old.destroy();}catch{}}
  if(openTimer)clearTimeout(openTimer);openTimer=null;
@@ -857,7 +911,7 @@ function trySlot(next){if(!user||!firstName||!surname)return;
  const token=++instance,p=new window.Peer(peerId(firstName,surname,next),{host:'0.peerjs.com',port:443,path:'/',secure:true,debug:0});peer=p;
  say('appStatus','Connecting…');
  p.on('open',()=>{if(peer!==p||token!==instance)return;slot=next;retryDelay=2000;if(openTimer)clearTimeout(openTimer);openTimer=null;say('appStatus','Ready! Friends can find '+firstName+' '+surname+'.','ok');if(friends.size)void refreshFriends();});
- p.on('connection',data=>{if(peer!==p)return;
+ p.on('connection',data=>{if(peer!==p||!adultAccess()){try{data.close();}catch{}return;}
  if(data.metadata?.kind==='buligo-live-watch-v1'){handleLiveWatchRequest(data);return;}
  if(data.metadata?.kind==='buligo-live-check-v1'){handleLiveCheck(data);return;}
  if(data.metadata?.kind==='buligo-friend-v1'){acceptFriendChannel(data);return;}
@@ -865,7 +919,7 @@ function trySlot(next){if(!user||!firstName||!surname)return;
  if(data.metadata?.kind==='buligo-chat'){const nameFirst=norm(data.metadata.first),nameLast=norm(data.metadata.last);if(!goodName(nameFirst)||!goodName(nameLast)){try{data.close();}catch{}return;}attachChatConnection(data,{id:data.peer,first:nameFirst,last:nameLast,slot:0});return;}
  data.on('open',()=>{try{data.send({kind:'buligo-profile',first:firstName,last:surname,slot:next});}catch{}});
  data.on('error',()=>{});setTimeout(()=>{try{data.close();}catch{}},6500);});
- p.on('call',c=>{if(c.metadata?.kind==='buligo-live-stream-v1'){receiveLiveStreamCall(c);return;}if(c.metadata?.kind==='buligo-live-cohost-stream-v1'){receiveLiveGuestCall(c);return;}if(peer!==p||!user||connection||incoming){try{c.close();}catch{}return;}
+ p.on('call',c=>{if(!adultAccess()){try{c.close();}catch{}return;}if(c.metadata?.kind==='buligo-live-stream-v1'){receiveLiveStreamCall(c);return;}if(c.metadata?.kind==='buligo-live-cohost-stream-v1'){receiveLiveGuestCall(c);return;}if(peer!==p||!user||connection||incoming){try{c.close();}catch{}return;}
  incoming=c;const caller=norm(c.metadata?.first)+' '+norm(c.metadata?.last),isVoice=c.metadata?.mode==='audio';
  $('incomingName').textContent=(caller.trim()||'Unknown caller')+' is calling. The caller’s identity is not verified.';$('incomingTitle').textContent=isVoice?'Incoming voice call':'Incoming video call';$('incomingIcon').textContent=isVoice?'📞':'📲';$('answerCall').textContent=isVoice?'📞 Answer':'📹 Answer';show('incomingOverlay');startRinging('incoming');
  c.on('close',()=>{if(incoming===c){incoming=null;stopRinging();hide('incomingOverlay');}});});
@@ -912,7 +966,7 @@ function addResult(person){const outer=document.createElement('div');outer.class
  const addFriend=document.createElement('button');addFriend.type='button';addFriend.className='outline small';addFriend.textContent=friends.has(person.id)?'✓ Friends':'＋ Add friend';addFriend.disabled=friends.has(person.id);addFriend.onclick=()=>void requestFriend(person);
  actions.append(msg,voice,b,follow,addFriend);outer.append(left,actions);$('searchResults').append(outer);
 }
-async function findPeople(){if(!user||!firstName||!surname)return;
+async function findPeople(){if(!adultAccess()||!firstName||!surname)return;
  const first=norm($('findFirst').value),last=norm($('findLast').value);
  if(!goodName(first)||!goodName(last)){say('searchStatus','Enter both a first name and a surname.','error');return;}
  if(first.toLocaleLowerCase()===firstName.toLocaleLowerCase()&&last.toLocaleLowerCase()===surname.toLocaleLowerCase()){
@@ -940,7 +994,7 @@ function renderMessages(){const chat=conversations.get(activeChatId);if(!chat)re
  const panel=$('chatMessages');panel.replaceChildren();if(!chat.messages.length){const tip=document.createElement('p');tip.className='smalltext';tip.textContent='Start a live conversation. Both of you must have BULIGO open.';panel.append(tip);}
  for(const msg of chat.messages){const b=document.createElement('div');b.className='bubble'+(msg.mine?' mine':'');const t=document.createElement('div');t.textContent=msg.text;const small=document.createElement('small');small.textContent=(msg.mine?'You':'Them')+' · '+new Date(msg.at).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})+(msg.mine?' · '+(msg.delivered?'Delivered':'Sent'):'');b.append(t,small);panel.append(b);}panel.scrollTop=panel.scrollHeight;
 }
-function openConversation(person){if(!user||!firstName||!surname){switchTab('profile');return;}
+function openConversation(person){if(!adultAccess()){switchTab('profile');return;}if(!user||!firstName||!surname){switchTab('profile');return;}
  const chat=chatRecord(person);activeChatId=person.id;chat.unread=0;renderChatList();$('chatWith').textContent=person.first+' '+person.last;hide('chatListPanel');show('chatPanel');switchTab('inbox');renderMessages();say('chatStatus','Write a message. Both people must be online.');
 }
 function closeConversation(){activeChatId=null;hide('chatPanel');show('chatListPanel');renderChatList();}
@@ -969,7 +1023,7 @@ async function getChatChannel(person){const existing=chatChannels.get(person.id)
  const onOpen=()=>{cleanup();resolve(dc);};const onError=e=>{cleanup();reject(Error(errorText(e)));};const onClose=()=>{cleanup();reject(Error('Chat closed before connecting.'));};
  dc.on('open',onOpen);dc.on('error',onError);dc.on('close',onClose);if(dc.open)onOpen();});
 }
-$('messageForm').onsubmit=async e=>{e.preventDefault();const chat=conversations.get(activeChatId);const text=norm($('messageText').value);if(!chat||!user||!text||text.length>800)return;
+$('messageForm').onsubmit=async e=>{e.preventDefault();if(!adultAccess()){switchTab('profile');return;}const chat=conversations.get(activeChatId);const text=norm($('messageText').value);if(!chat||!user||!text||text.length>800)return;
  const id=chat.person.id;$('sendMessage').disabled=true;say('chatStatus','Connecting to '+chat.person.first+'…');
  try{const dc=await getChatChannel(chat.person);if(!dc.open)throw Error('Chat connection is not open.');const mid=String(++messageNumber)+'-'+Date.now()+'-'+Math.random().toString(36).slice(2,10);
  dc.send({kind:'buligo-chat-message',id:mid,text,at:Date.now()});chat.messages.push({id:mid,text,at:Date.now(),mine:true,delivered:false});if(chat.messages.length>100)chat.messages.shift();$('messageText').value='';renderChatList();if(activeChatId===id)renderMessages();say('chatStatus','Sent. Waiting for delivery confirmation…','ok');}
@@ -999,13 +1053,13 @@ function attachCall(c,mode='video'){connection=c;switchTab('call');hide('dialPan
  c.on('close',()=>{if(connection===c)void endCall(false,'Call ended.');});c.on('error',e=>{if(connection===c)void endCall(false,errorText(e));});
  stopCallTimer();callTimer=setTimeout(()=>{if(connection===c)void endCall(true,'The call was not answered. Please try again.');},40000);
 }
-async function dial(person,mode='video'){void enableRinging(false);if(connection||incoming){say('appStatus','Please end your current call first.','error');return;}
+async function dial(person,mode='video'){if(!adultAccess()){switchTab('profile');say('ageGateStatus',accessText(),'error');return;}void enableRinging(false);if(connection||incoming){say('appStatus','Please end your current call first.','error');return;}
  if(!person?.id){say('appStatus','First search for your friend and choose a result.','error');return;}
  say('appStatus','Preparing a video call to '+person.first+' '+person.last+'…');
  try{const p=await peerReady();stream=await media(mode);$('localVideo').srcObject=stream;const c=p.call(person.id,stream,{metadata:{first:firstName,last:surname,mode}});if(!c)throw Error('The call did not start.');attachCall(c,mode);$('waitingText').textContent='Calling '+person.first+' '+person.last+'…';}
  catch(e){if(stream){stream.getTracks().forEach(t=>t.stop());stream=null;}$('localVideo').srcObject=null;say('appStatus',errorText(e),'error');}
 }
-async function answer(){const c=incoming;incoming=null;stopRinging();hide('incomingOverlay');if(!c||connection){try{c?.close();}catch{}return;}
+async function answer(){if(!adultAccess()){try{incoming?.close();}catch{}incoming=null;hide('incomingOverlay');switchTab('profile');return;}const c=incoming;incoming=null;stopRinging();hide('incomingOverlay');if(!c||connection){try{c?.close();}catch{}return;}
  try{const mode=c.metadata?.mode==='audio'?'audio':'video';stream=await media(mode);$('localVideo').srcObject=stream;attachCall(c,mode);c.answer(stream);stopRinging();}
  catch(e){try{c.close();}catch{}if(stream){stream.getTracks().forEach(t=>t.stop());stream=null;}$('localVideo').srcObject=null;hide('callPanel');show('dialPanel');say('appStatus',errorText(e),'error');}
 }
@@ -1022,14 +1076,14 @@ $('toggleCamera').onclick=()=>{const t=stream?.getVideoTracks()[0];if(!t)return;
 $('enableSound').onclick=async()=>{try{await $('remoteVideo').play();hide('enableSound');}catch{say('callStatus','Tap Enable sound again.','error');}};
 $('signOut').onclick=async()=>{stopRinging();await endCall();stopPeer();dropChatSessions();followed.clear();friends.clear();friendStatus.clear();callPresence.clear();renderCalls();await signOut(auth);};
 onAuthStateChanged(auth,async next=>{stopLiveDirectoryListener();++searchToken;stopRinging();await endCall();stopPeer();dropChatSessions();user=next;firstName='';surname='';followed.clear();friends.clear();friendStatus.clear();callPresence.clear();loadProfileAvatar();loadLocalReposts();renderMyMedia();renderFeed();updateLiveAuth();renderFriends();renderCalls();
- if(!user){show('authPanel');hide('loggedIn');show('searchGuest');say('authStatus','Sign in to make a call or follow people.');renderFollowSummary();return;}
- hide('authPanel');show('loggedIn');hide('searchGuest');$('currentEmail').textContent='👤 '+(user.email||'BULIGO account');
+ if(!user){ageDeclaration=null;show('authPanel');hide('loggedIn');show('searchGuest');say('authStatus','Sign in to make a call or follow people.');renderFollowSummary();updateAgeUI();return;}
+ hide('authPanel');show('loggedIn');hide('searchGuest');$('currentEmail').textContent='👤 '+(user.email||'BULIGO account');loadAgeDeclaration();updateLiveAuth();
  let saved=null;try{saved=JSON.parse(localStorage.getItem(myStorageKey(user.uid))||'null');}catch{}
- if(pendingSignupDetails&&pendingSignupDetails.email===user.email){saved={...pendingSignupDetails};delete saved.email;try{localStorage.setItem(myStorageKey(user.uid),JSON.stringify(saved));}catch{}pendingSignupDetails=null;}
+ if(pendingSignupDetails&&pendingSignupDetails.email===user.email){saved={...pendingSignupDetails};delete saved.email;delete saved.dob;try{localStorage.setItem(myStorageKey(user.uid),JSON.stringify(saved));}catch{}pendingSignupDetails=null;}
  try{const stored=JSON.parse(localStorage.getItem(followStorageKey(user.uid))||'[]');if(Array.isArray(stored))for(const person of stored){if(person?.id&&goodName(person.first)&&goodName(person.last))followed.set(person.id,person);}}catch{}
  renderFollowSummary();renderFollowingDirectory();
  try{const previouslySaved=JSON.parse(localStorage.getItem(friendStorageKey(user.uid))||'[]');if(Array.isArray(previouslySaved))for(const person of previouslySaved.slice(0,250)){if(person?.id&&goodName(person.first)&&goodName(person.last)){friends.set(person.id,person);friendStatus.set(person.id,'checking');}}}catch{}
- renderFriends();startLiveDirectoryListener();
+ renderFriends();if(adultAccess())startLiveDirectoryListener();
  if(saved&&goodName(saved.first)&&goodName(saved.last)){firstName=norm(saved.first);surname=norm(saved.last);fillProfileFields(saved);showPrivateDetails(saved);updateProfileView();trySlot(1);}
  else if(user.displayName&&user.displayName.trim().includes(' ')){const parts=user.displayName.trim().split(/\s+/);firstName=parts.shift()||'';surname=parts.join(' ');if(goodName(firstName)&&goodName(surname)){const details={first:firstName,last:surname,year:'',country:'',city:''};fillProfileFields(details);showPrivateDetails(details);updateProfileView();trySlot(1);}else{firstName='';surname='';updateProfileView();}}
  else{fillProfileFields({});showPrivateDetails({});updateProfileView();say('profileStatus','Enter your first name and surname to be found by other people.');}
@@ -1059,7 +1113,7 @@ function renderPublicLives(){
  const entries=livePublicEntries();
  for(const id of ['homePublicLives','liveDirectory']){
   const list=$(id);if(!list)continue;list.replaceChildren();
-  if(!user){list.append(make('p','public-live-empty','Sign in to discover LIVE broadcasts.'));continue;}
+  if(!adultAccess()){list.append(make('p','public-live-empty','LIVE is restricted to adults 18+ in this beta.'));continue;}
   if(!entries.length){list.append(make('p','public-live-empty','No public LIVE streams at the moment.'));continue;}
   for(const entry of entries){
    const card=make('button','public-live-card');card.type='button';
@@ -1070,7 +1124,7 @@ function renderPublicLives(){
  }
 }
 function startLiveDirectoryListener(){
- if(!user)return;
+ if(!adultAccess())return;
  say('publicLiveStatus','Loading public LIVE broadcasts…');
  try{publicLiveUnsubscribe=onSnapshot(publicLiveCollection,snapshot=>{
   publicLiveDocuments.clear();snapshot.forEach(row=>{
@@ -1083,7 +1137,7 @@ function startLiveDirectoryListener(){
  });}catch{say('publicLiveStatus','Public LIVE directory is not available yet.','error');}
 }
 async function publishPublicLive(){
- if(!user||!peer?.open||!liveBroadcastStream)return false;
+ if(!adultAccess()||!peer?.open||!liveBroadcastStream)return false;
  const now=Date.now();
  const record={uid:user.uid,peerId:peer.id,name:liveBroadcasterName().slice(0,70),title:(norm($('liveTitle').value).slice(0,75)||'BULIGO LIVE'),startedAt:publicLivePublished?livePublicStartedAt:now,updatedAt:now,expiresAt:now+PUBLIC_LIVE_TTL};
  await setDoc(doc(firestore,'buligoPublicLives',user.uid),record);publicLivePublished=true;livePublicStartedAt=record.startedAt;
@@ -1097,7 +1151,7 @@ function unpublishPublicLive(){
  publicLivePublished=false;livePublicStartedAt=0;
 }
 
-function updateLiveAuth(){ $('liveGuest').classList.toggle('hidden',!!user);$('liveSigned').classList.toggle('hidden',!user); }
+function updateLiveAuth(){ const permitted=adultAccess();$('liveGuest').classList.toggle('hidden',permitted);$('liveSigned').classList.toggle('hidden',!permitted); }
 function updateLiveCount(){liveViewerCount=liveAudience.size;$('liveAudienceCount').textContent=liveViewerCount+' connected viewer'+(liveViewerCount===1?'':'s')+' · maximum '+liveMaxAudience+' in this beta.';}
 function resetLiveOverlay(){for(const id of ['liveHostChat','liveGuestChat','liveHostHearts','liveGuestHearts'])$(id).replaceChildren();}
 function floatLiveHeart(emoji='❤️'){for(const stage of ['liveHostHearts','liveGuestHearts']){
@@ -1231,6 +1285,7 @@ function endLiveBroadcast(update=true){
  if(update)say('liveHostStatus','LIVE ended. Your camera and microphone are off.','ok');
 }
 async function startLiveBroadcast(){
+ if(!adultAccess()){switchTab('profile');say('ageGateStatus',accessText(),'error');return;}
  if(!user||!firstName||!surname){switchTab('profile');return;}
  if(liveBroadcastStream){say('liveHostStatus','You are already LIVE.');return;}
  if(connection||incoming||liveWatchChannel){say('liveHostStatus','End your call or leave the other LIVE first.','error');return;}
@@ -1282,6 +1337,7 @@ function leaveLiveBroadcast(update=true){
  if(update)say('liveViewerStatus','You left the LIVE.','ok');
 }
 async function watchLiveBroadcast(input){
+ if(!adultAccess()){switchTab('profile');say('ageGateStatus',accessText(),'error');return;}
  if(!user||!firstName||!surname){switchTab('profile');return;}
  if(liveBroadcastStream){say('liveViewerStatus','End your own LIVE before watching another broadcast.','error');return;}
  if(connection||incoming){say('liveViewerStatus','End your voice/video call first.','error');return;}
@@ -1330,7 +1386,7 @@ $('liveRequestJoin').onclick=()=>{
  $('liveRequestJoin').disabled=true;say('liveJoinStatus','Request sent. Waiting for the broadcaster to decide…');
 };
 $('liveEnableGuestCam').onclick=async()=>{
- if(!liveGuestApproved||!liveWatchChannel?.open||!liveWatchingId)return;
+ if(!adultAccess()||!liveGuestApproved||!liveWatchChannel?.open||!liveWatchingId)return;
  $('liveEnableGuestCam').disabled=true;say('liveJoinStatus','Requesting camera and microphone access…');
  let stream=null;
  try{
