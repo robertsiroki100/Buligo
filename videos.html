@@ -1,12 +1,12 @@
 <!doctype html>
 <html lang="hu">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#08080e">
-  <meta name="description" content="BULIGO – rövid videók, jó hangulat, közösség. A videós felület első tesztje.">
-  <title>BULIGO – Videók (Beta)</title>
-  <style>
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+ <meta name="theme-color" content="#08080e">
+ <meta name="description" content="BULIGO – közösségi rövid videók, feltöltés, lájkok és kommentek.">
+ <title>BULIGO – Videók</title>
+ <style>
     :root{color-scheme:dark;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;--bg:#08080e;--text:#fff;--pink:#fd3778;--purple:#9870ff;--muted:#a7a7bd}
     *{box-sizing:border-box}html,body{margin:0;height:100%;background:var(--bg);color:var(--text)}button,input,textarea{font:inherit}button{cursor:pointer}button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid #bba8ff;outline-offset:3px}a{color:inherit;text-decoration:none}
     .device{position:relative;max-width:500px;height:100dvh;min-height:450px;margin:auto;background:#11111d;overflow:hidden;box-shadow:0 0 60px #0005}
@@ -23,86 +23,203 @@
     dialog{border:1px solid #51435e;background:#171624;color:white;width:min(93%,450px);max-height:min(80dvh,720px);border-radius:21px;padding:0;box-shadow:0 30px 90px #000b}dialog::backdrop{background:#000b;backdrop-filter:blur(4px)}.modalHead{padding:18px 20px 14px;border-bottom:1px solid #ffffff20;display:flex;justify-content:space-between;align-items:center}.modalHead h2{font-size:19px;margin:0}.close{background:#ffffff14;color:white;border:0;border-radius:50%;width:34px;height:34px;font-size:21px}.modalBody{padding:17px 20px 20px;overflow-y:auto;max-height:calc(80dvh - 70px)}.modalBody label{display:block;font-weight:700;font-size:13px;margin:13px 0 6px}.modalBody input,.modalBody textarea{display:block;width:100%;border-radius:11px;background:#0e0d16;color:white;border:1px solid #5e5770;font-size:16px;padding:12px;outline:none}.modalBody textarea{resize:vertical;min-height:65px}.modalBody input[type=file]{font-size:12px}.info{padding:11px 13px;background:#2a1d35;border:1px solid #5c3d6d;border-radius:12px;font-size:12px;line-height:1.55;color:#ffebfc}.primary{border:0;border-radius:12px;background:#f54280;color:white;font-weight:850;padding:13px 17px;margin-top:16px;width:100%}.primary:disabled{opacity:.55}.muted{color:var(--muted);font-size:12px;line-height:1.6}.comment{border-bottom:1px solid #ffffff18;padding:10px 0;font-size:13px;overflow-wrap:anywhere}.comment b{color:#d6b5fa}.commentForm{display:flex;gap:7px;margin-top:15px}.commentForm input{min-width:0;flex:1}.commentForm button{background:#ee3981;border:0;border-radius:10px;color:#fff;font-weight:800;padding:0 13px}.profileRow{display:flex;gap:10px;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff22;padding:10px 0;font-size:13px}.profileRow button{border:1px solid #aa647f;background:#421b34;color:#fff;padding:8px 10px;border-radius:9px}.toaster{position:absolute;z-index:10;top:calc(65px + env(safe-area-inset-top));left:20px;right:20px;background:#2d2038;color:white;padding:14px;border-radius:12px;border:1px solid #a65a9a;text-align:center;font-size:13px;box-shadow:0 10px 40px #0009;display:none}
     @media(min-width:650px){body{background:radial-gradient(ellipse at 20% 10%,#2e153e,#07070b 70%)}.device{border:1px solid #363047}}
     @media(prefers-reduced-motion:reduce){.centerPlay{transition:none}}
-  </style>
+  
+    .authTabs{display:flex;gap:8px;margin:0 0 14px}.authTab{flex:1;border:1px solid #726188;border-radius:9px;padding:10px;color:white;background:#292338;font-weight:750}.authTab.selected{background:#e84289;border-color:#e84289}
+    .smallbtn{background:transparent;color:#efb6d9;border:0;text-decoration:underline;font-size:13px;padding:12px 0;cursor:pointer}
+    .status{font-size:11px;line-height:1.5;color:#c8bbd8;margin-top:9px}.authHint{font-size:12px;color:#cbb8d5;line-height:1.6;margin:9px 0}
+    .modalBody label.checkline{display:flex;align-items:flex-start;gap:10px;font-size:13px;line-height:1.5;margin-top:13px}.checkline input{width:auto!important;margin:3px 0!important;flex:none}
+    .inlinebar{display:flex;gap:10px;align-items:center;justify-content:space-between}.inlinebar button{border:1px solid #81566b;background:#392439;color:white;border-radius:9px;padding:7px 10px;font-size:12px}
+    progress{width:100%;height:15px;margin-top:12px;accent-color:#fc3987}.error{color:#ffbdbd}.ok{color:#a6f3ca}
+    .actionwrap{min-width:48px}.loading{opacity:.5;pointer-events:none}.authRow{display:flex;align-items:center;gap:10px;justify-content:space-between}
+</style>
 </head>
 <body>
  <div class="device">
-  <header class="topbar"><a class="brand" href="videos.html" aria-label="BULIGO home">BULI<span>GO</span></a><div class="topright"><span class="beta">BETA · DEMO</span><button class="lang" id="lang" aria-label="Change language">EN</button></div></header>
-  <div class="toaster" id="toast" role="status"></div>
-  <main class="feed" id="feed" aria-label="Video feed"></main>
-  <nav class="bottomnav" aria-label="Main navigation">
+   <header class="topbar"><a class="brand" href="videos.html" aria-label="BULIGO videók">BULI<span>GO</span></a><div class="topright"><span class="beta" id="liveStatus">BETÖLTÉS</span><button class="lang" id="lang" aria-label="Nyelv váltása">EN</button></div></header>
+   <div class="toaster" id="toast" role="status"></div>
+   <main class="feed" id="feed" aria-label="Nyilvános videók"><section class="screenmessage"><div><span class="emoji">🎬</span><h2>BULIGO</h2><p>Videók betöltése…</p></div></section></main>
+   <nav class="bottomnav" aria-label="Navigáció">
     <button class="navitem active" id="homeBtn"><span class="navicon">⌂</span><span data-i="home">Főoldal</span></button>
     <button class="navitem" id="voiceBtn"><span class="navicon">🎙</span><span data-i="voice">Hangchat</span></button>
     <button class="navitem upload" id="uploadBtn"><span class="navicon">+</span><span data-i="upload">Feltöltés</span></button>
     <button class="navitem" id="profileBtn"><span class="navicon">♙</span><span data-i="profile">Profil</span></button>
-  </nav>
-  <dialog id="uploadDialog"><div class="modalHead"><h2 data-i="uploadTitle">Videó kipróbálása</h2><button class="close" data-close="uploadDialog" aria-label="Close">×</button></div><div class="modalBody"><p class="info" data-i="localWarning">TESZT: a videó csak ezen a készüléken jelenik meg, nem kerül fel az internetre. Nyilvános feltöltéshez külön szerver és fiókrendszer kell.</p><form id="uploadForm"><label for="file" data-i="chooseVideo">Válassz egy videót (max. 80 MB)</label><input id="file" type="file" accept="video/*" required><label for="authorInput" data-i="yourName">Neved</label><input id="authorInput" maxlength="30" placeholder="BULIGO user" autocomplete="nickname"><label for="captionInput" data-i="description">Leírás</label><textarea id="captionInput" maxlength="150" placeholder="Mi történik a videóban?"></textarea><button class="primary" id="saveBtn" type="submit" data-i="showVideo">Videó megjelenítése</button></form></div></dialog>
-  <dialog id="commentsDialog"><div class="modalHead"><h2 data-i="comments">Hozzászólások</h2><button class="close" data-close="commentsDialog" aria-label="Close">×</button></div><div class="modalBody"><p class="muted" data-i="localComments">A hozzászólások is csak a te készülékeden láthatók.</p><div id="commentList"></div><form id="commentForm" class="commentForm"><input id="commentInput" maxlength="180" required placeholder="Írj valamit..."><button type="submit" data-i="send">Küldés</button></form></div></dialog>
-  <dialog id="profileDialog"><div class="modalHead"><h2 data-i="profile">Profil</h2><button class="close" data-close="profileDialog" aria-label="Close">×</button></div><div class="modalBody"><p class="info" data-i="demoProfile">Ez egy helyi tesztprofil, még nincs valódi bejelentkezés.</p><div id="profileVideos"></div></div></dialog>
+   </nav>
+   <dialog id="authDialog"><div class="modalHead"><h2 data-i="accountTitle">BULIGO fiók</h2><button class="close" data-close="authDialog" aria-label="Bezárás">×</button></div><div class="modalBody">
+     <div class="authTabs"><button type="button" class="authTab selected" id="loginTab" data-i="login">Belépés</button><button type="button" class="authTab" id="registerTab" data-i="register">Regisztráció</button></div>
+     <p class="authHint" data-i="viewWithout">A videók nézéséhez nem kell regisztrálni. Feltöltéshez és hozzászóláshoz igen.</p>
+     <form id="authForm">
+      <div id="nameWrap" hidden><label for="accountName" data-i="yourName">Felhasználónév</label><input id="accountName" maxlength="30" autocomplete="nickname" placeholder="pl. buligo123"></div>
+      <label for="accountEmail" data-i="email">E-mail-cím</label><input id="accountEmail" type="email" autocomplete="email" required>
+      <label for="accountPassword" data-i="password">Jelszó (minimum 6 karakter)</label><input id="accountPassword" type="password" minlength="6" autocomplete="current-password" required>
+      <div id="ageWrap" hidden><label class="checkline" for="adultConfirm"><input id="adultConfirm" type="checkbox"><span data-i="adult">Kijelentem, hogy betöltöttem a 18. életévemet, és elfogadom, hogy nyilvános tartalmat töltök fel.</span></label><p class="authHint" data-i="ageCaveat">Ez nyilatkozat, nem személyazonosságon alapuló életkor-ellenőrzés.</p></div>
+      <button class="primary" id="authSubmit" type="submit" data-i="login">Belépés</button>
+     </form>
+     <button class="smallbtn" type="button" id="resetPassword" data-i="forgot">Elfelejtett jelszó?</button>
+     <p class="status" id="authStatus" aria-live="polite"></p>
+   </div></dialog>
+   <dialog id="uploadDialog"><div class="modalHead"><h2 data-i="uploadTitle">Videó feltöltése</h2><button class="close" data-close="uploadDialog" aria-label="Bezárás">×</button></div><div class="modalBody">
+      <p class="info" data-i="publicWarning">A feltöltött videó mindenki számára nyilvános lesz, regisztráció nélkül is.</p>
+      <form id="uploadForm"><label for="file" data-i="chooseVideo">Válassz videót (maximum 80 MB)</label><input id="file" type="file" accept="video/*" required>
+       <label for="captionInput" data-i="description">Leírás</label><textarea id="captionInput" maxlength="150" placeholder="Mi történik a videóban?"></textarea>
+       <button class="primary" id="saveBtn" type="submit" data-i="publish">Nyilvános közzététel</button>
+       <progress id="uploadProgress" max="100" value="0" hidden></progress><p id="uploadStatus" class="status" aria-live="polite"></p>
+      </form>
+   </div></dialog>
+   <dialog id="commentsDialog"><div class="modalHead"><h2 data-i="comments">Hozzászólások</h2><button class="close" data-close="commentsDialog" aria-label="Bezárás">×</button></div><div class="modalBody"><div id="commentList"></div><form id="commentForm" class="commentForm"><input id="commentInput" maxlength="180" required placeholder="Írj valamit..."><button id="commentSubmit" type="submit" data-i="send">Küldés</button></form><p class="muted" data-i="loginComment">Kommenteléshez be kell jelentkezni.</p></div></dialog>
+   <dialog id="profileDialog"><div class="modalHead"><h2 data-i="profile">Profil</h2><button class="close" data-close="profileDialog" aria-label="Bezárás">×</button></div><div class="modalBody">
+      <div id="loggedOutBox"><p class="info" data-i="profileInfo">Saját BULIGO-fiókkal tölthetsz fel nyilvános videókat.</p><button class="primary" id="openAuth" type="button" data-i="loginOrRegister">Belépés vagy regisztráció</button></div>
+      <div id="loggedInBox" hidden><div class="inlinebar"><strong id="profileName"></strong><button type="button" id="logoutBtn" data-i="logout">Kilépés</button></div>
+       <p class="muted" id="profileEmail"></p>
+       <div id="profileFinish" hidden><p class="info" data-i="finishHint">A régi fiókodhoz egy 18+ nyilatkozat és név szükséges a feltöltéshez.</p><form id="finishForm"><label for="finishName" data-i="yourName">Felhasználónév</label><input id="finishName" maxlength="30" required><label class="checkline" for="finishAdult"><input id="finishAdult" type="checkbox" required><span data-i="adult">Betöltöttem a 18. életévemet.</span></label><button type="submit" class="primary" data-i="finish">Profil aktiválása</button></form></div>
+       <h3 data-i="myVideos">Saját videóim</h3><div id="profileVideos"><p class="muted">Betöltés…</p></div>
+      </div>
+    </div></dialog>
  </div>
-<script>
-(()=>{'use strict';
- const $=id=>document.getElementById(id), feed=$('feed');
- const translations={
-  hu:{home:'Főoldal',voice:'Hangchat',upload:'Feltöltés',profile:'Profil',uploadTitle:'Videó kipróbálása',localWarning:'TESZT: a videó csak ezen a készüléken jelenik meg, nem kerül fel az internetre. Nyilvános feltöltéshez külön szerver és fiókrendszer kell.',chooseVideo:'Válassz egy videót (max. 80 MB)',yourName:'Neved',description:'Leírás',showVideo:'Videó megjelenítése',comments:'Hozzászólások',localComments:'A hozzászólások csak ezen a készüléken láthatók.',send:'Küldés',demoProfile:'Ez egy helyi tesztprofil, még nincs valódi bejelentkezés.',mine:'Csak ezen a telefonon',demo:'BEMUTATÓ VIDEÓ',welcome:'Üdv a BULIGO-n! Ez egy bemutatóvideó.',nextTitle:'A következő nagy videó a tiéd!',nextText:'Próbálj ki egy videót a telefonodról. Ez még csak bemutató, mások egyelőre nem látják.',tryUpload:'Videó kiválasztása',sample:'BULIGO bemutató',none:'Még nincs saját videód.',delete:'Törlés',confirmDelete:'Törlöd ezt a videót erről a készülékről?',size:'A videó legfeljebb 80 MB lehet.',noVideo:'Válassz ki egy videót!',saved:'Megjelent a videód ezen a készüléken.',notSaved:'A videó megjelent, de a böngésző nem tudta tartósan elmenteni.',removed:'Videó törölve.',copied:'Link másolva.',shareDemo:'Ez egy helyi tesztvideó, mások még nem tudják megnyitni.',signIn:'Valódi regisztráció még nem elérhető.',unavailable:'A hangchat oldal nem nyílt meg.',pause:'Szünet',play:'Lejátszás'},
-  en:{home:'Home',voice:'Voice chat',upload:'Upload',profile:'Profile',uploadTitle:'Try a video',localWarning:'DEMO: your video stays on this device; it is not uploaded to the internet. Public uploads need a server and accounts.',chooseVideo:'Choose video (max. 80 MB)',yourName:'Your name',description:'Caption',showVideo:'Show my video',comments:'Comments',localComments:'Comments are visible only on this device.',send:'Post',demoProfile:'This is a local demo profile; accounts are not available yet.',mine:'Only on this device',demo:'DEMO VIDEO',welcome:'Welcome to BULIGO! This is a sample video.',nextTitle:'Your next video starts here!',nextText:'Try adding a video from your phone. This is a demo; others cannot see it yet.',tryUpload:'Choose a video',sample:'BULIGO demo',none:'No videos added yet.',delete:'Delete',confirmDelete:'Delete this video from this device?',size:'Video must be 80 MB or less.',noVideo:'Choose a video first.',saved:'Your video is showing on this device.',notSaved:'Your video is shown, but this browser could not save it permanently.',removed:'Video removed.',copied:'Link copied.',shareDemo:'Local test videos cannot be shared with others yet.',signIn:'Real accounts are not available yet.',unavailable:'Voice chat page did not open.',pause:'Pause',play:'Play'}
- };
- let lang='hu', ownVideos=[], mediaUrls=[], currentCommentsId=null, observer=null, db=null, transientIds=new Set(), activeSlide=null;
- const t=k=>translations[lang][k]||k;
- const safeGet=(key,fallback)=>{try{return JSON.parse(localStorage.getItem('buligo-'+key))??fallback}catch{return fallback}};
- const safeSet=(key,val)=>{try{localStorage.setItem('buligo-'+key,JSON.stringify(val))}catch{}};
- const liked=new Set(safeGet('likes',[])), comments=safeGet('comments',{});
- function toast(txt){const el=$('toast');el.textContent=txt;el.style.display='block';clearTimeout(toast.timeout);toast.timeout=setTimeout(()=>el.style.display='none',3500)}
- function openModal(id){$(id).showModal();feed.querySelectorAll('video').forEach(v=>v.pause())}
- function closeModal(id){$(id).close();resumeActive()}
- document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>closeModal(b.dataset.close));
- for(const dialog of document.querySelectorAll('dialog'))dialog.addEventListener('click',e=>{if(e.target===dialog)closeModal(dialog.id)});
- function updateLabels(){document.documentElement.lang=lang;document.querySelectorAll('[data-i]').forEach(el=>el.textContent=t(el.dataset.i));$('lang').textContent=lang==='hu'?'EN':'HU';$('captionInput').placeholder=lang==='hu'?'Mi történik a videóban?':'What happens in your video?';$('commentInput').placeholder=lang==='hu'?'Írj valamit...':'Write a comment...'}
- $('lang').onclick=()=>{lang=lang==='hu'?'en':'hu';updateLabels();render()};
- const sample=[{id:'demo-flower',author:'@buligo',caption:()=>t('welcome'),src:'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4',demo:true}];
- function allItems(){return [...ownVideos,...sample]}
- function makeButton(cls,label,txt){const b=document.createElement('button');b.type='button';b.className=cls;b.setAttribute('aria-label',label);b.textContent=txt;return b}
- function likeCount(item){return item.demo?128+(liked.has(item.id)?1:0):(liked.has(item.id)?1:0)}
- function newSlide(item){
-  const slide=document.createElement('section');slide.className='slide';slide.dataset.id=item.id;
-  const v=document.createElement('video');v.src=item.src;v.setAttribute('playsinline','');v.muted=true;v.loop=true;v.preload='metadata';v.controls=false;slide.appendChild(v);
-  const tag=document.createElement('div');tag.className='feedtag';tag.textContent=item.demo?t('demo'):t('mine');slide.appendChild(tag);
-  const player=document.createElement('div');player.className='centerPlay';player.textContent='▶';slide.appendChild(player);
-  const meta=document.createElement('div');meta.className='captionArea';const author=document.createElement('div');author.className='author';author.textContent=item.author||'@buligo';const cap=document.createElement('div');cap.className='captionText';cap.textContent=typeof item.caption==='function'?item.caption():item.caption||'';const note=document.createElement('div');note.className='captionNote';note.textContent=item.demo?'#BULIGO #demo':t('mine');meta.append(author,cap,note);slide.appendChild(meta);
-  const side=document.createElement('div');side.className='rightactions';slide.appendChild(side);
-  const av=document.createElement('div');av.className='roundaction avatar';av.textContent='B';side.appendChild(av);
-  function action(symbol,label,handler,count){const box=document.createElement('div');box.className='actionwrap';const btn=makeButton('roundaction',label,symbol);box.appendChild(btn);let c;if(count!==undefined){c=document.createElement('div');c.className='count';c.textContent=count;box.appendChild(c)}side.appendChild(box);btn.onclick=()=>handler(btn,c);return btn}
-  const heart=action('♥','Like',()=>{if(liked.has(item.id))liked.delete(item.id);else liked.add(item.id);safeSet('likes',[...liked]);heart.classList.toggle('liked',liked.has(item.id));heart.nextElementSibling.textContent=likeCount(item)},likeCount(item));heart.classList.toggle('liked',liked.has(item.id));
-  action('💬','Comments',()=>showComments(item.id),String((comments[item.id]||[]).length));
-  action('↗','Share',async()=>{if(!item.demo){toast(t('shareDemo'));return}try{if(navigator.share)await navigator.share({title:'BULIGO',url:location.href});else if(navigator.clipboard){await navigator.clipboard.writeText(location.href);toast(t('copied'))}}catch{}});
-  const sound=action('♪','Sound',(_,c)=>{v.muted=!v.muted;sound.textContent=v.muted?'♪':'♫'});
-  v.addEventListener('click',()=>{if(v.paused){v.play().catch(()=>{});slide.classList.remove('paused')}else{v.pause();slide.classList.add('paused')}});
-  v.addEventListener('error',()=>{if(item.demo)tag.textContent=lang==='hu'?'A mintavideó most nem elérhető':'Demo video unavailable'});
-  return slide;
- }
- function createEnd(){const slide=document.createElement('section');slide.className='slide';const s=document.createElement('div');s.className='screenmessage';const c=document.createElement('div');c.innerHTML='<span class="emoji">🎬</span>';const h=document.createElement('h2');h.textContent=t('nextTitle');const p=document.createElement('p');p.textContent=t('nextText');const b=makeButton('startbutton',t('tryUpload'),t('tryUpload'));b.onclick=() => openModal('uploadDialog');c.append(h,p,b);s.appendChild(c);slide.appendChild(s);return slide}
- function render(){if(observer){observer.disconnect();observer=null}feed.querySelectorAll('video').forEach(v=>v.pause());feed.replaceChildren();allItems().forEach(item=>feed.appendChild(newSlide(item)));feed.appendChild(createEnd());feed.scrollTop=0;
-  if('IntersectionObserver' in window){observer=new IntersectionObserver(entries=>{for(const e of entries){const v=e.target.querySelector('video');if(!v)continue;if(e.isIntersecting&&e.intersectionRatio>=.65){activeSlide=e.target;v.play().then(()=>e.target.classList.remove('paused')).catch(()=>e.target.classList.add('paused'))}else{v.pause()}}},{root:feed,threshold:[0,.65,1]});feed.querySelectorAll('.slide').forEach(s=>observer.observe(s))}
-  else{const v=feed.querySelector('video');if(v)v.play().catch(()=>{})}
- }
- function resumeActive(){const a=activeSlide?.querySelector('video');if(a)a.play().catch(()=>{})}
- function showComments(id){currentCommentsId=id;fillComments();openModal('commentsDialog')}
- function fillComments(){const list=$('commentList');list.replaceChildren();const rows=comments[currentCommentsId]||[];if(!rows.length){const p=document.createElement('p');p.className='muted';p.textContent=lang==='hu'?'Még nincs hozzászólás.':'No comments yet.';list.appendChild(p)}else rows.forEach(row=>{const p=document.createElement('div');p.className='comment';const name=document.createElement('b');name.textContent='@user  ';const val=document.createElement('span');val.textContent=row;p.append(name,val);list.appendChild(p)})}
- $('commentForm').onsubmit=e=>{e.preventDefault();if(!currentCommentsId)return;const val=$('commentInput').value.trim();if(!val)return;comments[currentCommentsId]??=[];comments[currentCommentsId].push(val.slice(0,180));safeSet('comments',comments);$('commentInput').value='';fillComments();const slide=feed.querySelector(`[data-id="${CSS.escape(currentCommentsId)}"]`);if(slide){const numbers=slide.querySelectorAll('.count');if(numbers[1])numbers[1].textContent=comments[currentCommentsId].length}};
- $('uploadBtn').onclick=()=>openModal('uploadDialog');$('homeBtn').onclick=()=>{feed.scrollTo({top:0,behavior:'smooth'})};$('voiceBtn').onclick=()=>{location.href='./'};$('profileBtn').onclick=()=>{fillProfile();openModal('profileDialog')};
- function fillProfile(){const wrap=$('profileVideos');wrap.replaceChildren();const h=document.createElement('p');h.className='muted';h.textContent=ownVideos.length?`${ownVideos.length} ${lang==='hu'?'saját tesztvideó':'demo videos'}`:t('none');wrap.appendChild(h);ownVideos.forEach(item=>{const row=document.createElement('div');row.className='profileRow';const title=document.createElement('span');title.textContent=(item.caption||item.author||'Video').slice(0,50);const btn=makeButton('',t('delete'),t('delete'));btn.onclick=async()=>{if(!confirm(t('confirmDelete')))return;await deleteVideo(item.id);fillProfile()};row.append(title,btn);wrap.appendChild(row)})}
- function openDB(){return new Promise((res,rej)=>{if(!('indexedDB' in window)){rej(Error('No local database'));return}const req=indexedDB.open('buligo-local-videos',1);req.onupgradeneeded=()=>{if(!req.result.objectStoreNames.contains('videos'))req.result.createObjectStore('videos',{keyPath:'id'})};req.onsuccess=()=>res(req.result);req.onerror=()=>rej(req.error)})}
- function dbOperation(mode,kind,value){return new Promise((resolve,reject)=>{const tx=db.transaction('videos',mode);const req=tx.objectStore('videos')[kind](value);req.onerror=()=>reject(req.error);tx.oncomplete=()=>resolve(req.result);tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error)})}
- async function deleteVideo(id){if(db&&!transientIds.has(id))try{await dbOperation('readwrite','delete',id)}catch{}const item=ownVideos.find(x=>x.id===id);if(item?.src.startsWith('blob:'))URL.revokeObjectURL(item.src);ownVideos=ownVideos.filter(x=>x.id!==id);transientIds.delete(id);delete comments[id];liked.delete(id);safeSet('likes',[...liked]);safeSet('comments',comments);render();toast(t('removed'))}
- $('uploadForm').onsubmit=async e=>{e.preventDefault();const file=$('file').files?.[0];if(!file||!file.type.startsWith('video/')){toast(t('noVideo'));return}if(file.size>80*1024*1024){toast(t('size'));return}
-  const id='own-'+Date.now()+'-'+Math.random().toString(36).slice(2,7);const row={id,author:'@'+($('authorInput').value.trim().replace(/^@/,'').slice(0,30)||'me'),caption:$('captionInput').value.trim().slice(0,150),file,createdAt:Date.now()};$('saveBtn').disabled=true;
-  let persisted=false;if(db){try{await dbOperation('readwrite','put',row);persisted=true}catch{}}
-  if(!persisted)transientIds.add(id);
-  ownVideos.unshift({...row,src:URL.createObjectURL(file)});$('saveBtn').disabled=false;$('uploadForm').reset();closeModal('uploadDialog');render();toast(persisted?t('saved'):t('notSaved'));
- };
- async function init(){try{db=await openDB();const rows=await dbOperation('readonly','getAll');ownVideos=rows.sort((a,b)=>b.createdAt-a.createdAt).map(row=>({...row,src:URL.createObjectURL(row.file)}))}catch{db=null}updateLabels();render()}
- init();window.addEventListener('pagehide',()=>{ownVideos.forEach(row=>{if(row.src.startsWith('blob:'))URL.revokeObjectURL(row.src)})});
-})();
-</script>
+ <script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/13.4.0/firebase-app.js';
+import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, signOut, updateProfile } from 'https://www.gstatic.com/firebasejs/13.4.0/firebase-auth.js';
+import { getFirestore, collection, doc, getDoc, getDocs, setDoc, addDoc, deleteDoc, query, where, orderBy, limit, onSnapshot, serverTimestamp, getCountFromServer } from 'https://www.gstatic.com/firebasejs/13.4.0/firebase-firestore.js';
+import { getStorage, ref, getDownloadURL, uploadBytesResumable, deleteObject } from 'https://www.gstatic.com/firebasejs/13.4.0/firebase-storage.js';
+
+// A Firebase webes konfiguráció publikus azonosítókat tartalmaz, nem admin-jelszót.
+const firebaseConfig = {
+  apiKey: 'AIzaSyC3y_C5X3U0GMyCzdkHQmv7eTBp5QPi3NY',
+  authDomain: 'buligo-6c67a.firebaseapp.com',
+  projectId: 'buligo-6c67a',
+  storageBucket: 'buligo-6c67a.firebasestorage.app',
+  appId: '1:740875040307:web:3382bbc9692c2eac199546'
+};
+const app=initializeApp(firebaseConfig), auth=getAuth(app), db=getFirestore(app), storage=getStorage(app);
+const $=id=>document.getElementById(id), feed=$('feed');
+const words={
+ hu:{home:'Főoldal',voice:'Hangchat',upload:'Feltöltés',profile:'Profil',accountTitle:'BULIGO fiók',login:'Belépés',register:'Regisztráció',viewWithout:'Videókat bárki nézhet. Feltöltéshez, lájkoláshoz és hozzászóláshoz saját fiók kell.',yourName:'Felhasználónév',email:'E-mail-cím',password:'Jelszó (minimum 6 karakter)',adult:'Kijelentem, hogy elmúltam 18 éves.',ageCaveat:'Ez csak önkéntes nyilatkozat, nem hivatalos életkor-ellenőrzés.',forgot:'Elfelejtett jelszó?',uploadTitle:'Videó feltöltése',publicWarning:'Ez a videó nyilvános lesz: regisztráció nélkül is bárki megtekintheti.',chooseVideo:'Válassz videót (max. 80 MB)',description:'Leírás',publish:'Nyilvános közzététel',comments:'Hozzászólások',send:'Küldés',loginComment:'A hozzászóláshoz be kell jelentkezni.',profileInfo:'Saját BULIGO-fiókkal tölthetsz fel nyilvános videókat.',loginOrRegister:'Belépés vagy regisztráció',logout:'Kilépés',finishHint:'A korábbi fiókodhoz felhasználónév és 18+ nyilatkozat szükséges.',finish:'Profil aktiválása',myVideos:'Saját videóim',demo:'BEMUTATÓ – NEM PUBLIKUS',sampleCaption:'Üdv a BULIGO-n! Az első nyilvános videó megérkezésére várunk.',nextTitle:'Tölts fel egy videót!',nextText:'Kezdődhet a BULIGO! A megosztott videókat minden látogató láthatja.',tryUpload:'Videó feltöltése',none:'Még nincs saját videód.',size:'A videó legfeljebb 80 MB lehet.',type:'Válassz valódi videófájlt.',saved:'Videód nyilvánosan megjelent!',removed:'Videó törölve.',copied:'Link másolva.',signinFirst:'A művelethez jelentkezz be.',finishFirst:'Előbb aktiváld a profilod.',error:'Hiba történt. Ellenőrizd a Firebase beállításait és a jogosultságokat.',empty:'Még nincs nyilvános videó.',pause:'Szünet',play:'Lejátszás',delete:'Törlés',confirmDelete:'Biztosan törlöd a nyilvános videódat?',report:'Jelentés',reportWhy:'Miért jelented a videót? Írd le röviden:',reported:'A bejelentést elmentettük.',badVideo:'A videó nem játszható le.',loading:'Betöltés…',share:'Megosztás',commentsEmpty:'Még nincs hozzászólás.',wait:'Feltöltés folyamatban…',authDone:'Sikeres bejelentkezés!',emailSent:'Jelszó-visszaállító üzenetet küldtünk, ha a címhez van fiók.',adultsOnly:'Csak 18 év felettiek regisztrálhatnak.',needName:'Adj meg egy felhasználónevet.',failedFeed:'A videók nem tölthetők be. Ellenőrizd a Firestore Rules beállítást.',noStorage:'A videótároló nem működik. Ellenőrizd a Firebase Storage beállításait.',own:'Nyilvános videó',refresh:'Frissítés'},
+ en:{home:'Home',voice:'Voice chat',upload:'Upload',profile:'Profile',accountTitle:'BULIGO account',login:'Sign in',register:'Sign up',viewWithout:'Anyone can watch videos. An account is required to upload, like or comment.',yourName:'Username',email:'Email',password:'Password (minimum 6 characters)',adult:'I confirm I am at least 18 years old.',ageCaveat:'This is self-declaration, not verified age assurance.',forgot:'Forgot password?',uploadTitle:'Upload video',publicWarning:'Your video will be public and viewable by everyone, including visitors.',chooseVideo:'Choose video (max 80 MB)',description:'Caption',publish:'Publish to everyone',comments:'Comments',send:'Post',loginComment:'Sign in to comment.',profileInfo:'Create a BULIGO account to upload public videos.',loginOrRegister:'Sign in or sign up',logout:'Sign out',finishHint:'Your existing account needs a username and an 18+ confirmation.',finish:'Activate profile',myVideos:'My videos',demo:'SAMPLE – NOT PUBLIC',sampleCaption:'Welcome to BULIGO! We are waiting for the first public video.',nextTitle:'Post a video!',nextText:'Everyone will be able to see your videos on BULIGO.',tryUpload:'Upload a video',none:'You have no videos yet.',size:'Videos must be 80 MB or less.',type:'Choose a video file.',saved:'Your video is now public!',removed:'Video deleted.',copied:'Link copied.',signinFirst:'Sign in to continue.',finishFirst:'Activate your profile first.',error:'An error occurred. Check the Firebase settings and rules.',empty:'No public videos yet.',pause:'Pause',play:'Play',delete:'Delete',confirmDelete:'Delete your public video?',report:'Report',reportWhy:'Why are you reporting this video?',reported:'Your report was saved.',badVideo:'This video cannot be played.',loading:'Loading…',share:'Share',commentsEmpty:'No comments yet.',wait:'Uploading…',authDone:'Signed in!',emailSent:'Password reset sent if an account exists for that email.',adultsOnly:'Only people aged 18+ may register.',needName:'Enter a username.',failedFeed:'Could not load videos. Check Firestore Rules.',noStorage:'Video storage unavailable. Check Firebase Storage.',own:'Public video',refresh:'Refresh'}
+};
+let lang=localStorage.getItem('buligo-lang')==='en'?'en':'hu';
+let user=null,profile=null,videoItems=[],observer=null,feedVersion=0,unsubFeed=null,activeSlide=null,activeVideoId=null,authMode='login',busyUpload=false;
+const stats=new Map();
+const t=k=>words[lang][k]||k;
+function toast(msg){const a=$('toast');a.textContent=msg;a.style.display='block';clearTimeout(toast.timer);toast.timer=setTimeout(()=>a.style.display='none',4500)}
+function openModal(id){if(!$(id).open)$(id).showModal();feed.querySelectorAll('video').forEach(v=>v.pause())}
+function closeModal(id){if($(id).open)$(id).close();if(activeSlide)activeSlide.querySelector('video')?.play().catch(()=>{})}
+for(const btn of document.querySelectorAll('[data-close]'))btn.addEventListener('click',()=>closeModal(btn.dataset.close));
+for(const d of document.querySelectorAll('dialog'))d.addEventListener('click',e=>{if(e.target===d)closeModal(d.id)});
+function labels(){document.documentElement.lang=lang;document.querySelectorAll('[data-i]').forEach(e=>e.textContent=t(e.dataset.i));$('lang').textContent=lang==='hu'?'EN':'HU';$('captionInput').placeholder=lang==='hu'?'Mi történik a videóban?':'What happens in the video?';$('commentInput').placeholder=lang==='hu'?'Írj valamit…':'Write a comment…';setAuthMode(authMode);}
+$('lang').onclick=()=>{lang=lang==='hu'?'en':'hu';localStorage.setItem('buligo-lang',lang);labels();render()};
+function setAuthMode(mode){authMode=mode;const reg=mode==='register';$('nameWrap').hidden=!reg;$('ageWrap').hidden=!reg;$('accountName').required=reg;$('adultConfirm').required=reg;$('loginTab').classList.toggle('selected',!reg);$('registerTab').classList.toggle('selected',reg);$('authSubmit').textContent=t(mode);$('accountPassword').autocomplete=reg?'new-password':'current-password';$('resetPassword').hidden=reg;}
+$('loginTab').onclick=()=>setAuthMode('login');$('registerTab').onclick=()=>setAuthMode('register');
+function username(input){return input.trim().replace(/^@/,'').replace(/[<>]/g,'').slice(0,30)}
+function explain(error){if(error?.code==='permission-denied'||error?.code==='storage/unauthorized')return lang==='hu'?'Hozzáférés megtagadva: ellenőrizd a Firestore és Storage biztonsági szabályait.':'Permission denied: check Firestore and Storage rules.';
+ if(error?.code==='auth/email-already-in-use')return lang==='hu'?'Ezzel az e-maillel már regisztráltak.':'Email already registered.';
+ if(error?.code==='auth/weak-password')return lang==='hu'?'Túl gyenge jelszó.':'Password is too weak.';
+ if(error?.code==='auth/invalid-credential')return lang==='hu'?'Rossz e-mail vagy jelszó.':'Incorrect email or password.';
+ if(error?.code==='auth/too-many-requests')return lang==='hu'?'Túl sok próbálkozás. Próbáld később.':'Too many attempts. Try again later.';
+ if(error?.code?.startsWith('storage/'))return t('noStorage');
+ return (error?.message||t('error')).slice(0,220);
+}
+function showAuth(){setAuthMode('login');$('authStatus').textContent='';openModal('authDialog')}
+async function saveAccountProfile(name){const nameClean=username(name);if(nameClean.length<2)throw Error(t('needName'));
+ const payload={displayName:nameClean,adultConfirmed:true,createdAt:serverTimestamp()};
+ await setDoc(doc(db,'users',auth.currentUser.uid),payload);
+ await updateProfile(auth.currentUser,{displayName:nameClean});
+ profile={displayName:nameClean,adultConfirmed:true};updateAccountUI();}
+$('authForm').onsubmit=async e=>{e.preventDefault();const submit=$('authSubmit');submit.disabled=true;$('authStatus').textContent=t('loading');try{
+ const email=$('accountEmail').value.trim(),password=$('accountPassword').value;
+ if(authMode==='register'){
+   if(!$('adultConfirm').checked)throw Error(t('adultsOnly'));
+   const name=username($('accountName').value);if(name.length<2)throw Error(t('needName'));
+   const result=await createUserWithEmailAndPassword(auth,email,password);
+   try{await saveAccountProfile(name)}catch(error){$('authStatus').textContent=explain(error);updateAccountUI();return;}
+ }else await signInWithEmailAndPassword(auth,email,password);
+ closeModal('authDialog');toast(t('authDone'));$('authForm').reset();
+ }catch(error){$('authStatus').textContent=explain(error)}finally{submit.disabled=false}
+};
+$('resetPassword').onclick=async()=>{const email=$('accountEmail').value.trim();if(!email){$('authStatus').textContent=lang==='hu'?'Írd be az e-mail-címed.':'Enter your email.';return}try{await sendPasswordResetEmail(auth,email);$('authStatus').textContent=t('emailSent')}catch(error){$('authStatus').textContent=explain(error)}};
+async function requireUser(){if(!user){toast(t('signinFirst'));showAuth();return false}if(!profile?.adultConfirmed){toast(t('finishFirst'));await showProfile();return false}return true}
+function updateAccountUI(){const logged=!!user;$('loggedOutBox').hidden=logged;$('loggedInBox').hidden=!logged;
+ if(logged){$('profileName').textContent='@'+(profile?.displayName||user.displayName||'BULIGO');$('profileEmail').textContent=user.email||'';$('profileFinish').hidden=!!profile?.adultConfirmed;} }
+onAuthStateChanged(auth,async current=>{user=current;profile=null;stats.clear();updateAccountUI();if(current){try{const found=await getDoc(doc(db,'users',current.uid));if(auth.currentUser?.uid!==current.uid)return;profile=found.exists()?found.data():null}catch(e){console.warn('Profile load failed',e)}updateAccountUI()} });
+$('finishForm').onsubmit=async e=>{e.preventDefault();if(!user)return;if(!$('finishAdult').checked){toast(t('adultsOnly'));return}const btn=e.target.querySelector('button');btn.disabled=true;try{await saveAccountProfile($('finishName').value);toast(lang==='hu'?'Profil aktiválva!':'Profile activated!');await fillProfile()}catch(error){toast(explain(error))}finally{btn.disabled=false}};
+$('openAuth').onclick=()=>{closeModal('profileDialog');showAuth()};
+$('logoutBtn').onclick=async()=>{try{await signOut(auth);closeModal('profileDialog');toast(lang==='hu'?'Kijelentkeztél.':'Signed out.')}catch(error){toast(explain(error))}};
+$('profileBtn').onclick=showProfile;
+async function showProfile(){updateAccountUI();openModal('profileDialog');if(user)await fillProfile()}
+async function fillProfile(){const wrap=$('profileVideos');wrap.replaceChildren();if(!user||!profile?.adultConfirmed){wrap.textContent='';return}const uid=user.uid;
+ const info=document.createElement('p');info.className='muted';info.textContent=t('loading');wrap.appendChild(info);
+ try{const snap=await getDocs(query(collection(db,'videos'),where('ownerId','==',uid),limit(100)));if(user?.uid!==uid)return;wrap.replaceChildren();
+ const docs=snap.docs.sort((a,b)=>(b.data().createdAt?.seconds||0)-(a.data().createdAt?.seconds||0));
+ if(!docs.length){const p=document.createElement('p');p.className='muted';p.textContent=t('none');wrap.appendChild(p)}
+ for(const row of docs){const vid=row.data(),d=document.createElement('div');d.className='profileRow';const title=document.createElement('span');title.textContent=(vid.caption||'Videó').slice(0,55);const del=document.createElement('button');del.textContent=t('delete');del.onclick=async()=>{if(!confirm(t('confirmDelete')))return;del.disabled=true;try{await deleteDoc(row.ref);try{await deleteObject(ref(storage,vid.storagePath))}catch(e){console.warn('Storage cleanup needed',e)}toast(t('removed'));await fillProfile()}catch(e){del.disabled=false;toast(explain(e))}};d.append(title,del);wrap.appendChild(d)}
+ }catch(e){wrap.textContent=explain(e)}}
+$('uploadBtn').onclick=async()=>{if(await requireUser())openModal('uploadDialog')};
+$('homeBtn').onclick=()=>{feed.scrollTo({top:0,behavior:'smooth'})};
+$('voiceBtn').onclick=()=>{window.location.href='./'};
+function button(css,label,text){const b=document.createElement('button');b.type='button';b.className=css;b.textContent=text;b.setAttribute('aria-label',label);return b}
+function placeholder(){const section=document.createElement('section');section.className='slide';const s=document.createElement('div');s.className='screenmessage';const holder=document.createElement('div');
+ const emoji=document.createElement('span');emoji.className='emoji';emoji.textContent='🎬';const h=document.createElement('h2');h.textContent=t('nextTitle');const p=document.createElement('p');p.textContent=t('nextText');const b=button('startbutton',t('tryUpload'),t('tryUpload'));b.onclick=()=>$('uploadBtn').click();holder.append(emoji,h,p,b);s.appendChild(holder);section.appendChild(s);return section}
+const sample={id:'buligo-sample',demo:true,author:'@buligo',caption:'',src:'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4'};
+function makeSlide(item){const slide=document.createElement('section');slide.className='slide';slide.dataset.id=item.id;
+ const v=document.createElement('video');v.src=item.src;v.setAttribute('playsinline','');v.preload='metadata';v.muted=true;v.loop=true;slide.appendChild(v);
+ const tag=document.createElement('div');tag.className='feedtag';tag.textContent=item.demo?t('demo'):t('own');slide.appendChild(tag);
+ const play=document.createElement('div');play.className='centerPlay';play.textContent='▶';slide.appendChild(play);
+ const meta=document.createElement('div');meta.className='captionArea';const name=document.createElement('div');name.className='author';name.textContent=item.demo?'@buligo':('@'+username(item.author||'BULIGO'));const caption=document.createElement('div');caption.className='captionText';caption.textContent=item.demo?t('sampleCaption'):(item.caption||'');const foot=document.createElement('div');foot.className='captionNote';foot.textContent=item.demo?'#BULIGO #demo':'#BULIGO';meta.append(name,caption,foot);slide.appendChild(meta);
+ const side=document.createElement('div');side.className='rightactions';slide.appendChild(side);const avatar=document.createElement('div');avatar.className='roundaction avatar';avatar.textContent='B';side.appendChild(avatar);
+ function action(symbol,label,onClick,count){const outer=document.createElement('div');outer.className='actionwrap';const b=button('roundaction',label,symbol);outer.appendChild(b);let c;if(count!==null){c=document.createElement('div');c.className='count';c.textContent=count;outer.appendChild(c)}side.appendChild(outer);b.onclick=()=>onClick(b,c);return {b,c}}
+ const like=action('♥','Like',()=>toggleLike(item,like),item.demo?'–':stats.get(item.id)?.likes??'…');
+ const comments=action('💬',t('comments'),()=>{if(!item.demo)showComments(item.id)},item.demo?'–':stats.get(item.id)?.comments??'…');
+ action('↗',t('share'),()=>share(item),null);
+ const sound=action('♪','Sound',()=>{v.muted=!v.muted;sound.b.textContent=v.muted?'♪':'♫'},null);
+ if(!item.demo)action('⚑',t('report'),()=>reportVideo(item.id),null);
+ like.b.classList.toggle('liked',!!stats.get(item.id)?.liked);
+ slide._refreshStats=()=>{const st=stats.get(item.id);if(st){like.c.textContent=st.likes??'…';comments.c.textContent=st.comments??'…';like.b.classList.toggle('liked',!!st.liked)}};
+ v.onclick=()=>{if(v.paused){v.play().catch(()=>{});slide.classList.remove('paused')}else{v.pause();slide.classList.add('paused')}};
+ v.addEventListener('error',()=>{tag.textContent=t('badVideo')});return slide;
+}
+function render(){if(observer){observer.disconnect();observer=null}feed.querySelectorAll('video').forEach(v=>v.pause());feed.replaceChildren();activeSlide=null;
+ const items=videoItems.length?videoItems:[sample];for(const item of items)feed.appendChild(makeSlide(item));feed.appendChild(placeholder());
+ if('IntersectionObserver' in window){observer=new IntersectionObserver(entries=>{for(const entry of entries){const v=entry.target.querySelector('video');if(!v)continue;if(entry.isIntersecting&&entry.intersectionRatio>=.65){activeSlide=entry.target;v.play().then(()=>entry.target.classList.remove('paused')).catch(()=>entry.target.classList.add('paused'));if(entry.target.dataset.id!=='buligo-sample')loadStats(entry.target.dataset.id)}else v.pause()}},{root:feed,threshold:[0,.65,1]});feed.querySelectorAll('.slide').forEach(s=>observer.observe(s))}
+ else feed.querySelector('video')?.play().catch(()=>{});
+ const deep=new URLSearchParams(location.search).get('video');if(deep){const matching=[...feed.querySelectorAll('.slide')].find(s=>s.dataset.id===deep);if(matching)matching.scrollIntoView({block:'start'})}
+}
+async function loadStats(id,force=false){if(!force&&stats.get(id)?.loaded)return;const old=stats.get(id)||{};if(old.loading)return;stats.set(id,{...old,loading:true});try{
+ const [likes,comments,liked]=await Promise.all([
+  getCountFromServer(collection(db,'videos',id,'likes')),
+  getCountFromServer(collection(db,'videos',id,'comments')),
+  user?getDoc(doc(db,'videos',id,'likes',user.uid)).then(s=>s.exists()):Promise.resolve(false)
+ ]);
+ stats.set(id,{likes:likes.data().count,comments:comments.data().count,liked,loaded:true,loading:false});
+ }catch(e){stats.set(id,{...old,loading:false});console.warn('stats',e)}
+ const active=[...feed.querySelectorAll('.slide')].find(s=>s.dataset.id===id);active?._refreshStats?.();}
+async function toggleLike(item,refButton){if(item.demo){toast(lang==='hu'?'Ez csak bemutatóvideó.':'This is a demo.');return}if(!await requireUser())return;
+ refButton.b.disabled=true;try{const likeRef=doc(db,'videos',item.id,'likes',user.uid);const old=await getDoc(likeRef);if(old.exists())await deleteDoc(likeRef);else await setDoc(likeRef,{userId:user.uid,createdAt:serverTimestamp()});
+ const previous=stats.get(item.id)||{likes:0,comments:0};stats.set(item.id,{...previous,likes:Math.max(0,(previous.likes||0)+(old.exists()?-1:1)),liked:!old.exists(),loaded:true,loading:false});refButton.b.classList.toggle('liked',!old.exists());refButton.c.textContent=stats.get(item.id).likes;
+ }catch(e){toast(explain(e))}finally{refButton.b.disabled=false}}
+async function share(item){if(item.demo){toast(lang==='hu'?'A mintavideó nem megosztható.':'The demo cannot be shared.');return}const url=new URL('videos.html',location.href);url.searchParams.set('video',item.id);
+ try{if(navigator.share)await navigator.share({title:'BULIGO',text:item.caption||'BULIGO',url:url.href});else if(navigator.clipboard){await navigator.clipboard.writeText(url.href);toast(t('copied'))}else{prompt('Link',url.href)}}catch(e){if(e.name!=='AbortError')toast(explain(e))}}
+async function showComments(id){activeVideoId=id;const list=$('commentList');list.textContent=t('loading');$('commentInput').value='';openModal('commentsDialog');await fillComments()}
+async function fillComments(){const id=activeVideoId;if(!id)return;const list=$('commentList');try{const snap=await getDocs(query(collection(db,'videos',id,'comments'),orderBy('createdAt','desc'),limit(50)));if(activeVideoId!==id)return;list.replaceChildren();if(snap.empty){const p=document.createElement('p');p.className='muted';p.textContent=t('commentsEmpty');list.appendChild(p)}
+ for(const row of snap.docs){const d=row.data(),line=document.createElement('div');line.className='comment';const author=document.createElement('b');author.textContent='@'+username(d.author||'user')+'  ';const content=document.createElement('span');content.textContent=(d.text||'').slice(0,180);line.append(author,content);list.appendChild(line)}
+ }catch(e){list.textContent=explain(e)}}
+$('commentForm').onsubmit=async e=>{e.preventDefault();if(!await requireUser())return;const text=$('commentInput').value.trim();if(!text||!activeVideoId)return;const b=$('commentSubmit');b.disabled=true;try{
+ await addDoc(collection(db,'videos',activeVideoId,'comments'),{userId:user.uid,author:username(profile.displayName||user.displayName||'user'),text:text.slice(0,180),createdAt:serverTimestamp()});
+ $('commentInput').value='';await fillComments();await loadStats(activeVideoId,true);
+ }catch(error){toast(explain(error))}finally{b.disabled=false}};
+async function reportVideo(id){if(!await requireUser())return;const reason=prompt(t('reportWhy'));if(reason===null)return;if(reason.trim().length<3){toast(lang==='hu'?'Legalább 3 karaktert írj.':'Enter at least 3 characters.');return}try{await addDoc(collection(db,'reports'),{userId:user.uid,videoId:id,reason:reason.trim().slice(0,500),createdAt:serverTimestamp()});toast(t('reported'))}catch(e){toast(explain(e))}}
+$('uploadForm').onsubmit=async e=>{e.preventDefault();if(busyUpload||!await requireUser())return;const file=$('file').files?.[0];if(!file||!file.type.startsWith('video/')){toast(t('type'));return}if(file.size>80*1024*1024){toast(t('size'));return}
+ busyUpload=true;$('saveBtn').disabled=true;const progress=$('uploadProgress');progress.hidden=false;progress.value=0;$('uploadStatus').textContent=t('wait');const id=doc(collection(db,'videos')).id,path=`videos/${user.uid}/${id}`;
+ try{const task=uploadBytesResumable(ref(storage,path),file,{contentType:file.type,customMetadata:{uploaderId:user.uid}});
+ await new Promise((resolve,reject)=>task.on('state_changed',snap=>{progress.value=Math.round(snap.bytesTransferred/Math.max(1,snap.totalBytes)*100);$('uploadStatus').textContent=`${Math.round(progress.value)}%`},reject,resolve));
+ try{await setDoc(doc(db,'videos',id),{ownerId:user.uid,author:username(profile.displayName||user.displayName||'user'),caption:$('captionInput').value.trim().slice(0,150),storagePath:path,createdAt:serverTimestamp()});}
+ catch(error){try{await deleteObject(ref(storage,path))}catch{}throw error}
+ $('uploadForm').reset();progress.value=0;closeModal('uploadDialog');toast(t('saved'));
+ }catch(error){$('uploadStatus').textContent=explain(error);toast(explain(error))}finally{$('saveBtn').disabled=false;busyUpload=false;progress.hidden=true}}
+async function loadDeepLink(id){try{const video=await getDoc(doc(db,'videos',id));if(!video.exists())return null;const data=video.data();const src=await getDownloadURL(ref(storage,data.storagePath));return {...data,id,src}}catch{return null}}
+function startFeed(){const q=query(collection(db,'videos'),orderBy('createdAt','desc'),limit(30));unsubFeed=onSnapshot(q,async snap=>{const version=++feedVersion;$('liveStatus').textContent='BETA · ONLINE';
+ const data=await Promise.all(snap.docs.map(async d=>{const v=d.data();try{const src=await getDownloadURL(ref(storage,v.storagePath));return {...v,id:d.id,src}}catch(e){console.warn('Bad video',d.id,e);return null}}));if(version!==feedVersion)return;
+ videoItems=data.filter(Boolean);const deep=new URLSearchParams(location.search).get('video');if(deep&&!videoItems.some(v=>v.id===deep)){const pinned=await loadDeepLink(deep);if(version!==feedVersion)return;if(pinned)videoItems.unshift(pinned)}render();
+ },err=>{$('liveStatus').textContent='BETA · HIBA';console.error('Video feed',err);feed.replaceChildren();const page=placeholder();page.querySelector('p').textContent=t('failedFeed')+' '+explain(err);feed.appendChild(page)})}
+labels();updateAccountUI();startFeed();
+
+ </script>
 </body>
 </html>
