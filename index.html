@@ -249,6 +249,23 @@ body.home-mode .clip-demo-tag{top:12px}
 body.home-mode .clip::after{will-change:auto}
 body.home-mode .bottom-nav{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;background:#10121e!important}
 @media(max-height:650px){body.home-mode .clip{min-height:520px}body.home-mode .clip-side{bottom:52px!important;gap:2px!important}body.home-mode .clip-action{min-height:36px}}
+
+/* BULIGO: optional TikTok-style profile photo, local to the signed-in account. */
+.profile-hero-social{padding:24px 18px 20px}
+.profile-avatar-select{position:relative;margin:0 auto 9px;width:108px;height:108px;border:3px solid #e2d5ff;border-radius:50%;background:linear-gradient(135deg,#bda2ff,#65cbe1);color:#1d1337;display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;font-size:42px;font-weight:900;box-shadow:0 8px 25px #0005}
+.profile-avatar-select img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%}
+.profile-avatar-select .profile-avatar-plus{position:absolute;bottom:0;right:0;z-index:1;background:#a893ff;color:#151027;min-width:28px;line-height:27px;font-size:20px;border-radius:50%;border:2px solid #23273f}
+.profile-social-name{font-size:25px;margin:6px 0 2px;font-weight:900;overflow-wrap:anywhere}
+.profile-social-handle{margin:0 0 14px;color:#c2c5df;font-size:13px;overflow-wrap:anywhere}
+.profile-social-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:13px 0 17px}
+.profile-social-stats>div{padding:8px 3px;border-radius:13px;background:#ffffff0a}
+.profile-social-stats strong{display:block;font-size:23px;color:#fff;line-height:1.15}
+.profile-social-stats span{display:block;font-size:12px;color:#c7cde1;margin-top:4px}
+.avatar-edit-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
+.avatar-edit-row button{font-size:13px;min-height:38px}
+.profile-photo-note{font-size:12px;color:#c5cbe3;max-width:390px;margin:13px auto 0}
+.profile-avatar-select:focus-visible{outline:3px solid #71e4dc;outline-offset:4px}
+.clip-avatar.has-profile-photo{background-size:cover;background-position:center;background-repeat:no-repeat;font-size:0}
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/peerjs@1.5.5/dist/peerjs.min.js"></script>
 </head>
@@ -403,9 +420,17 @@ body.home-mode .bottom-nav{-webkit-backdrop-filter:none!important;backdrop-filte
  <section class="card"><h2>🔔 Calling someone who is away</h2><p class="calls-note">In this test version, a person must have BULIGO open to receive a live call. An offline phone cannot be switched on or have its camera or microphone activated by this website.</p><p class="calls-note">Future missed-call notifications require a secure server and permission for push notifications. On iPhone, web push also requires installing BULIGO on the Home Screen. The person must still tap to answer.</p></section></div>
 </section>
 <section class="tabpage hidden" id="profileTab">
- <h1 class="section-title">Profile</h1><p class="subtle">Your BULIGO account.</p>
+ <h1 class="section-title">Profile</h1><p class="subtle">Your BULIGO account, photo and friends.</p>
  <section class="card" id="authPanel"><h2>Sign in to BULIGO</h2><p class="smalltext">Sign in with your email. New users can register with their name, birth year, country and city.</p><form id="authForm"><label for="email">Your email address</label><input id="email" type="email" required autocomplete="email" placeholder="you@example.com"><label for="password">Password</label><input id="password" type="password" required minlength="6" autocomplete="current-password" placeholder="At least 6 characters"><div id="signupExtras" class="hidden"><h3>Create your BULIGO account</h3><p>Fill in your information. Your birth year, country and city are private in this preview and saved only on this phone, not displayed in search.</p><label for="regFirst">First name</label><input id="regFirst" maxlength="35" autocomplete="given-name" placeholder="First name"><label for="regLast">Surname</label><input id="regLast" maxlength="35" autocomplete="family-name" placeholder="Surname"><label for="regYear">Year of birth</label><input id="regYear" type="number" min="1900" max="2013" inputmode="numeric" placeholder="e.g. 1990"><label for="regCountry">Country where you live</label><input id="regCountry" maxlength="60" autocomplete="country-name" placeholder="e.g. United Kingdom"><label for="regCity">City or town</label><input id="regCity" maxlength="60" autocomplete="address-level2" placeholder="e.g. Liverpool"><p>Do not enter a street address, postcode, or full date of birth.</p><label class="checkline" for="regConsent"><input type="checkbox" id="regConsent"> I understand that my name may be shown to other online BULIGO users, but my birth year and location are not public in this demo.</label></div><div class="row" style="margin-top:16px"><button class="primary" id="signIn" type="submit">Sign in</button><button class="secondary" id="signUp" type="button">Create account</button></div></form><button class="outline small" id="resetPassword" type="button" style="margin-top:12px">Forgot password?</button><p class="status" id="authStatus" role="status" aria-live="polite">Checking your account…</p></section>
- <div class="hidden" id="loggedIn"><div class="account"><strong id="currentEmail"></strong><button class="outline small" id="signOut" type="button">Sign out</button></div><div class="profile-hero"><div class="avatar">B</div><h2>My BULIGO profile</h2><p class="subtle">Friends can find you by name while you are online. Accepted friends are saved on this phone. Videos in this preview are local only.</p></div><section class="card" id="setupPanel"><h2>👤 Your BULIGO profile</h2><p class="smalltext">Choose the name friends search for. Birth year and location stay private on this device.</p><label for="myFirst">First name</label><input id="myFirst" type="text" maxlength="35" autocomplete="given-name" placeholder="e.g. Erika"><label for="myLast">Surname</label><input id="myLast" type="text" maxlength="35" autocomplete="family-name" placeholder="e.g. Siroki"><label for="myYear">Year of birth (private)</label><input id="myYear" type="number" min="1900" max="2013" inputmode="numeric" placeholder="e.g. 1990"><label for="myCountry">Country (private)</label><input id="myCountry" maxlength="60" autocomplete="country-name" placeholder="e.g. United Kingdom"><label for="myCity">City or town (private)</label><input id="myCity" maxlength="60" autocomplete="address-level2" placeholder="e.g. Liverpool"><button id="saveProfile" class="primary fullbtn" type="button" style="margin-top:18px">Save my profile</button><p id="profileStatus" class="status" aria-live="polite">Only your name is used for online searches. Never share an exact street address here.</p></section><div id="profileBox" class="namebox hidden"><span>Your name: <strong id="profileLabel"></strong></span><button class="outline small" type="button" id="editProfile">Edit profile</button></div><div id="privateDetails" class="profile-private"><strong>Private profile details</strong><span id="privateDetailsText">Optional — stored only on this phone.</span><div id="followSummary">Following 0 people on this device</div></div>
+ <div class="hidden" id="loggedIn"><div class="account"><strong id="currentEmail"></strong><button class="outline small" id="signOut" type="button">Sign out</button></div><div class="profile-hero profile-hero-social">
+  <button id="profileAvatarButton" class="profile-avatar-select" type="button" aria-label="Choose a profile photo" title="Change profile photo"><span id="profileAvatarLetter">B</span><img class="hidden" id="profileAvatarImage" alt="Your chosen profile photo"><span class="profile-avatar-plus" aria-hidden="true">+</span></button>
+  <h2 class="profile-social-name" id="profileSocialName">My BULIGO profile</h2>
+  <p class="profile-social-handle" id="profileSocialHandle">Optional profile photo</p>
+  <div class="profile-social-stats" aria-label="Profile numbers"><div><strong id="profileFriendsNumber">0</strong><span>Friends</span></div><div><strong id="profileFollowersNumber">—</strong><span>Followers*</span></div><div><strong id="profileFollowingNumber">0</strong><span>Following</span></div></div>
+  <div class="avatar-edit-row"><button type="button" id="chooseProfilePhoto" class="primary small">📷 Choose photo</button><button type="button" id="removeProfilePhoto" class="outline small" disabled>Remove photo</button></div>
+  <input type="file" id="profilePhotoInput" accept="image/*" class="hidden" aria-label="Select profile picture from your photos">
+  <p id="profilePhotoStatus" class="profile-photo-note" aria-live="polite">Photo is optional. Saved privately on this phone only, not shown to other users yet. *Follower count needs cloud profiles.</p>
+ </div><section class="card" id="setupPanel"><h2>👤 Your BULIGO profile</h2><p class="smalltext">Choose the name friends search for. Birth year and location stay private on this device.</p><label for="myFirst">First name</label><input id="myFirst" type="text" maxlength="35" autocomplete="given-name" placeholder="e.g. Erika"><label for="myLast">Surname</label><input id="myLast" type="text" maxlength="35" autocomplete="family-name" placeholder="e.g. Siroki"><label for="myYear">Year of birth (private)</label><input id="myYear" type="number" min="1900" max="2013" inputmode="numeric" placeholder="e.g. 1990"><label for="myCountry">Country (private)</label><input id="myCountry" maxlength="60" autocomplete="country-name" placeholder="e.g. United Kingdom"><label for="myCity">City or town (private)</label><input id="myCity" maxlength="60" autocomplete="address-level2" placeholder="e.g. Liverpool"><button id="saveProfile" class="primary fullbtn" type="button" style="margin-top:18px">Save my profile</button><p id="profileStatus" class="status" aria-live="polite">Only your name is used for online searches. Never share an exact street address here.</p></section><div id="profileBox" class="namebox hidden"><span>Your name: <strong id="profileLabel"></strong></span><button class="outline small" type="button" id="editProfile">Edit profile</button></div><div id="privateDetails" class="profile-private"><strong>Private profile details</strong><span id="privateDetailsText">Optional — stored only on this phone.</span><div id="followSummary">Following 0 people on this device</div></div>
 <section class="card" id="myMediaPanel"><h2>📷 My photos and videos</h2><p class="smalltext">Your private drafts on this phone. Tap 🗑️ to permanently remove your own draft. Public uploading is not active yet.</p><div class="media-count"><span id="myPhotoCount">0 photos</span><span id="myVideoCount">0 videos</span></div><div id="myMediaGallery" class="media-grid" aria-label="My photo and video previews"></div><p class="smalltext" id="myMediaEmpty">Tap Create to choose a photo or video.</p><button class="outline fullbtn" data-page="create" type="button">＋ Add a photo or video</button></section><section class="card" id="myRepostsPanel"><h2>↻ My repost previews</h2><p class="smalltext">Saved on this device only. Other BULIGO users cannot view these reposts.</p><div id="myRepostsList"></div></section><p id="ringStatus" class="smalltext">Tap “Enable ringing” at the top to hear incoming calls while this page is open.</p><p class="upload-note">Email/password are handled by Firebase Authentication. Your name is saved to your own Firebase account display name; year of birth and location are saved only on this device. Other people cannot browse your birth year or city in this preview. Follows and accepted friends are saved on this phone; invitations only work while both people are online. A real cloud friends list needs a secure backend.</p></div>
 </section>
 <section class="tabpage hidden" id="callTab"><h1 class="section-title">Video call</h1><section class="hidden" id="callPanel"><div class="stage"><video id="remoteVideo" autoplay playsinline></video><div class="waiting" id="waiting"><b id="waitSymbol">📹</b><span id="waitingText">Connecting…</span></div><video id="localVideo" autoplay playsinline muted></video></div><p class="status" id="callStatus" aria-live="polite">Connecting…</p><div class="controls"><button class="secondary" id="toggleMic" type="button">🎙️ Mute</button><button class="secondary" id="toggleCamera" type="button">📷 Camera off</button><button class="danger" id="hangUp" type="button">📞 End call</button></div><button class="outline small hidden" type="button" id="enableSound" style="margin-top:9px">🔊 Enable sound</button></section></section>
@@ -455,7 +480,7 @@ function renderMyReposts(){const box=$('myRepostsList');if(!box)return;box.repla
 const likeIds=new Set();const followed=new Map();const friends=new Map();const friendStatus=new Map();const commentStore=new Map();
 let pendingFriendInvite=null,friendRefreshTick=null,friendCheckInProgress=false;
 function followStorageKey(uid){return 'buligo_follows_v6_'+uid;}
-function saveFollowing(){if(!user)return;try{localStorage.setItem(followStorageKey(user.uid),JSON.stringify([...followed.values()]));}catch{}renderFollowingDirectory();renderFollowSummary();}
+function saveFollowing(){if(!user)return;try{localStorage.setItem(followStorageKey(user.uid),JSON.stringify([...followed.values()]));}catch{}renderFollowingDirectory();renderFollowSummary();renderProfileStats();}
 function renderFollowSummary(){if($('followSummary'))$('followSummary').textContent='Following '+followed.size+' account'+(followed.size===1?'':'s')+' on this device';}
 function toggleFollow(person){if(!user){switchTab('profile');return;}if(followed.has(person.id))followed.delete(person.id);else followed.set(person.id,{first:person.first,last:person.last,id:person.id,slot:person.slot});saveFollowing();renderCalls();if(activeTab==='search'&&$('searchResults').children.length){for(const btn of $('searchResults').querySelectorAll('[data-follow-id]'))if(btn.dataset.followId===person.id){btn.textContent=followed.has(person.id)?'✓ Following':'＋ Follow';btn.setAttribute('aria-pressed',String(followed.has(person.id)));}}}
 function friendStorageKey(uid){return 'buligo_accepted_friends_v1_'+uid;}
@@ -474,7 +499,7 @@ function makeFriendsCard(person){
  }
  wrap.append(actions);const remove=make('button','outline small','Remove friend');remove.type='button';remove.style.marginTop='9px';remove.onclick=()=>{friends.delete(person.id);friendStatus.delete(person.id);try{localStorage.setItem(friendStorageKey(user.uid),JSON.stringify([...friends.values()]));}catch{}renderFriends();};wrap.append(remove);return wrap;
 }
-function renderFriends(){const target=$('friendsList');if(!target)return;target.replaceChildren();$('friendsCount').textContent='('+friends.size+')';if(!friends.size){target.append(make('p','smalltext','No friends yet. Use Search once, tap Add friend, and wait for them to accept.'));return;}
+function renderFriends(){const target=$('friendsList');if(!target)return;renderProfileStats();target.replaceChildren();$('friendsCount').textContent='('+friends.size+')';if(!friends.size){target.append(make('p','smalltext','No friends yet. Use Search once, tap Add friend, and wait for them to accept.'));return;}
  for(const person of friends.values())target.append(makeFriendsCard(person));
 }
 async function refreshFriendPresence(person){if(!user||!person?.id||!friends.has(person.id)||document.hidden)return;
@@ -597,7 +622,7 @@ function renderFeed(restoreId){
   else{const bg=make('div','clip-bg'+(clip.background?' clip-bg-two':''));const glow=make('div','clip-glow');const brand=make('div','clip-brand',clip.repost?'↻ REPOST':'BULIGO');brand.append(make('small','',clip.repost?'Open the original post':clip.background?'Connect with friends':'Your videos. Your world.'));bg.append(glow,brand);article.append(bg);}
   const tag=make('span','clip-demo-tag',clip.demo?'BULIGO DEMO':clip.repost?'↻ REPOST · LOCAL':(clip.visibility==='public'?'🌍 Public draft · not posted':clip.visibility==='friends'?'👥 Friends draft · not posted':'🔒 Private draft'));article.append(tag);
   if(!clip.demo&&!clip.repost&&user&&clip.ownerUid===user.uid){const remove=make('button','clip-own-delete','🗑️ Delete my post');remove.type='button';remove.setAttribute('aria-label','Delete your photo or video draft');remove.onclick=()=>deleteMyDraft(clip.id);article.append(remove);}
-  const side=make('div','clip-side');const avatar=make('span','clip-avatar',clip.demo?'B':(clip.username[1]||'U').toUpperCase());side.append(avatar);
+  const side=make('div','clip-side');const avatar=make('span','clip-avatar',clip.demo?'B':(clip.username[1]||'U').toUpperCase());if(user&&clip.ownerUid===user.uid&&profileAvatarData){avatar.textContent='';avatar.classList.add('has-profile-photo');avatar.style.backgroundImage='url('+JSON.stringify(profileAvatarData)+')';}side.append(avatar);
   const like=make('button','clip-action');like.type='button';like.setAttribute('aria-label','Like post');like.setAttribute('aria-pressed',String(likeIds.has(clip.id)));const heart=make('span','sym',likeIds.has(clip.id)?'♥':'♡');like.append(heart,make('span','',likeIds.has(clip.id)?'1 Like':'Like'));
   like.onclick=()=>{if(likeIds.has(clip.id))likeIds.delete(clip.id);else likeIds.add(clip.id);like.setAttribute('aria-pressed',String(likeIds.has(clip.id)));heart.textContent=likeIds.has(clip.id)?'♥':'♡';like.lastChild.textContent=likeIds.has(clip.id)?'1 Like':'Like';};side.append(like);
   const reaction=make('button','clip-action');reaction.type='button';reaction.setAttribute('aria-label','Send an emoji reaction');reaction.append(make('span','sym','🥰'),make('span','', 'React'));reaction.onclick=()=>{reactionClipId=clip.id;show('reactionsOverlay');pauseFeed();};side.append(reaction);
@@ -701,6 +726,72 @@ $('sharePreview').onclick=()=>{
  renderMyMedia();viewFollowing=false;$('feedForYou').classList.add('selected');$('feedFollowing').classList.remove('selected');renderFeed();feed.scrollTop=0;switchTab('home');
 };
 let user=null,firstName='',surname='',peer=null,slot=0,connection=null,incoming=null,stream=null;
+
+let profileAvatarData='';
+const avatarStorageKey=uid=>'buligo_profile_photo_v1_'+uid;
+function renderProfileStats(){
+ if($('profileFriendsNumber'))$('profileFriendsNumber').textContent=String(user?friends.size:0);
+ if($('profileFollowingNumber'))$('profileFollowingNumber').textContent=String(user?followed.size:0);
+ // No cloud followers database in this preview: do not invent a count.
+ if($('profileFollowersNumber'))$('profileFollowersNumber').textContent='—';
+}
+function renderProfileIdentity(){
+ const name=(firstName&&surname)?firstName+' '+surname:'My BULIGO profile';
+ $('profileSocialName').textContent=name;
+ $('profileSocialHandle').textContent=user?'Profile photo saved on this phone':'Sign in to choose a photo';
+ $('profileAvatarLetter').textContent=(firstName||surname||'B').charAt(0).toLocaleUpperCase();
+ const img=$('profileAvatarImage');
+ if(profileAvatarData){img.src=profileAvatarData;img.classList.remove('hidden');$('profileAvatarLetter').classList.add('hidden');}
+ else{img.removeAttribute('src');img.classList.add('hidden');$('profileAvatarLetter').classList.remove('hidden');}
+ $('removeProfilePhoto').disabled=!user||!profileAvatarData;
+ renderProfileStats();
+}
+function loadProfileAvatar(){
+ profileAvatarData='';
+ if(user){try{const value=localStorage.getItem(avatarStorageKey(user.uid))||'';if(/^data:image\/jpeg;base64,[a-z0-9+/=]+$/i.test(value)&&value.length<450000)profileAvatarData=value;}catch{}}
+ renderProfileIdentity();
+}
+function photoToSquareJpeg(file){
+ return new Promise((resolve,reject)=>{
+  if(!file||!file.type.startsWith('image/')){reject(new Error('Choose a photo from your gallery.'));return;}
+  if(file.size>12*1024*1024){reject(new Error('Choose a photo smaller than 12 MB.'));return;}
+  const url=URL.createObjectURL(file);const img=new Image();
+  img.onload=()=>{
+   try{const size=256;const canvas=document.createElement('canvas');canvas.width=size;canvas.height=size;
+    const ctx=canvas.getContext('2d');if(!ctx)throw new Error('Photo processing unavailable.');
+    const w=img.naturalWidth,h=img.naturalHeight,side=Math.min(w,h);
+    ctx.drawImage(img,(w-side)/2,(h-side)/2,side,side,0,0,size,size);
+    const data=canvas.toDataURL('image/jpeg',0.78);
+    if(!data||data.length>450000)throw new Error('Photo is too large to save.');resolve(data);
+   }catch(err){reject(err);}finally{URL.revokeObjectURL(url);}
+  };
+  img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error('This photo could not be opened. Try another.'));};
+  img.src=url;
+ });
+}
+$('profileAvatarButton').onclick=$('chooseProfilePhoto').onclick=()=>{
+ if(!user){switchTab('profile');return;}
+ $('profilePhotoInput').click();
+};
+$('profilePhotoInput').onchange=async()=>{
+ const file=$('profilePhotoInput').files?.[0];if(!file||!user)return;
+ const uid=user.uid;
+ $('profilePhotoStatus').textContent='Preparing your profile photo…';
+ try{const data=await photoToSquareJpeg(file);
+  if(!user||user.uid!==uid)throw new Error('Please sign in again to save your photo.');
+  localStorage.setItem(avatarStorageKey(uid),data);
+  profileAvatarData=data;renderProfileIdentity();renderFeed();
+  $('profilePhotoStatus').textContent='✅ Profile photo saved on this phone. Other people cannot see it until cloud profile storage is enabled.';
+ }catch(err){$('profilePhotoStatus').textContent='⚠️ '+(err?.message||'Could not save this photo on the phone.');}
+ finally{$('profilePhotoInput').value='';}
+};
+$('removeProfilePhoto').onclick=()=>{
+ if(!user||!profileAvatarData)return;
+ if(!confirm('Remove your profile photo from this phone?'))return;
+ try{localStorage.removeItem(avatarStorageKey(user.uid));profileAvatarData='';renderProfileIdentity();renderFeed();$('profilePhotoStatus').textContent='Profile photo removed. You can choose another anytime.';}
+ catch{$('profilePhotoStatus').textContent='Could not remove the saved photo.';}
+};
+
 renderFeed();document.body.classList.add('home-mode');
 let instance=0,retryTimer=null,openTimer=null,retryDelay=2000,callTimer=null,searchToken=0,searching=false,ending=false;
 const conversations=new Map(),chatChannels=new Map();let activeChatId=null,messageNumber=0;
@@ -740,7 +831,7 @@ $('authForm').onsubmit=e=>{e.preventDefault();void login(false);};
 $('signUp').onclick=()=>{if($('signupExtras').classList.contains('hidden')){show('signupExtras');$('signUp').textContent='Complete registration';say('authStatus','Fill in the registration details. No street address is needed.');return;}void login(true);};
 $('resetPassword').onclick=async()=>{const email=norm($('email').value);if(!email){say('authStatus','Enter your email address first.','error');return;}try{await sendPasswordResetEmail(auth,email);say('authStatus','If the account exists, a reset email will be sent.','ok');}catch(e){say('authStatus',errorText(e),'error');}};
 function stopPeer(){endLiveBroadcast(false);leaveLiveBroadcast(false);for(const conn of chatChannels.values()){try{conn.close();}catch{}}chatChannels.clear();if(retryTimer)clearTimeout(retryTimer);if(openTimer)clearTimeout(openTimer);retryTimer=openTimer=null;const p=peer;peer=null;instance++;if(p){try{p.destroy();}catch{}}}
-function updateProfileView(){if(firstName&&surname){hide('setupPanel');show('profileBox');show('dialPanel');show('friendsPanel');$('profileLabel').textContent=firstName+' '+surname;}
+function updateProfileView(){renderProfileIdentity();if(firstName&&surname){hide('setupPanel');show('profileBox');show('dialPanel');show('friendsPanel');$('profileLabel').textContent=firstName+' '+surname;}
  else{show('setupPanel');hide('profileBox');hide('dialPanel');hide('friendsPanel');}}
 function scheduleReconnect(p){if(!user||!firstName||!surname||peer!==p||retryTimer)return;
  say('appStatus','Calling service disconnected. Reconnecting…','error');
@@ -919,7 +1010,7 @@ $('toggleMic').onclick=()=>{const t=stream?.getAudioTracks()[0];if(!t)return;t.e
 $('toggleCamera').onclick=()=>{const t=stream?.getVideoTracks()[0];if(!t)return;t.enabled=!t.enabled;$('toggleCamera').textContent=t.enabled?'📷 Camera off':'📷 Camera on';};
 $('enableSound').onclick=async()=>{try{await $('remoteVideo').play();hide('enableSound');}catch{say('callStatus','Tap Enable sound again.','error');}};
 $('signOut').onclick=async()=>{stopRinging();await endCall();stopPeer();dropChatSessions();followed.clear();friends.clear();friendStatus.clear();callPresence.clear();renderCalls();await signOut(auth);};
-onAuthStateChanged(auth,async next=>{stopLiveDirectoryListener();++searchToken;stopRinging();await endCall();stopPeer();dropChatSessions();user=next;loadLocalReposts();renderMyMedia();renderFeed();updateLiveAuth();firstName='';surname='';followed.clear();friends.clear();friendStatus.clear();callPresence.clear();renderFriends();renderCalls();
+onAuthStateChanged(auth,async next=>{stopLiveDirectoryListener();++searchToken;stopRinging();await endCall();stopPeer();dropChatSessions();user=next;firstName='';surname='';followed.clear();friends.clear();friendStatus.clear();callPresence.clear();loadProfileAvatar();loadLocalReposts();renderMyMedia();renderFeed();updateLiveAuth();renderFriends();renderCalls();
  if(!user){show('authPanel');hide('loggedIn');show('searchGuest');say('authStatus','Sign in to make a call or follow people.');renderFollowSummary();return;}
  hide('authPanel');show('loggedIn');hide('searchGuest');$('currentEmail').textContent='👤 '+(user.email||'BULIGO account');
  let saved=null;try{saved=JSON.parse(localStorage.getItem(myStorageKey(user.uid))||'null');}catch{}
