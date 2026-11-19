@@ -258,7 +258,7 @@ body.home-mode .bottom-nav{-webkit-backdrop-filter:none!important;backdrop-filte
 .profile-social-name{font-size:25px;margin:6px 0 2px;font-weight:900;overflow-wrap:anywhere}
 .profile-social-handle{margin:0 0 14px;color:#c2c5df;font-size:13px;overflow-wrap:anywhere}
 .profile-social-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:13px 0 17px}
-.profile-social-stats>div{padding:8px 3px;border-radius:13px;background:#ffffff0a}
+.profile-social-stats>div,.profile-social-stats>button{padding:8px 3px;border-radius:13px;background:#ffffff0a}
 .profile-social-stats strong{display:block;font-size:23px;color:#fff;line-height:1.15}
 .profile-social-stats span{display:block;font-size:12px;color:#c7cde1;margin-top:4px}
 .avatar-edit-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
@@ -266,7 +266,7 @@ body.home-mode .bottom-nav{-webkit-backdrop-filter:none!important;backdrop-filte
 .profile-photo-note{font-size:12px;color:#c5cbe3;max-width:390px;margin:13px auto 0}
 .profile-avatar-select:focus-visible{outline:3px solid #71e4dc;outline-offset:4px}
 .clip-avatar.has-profile-photo{background-size:cover;background-position:center;background-repeat:no-repeat;font-size:0}
-</style>
+.profile-social-stats>button{border:1px solid #9a84f28a;color:inherit;font:inherit;cursor:pointer;min-height:66px;-webkit-tap-highlight-color:transparent}.profile-social-stats>button:focus-visible{outline:3px solid #71e4dc;outline-offset:2px}.profile-social-stats>button:active{background:#8d74ec38}</style>
 <script defer src="https://cdn.jsdelivr.net/npm/peerjs@1.5.5/dist/peerjs.min.js"></script>
 </head>
 <body>
@@ -426,7 +426,7 @@ body.home-mode .bottom-nav{-webkit-backdrop-filter:none!important;backdrop-filte
   <button id="profileAvatarButton" class="profile-avatar-select" type="button" aria-label="Choose a profile photo" title="Change profile photo"><span id="profileAvatarLetter">B</span><img class="hidden" id="profileAvatarImage" alt="Your chosen profile photo"><span class="profile-avatar-plus" aria-hidden="true">+</span></button>
   <h2 class="profile-social-name" id="profileSocialName">My BULIGO profile</h2>
   <p class="profile-social-handle" id="profileSocialHandle">Optional profile photo</p>
-  <div class="profile-social-stats" aria-label="Profile numbers"><div><strong id="profileFriendsNumber">0</strong><span>Friends</span></div><div><strong id="profileFollowersNumber">—</strong><span>Followers*</span></div><div><strong id="profileFollowingNumber">0</strong><span>Following</span></div></div>
+  <div class="profile-social-stats" aria-label="Profile numbers"><button type="button" class="profile-stat-open" id="profileFriendsOpen" aria-label="View accepted friends"><strong id="profileFriendsNumber">0</strong><span>Friends</span></button><div><strong id="profileFollowersNumber">—</strong><span>Followers*</span></div><div><strong id="profileFollowingNumber">0</strong><span>Following</span></div></div>
   <div class="avatar-edit-row"><button type="button" id="chooseProfilePhoto" class="primary small">📷 Choose photo</button><button type="button" id="removeProfilePhoto" class="outline small" disabled>Remove photo</button></div>
   <input type="file" id="profilePhotoInput" accept="image/*" class="hidden" aria-label="Select profile picture from your photos">
   <p id="profilePhotoStatus" class="profile-photo-note" aria-live="polite">Photo is optional. Saved privately on this phone only, not shown to other users yet. *Follower count needs cloud profiles.</p>
@@ -576,6 +576,17 @@ function switchTab(next){
  window.scrollTo({top:0,behavior:'instant'});
 }
 document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.page)));
+// The Friends number on the profile opens the existing accepted-friends directory.
+// Friends and their names are kept only on this phone in this beta.
+$('profileFriendsOpen').onclick=()=>{
+  if(!user){switchTab('profile');return;}
+  renderFriends();
+  switchTab('search');
+  requestAnimationFrame(()=>{
+    const panel=$('friendsPanel');
+    if(panel&&!panel.classList.contains('hidden')) panel.scrollIntoView({block:'start',behavior:'instant'});
+  });
+};
 $('goProfile').onclick=()=>switchTab('profile');
 $('goSearchFromInbox').onclick=()=>switchTab('search');
 $('backToChats').onclick=()=>closeConversation();
