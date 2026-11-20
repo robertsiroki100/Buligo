@@ -1,0 +1,1505 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0a0c17">
+<meta name="description" content="BULIGO — photo and video previews, followers, reposts, LIVE, chat and calls.">
+<title>BULIGO – Videos &amp; Community (14+)</title>
+<style>
+:root{font:16px/1.45 -apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;color-scheme:dark;--bg:#090a12;--panel:#15192a;--panel2:#20253d;--line:#373c56;--light:#f8f9ff;--dim:#bbc3d7;--mint:#67e1b4;--purple:#ba9eff;--danger:#fb8196}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--light);min-height:100dvh}main{max-width:560px;margin:auto;padding:12px 14px 105px}button,a,input{font:inherit}button{cursor:pointer}button:disabled{opacity:.5;cursor:wait}.hidden{display:none!important}
+header{position:sticky;z-index:5;top:0;background:rgba(9,10,18,.96);backdrop-filter:blur(18px);display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 3px;border-bottom:1px solid #292d41;margin-bottom:12px}.logo{font-size:28px;font-weight:950;letter-spacing:.035em;line-height:1}.logo span{color:var(--purple)}.header-action{background:transparent;border:1px solid #444864;border-radius:999px;padding:6px 11px;color:#e5defd;font-size:12px;font-weight:750}
+.tabpage{min-height:65vh}.section-title{margin:16px 0 5px;font-size:27px;letter-spacing:-.04em;line-height:1.18}.subtle{font-size:14px;color:var(--dim);margin:4px 0 16px}.pillrow{display:flex;justify-content:center;gap:24px;padding:7px 0 12px}.pillrow button{border:0;background:none;color:#a6abc1;font-weight:850;font-size:17px;padding:7px 0}.pillrow button.selected{color:white;border-bottom:3px solid var(--purple)}
+.video-frame{position:relative;isolation:isolate;width:min(100%,415px);aspect-ratio:9/14.8;max-height:68dvh;border-radius:23px;overflow:hidden;margin:0 auto 14px;background:radial-gradient(circle at 70% 18%,#6734a8,transparent 40%),radial-gradient(circle at 28% 76%,#176d85,transparent 45%),linear-gradient(170deg,#11152a,#20294d 65%,#111522);border:1px solid #424064;box-shadow:0 12px 35px #0005}.video-frame::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 38%,#090a14d0 100%);pointer-events:none;z-index:1}.video-info{position:absolute;z-index:2;bottom:24px;left:20px;right:20px}.video-info h2{font-size:31px;line-height:1.08;margin:9px 0;font-weight:900;letter-spacing:-.04em}.video-info p{font-size:14px;color:#ecf1ff;margin:0}.video-brand{position:absolute;z-index:1;top:14%;left:0;right:0;text-align:center;font-weight:950;font-size:54px;letter-spacing:.01em;color:#e1d3ff;opacity:.25;transform:rotate(-12deg)}.video-center{position:absolute;z-index:2;top:42%;left:0;right:0;display:grid;place-items:center;text-align:center}.play-symbol{width:84px;height:84px;border-radius:50%;background:#ffffff2c;border:1px solid #fff5;display:grid;place-items:center;font-size:31px;backdrop-filter:blur(10px)}.video-center p{color:#eef0fb;font-size:13px}.video-frame video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.status-chip{display:inline-flex;align-items:center;gap:6px;background:#ffffff21;border-radius:99px;padding:5px 10px;font-weight:800;font-size:12px}.feed-tip{text-align:center;font-size:12px;color:var(--dim);margin:4px 0 18px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:20px;margin-bottom:15px}h2{font-size:21px;margin:0 0 7px}label{font-weight:750;display:block;margin:15px 0 6px;font-size:14px}input:not([type=file]){width:100%;padding:14px 15px;color:white;font-size:16px;border:1px solid #5d668a;border-radius:13px;background:#0f1527;outline:none}input:focus{border-color:var(--purple)}.primary,.secondary,.green,.danger,.outline,.action-btn,.link{border:0;display:inline-flex;align-items:center;justify-content:center;min-height:47px;border-radius:13px;padding:11px 16px;font-weight:800;text-align:center;text-decoration:none}.primary{background:var(--purple);color:#19152b}.green{background:var(--mint);color:#062e24}.secondary{background:#303958;color:#fff}.danger{background:var(--danger);color:#26131a}.outline{color:#fff;background:transparent;border:1px solid #69708a}.small{min-height:38px;padding:7px 10px;font-size:13px}.row{display:flex;gap:9px;flex-wrap:wrap}.row>*{flex:1}.status{font-size:14px;overflow-wrap:anywhere;border-radius:12px;background:#10182a;color:#e5ecff;padding:13px 14px;margin-top:14px;min-height:45px}.status.error{background:#53293a;color:#ffe6ed}.status.ok{background:#153d34;color:#ceffec}.smalltext{color:var(--dim);font-size:14px;margin:4px 0 15px}.account{display:flex;gap:10px;align-items:center;justify-content:space-between;margin:10px 0 17px;font-size:14px;overflow-wrap:anywhere}.account strong{min-width:0;overflow-wrap:anywhere}.namebox{border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;justify-content:space-between;gap:10px;align-items:center}.namebox strong{color:var(--purple)}.found{background:#0f1628;border:1px solid #4d5d77;border-radius:13px;padding:12px;margin:10px 0;display:flex;align-items:center;justify-content:space-between;gap:9px}.found strong{font-size:16px}.found small{display:block;color:var(--dim)}.found button{min-width:110px}.privacy{font-size:12px;color:var(--dim)}
+.stage{position:relative;aspect-ratio:3/4;max-height:68dvh;background:#070b14;border:1px solid var(--line);border-radius:23px;overflow:hidden;margin-bottom:12px}#remoteVideo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#080b17}#localVideo{position:absolute;z-index:2;right:12px;top:12px;width:29%;height:29%;object-fit:cover;transform:scaleX(-1);border-radius:15px;border:2px solid #ddd8ff70;background:#182039}.waiting{position:absolute;inset:0;display:grid;place-content:center;text-align:center;gap:12px;color:#e5e8fa;pointer-events:none}.waiting b{font-size:42px}.controls{display:flex;flex-wrap:wrap;gap:8px}.controls button{flex:1;min-width:105px;font-size:14px;padding:10px 12px}
+.overlay{position:fixed;inset:0;z-index:20;background:#000d;display:flex;align-items:center;justify-content:center;padding:16px}.dialog{max-width:410px;width:100%;padding:26px 18px;text-align:center;background:#222c4a;border:1px solid #666f98;border-radius:24px}.dialog p{overflow-wrap:anywhere}.dialog h2{margin:5px 0}.dialog .symbol{font-size:55px}
+.empty-state{border:1px dashed #5a5d7a;border-radius:19px;padding:30px 20px;text-align:center;background:#181a30}.empty-state .emoji{font-size:44px;margin-bottom:6px}.empty-state p{color:var(--dim);font-size:14px}.file-picker{display:block;border:2px dashed #66688e;border-radius:18px;padding:28px 18px;text-align:center;background:#1b2035;cursor:pointer;margin:16px 0}.file-picker input{position:absolute;opacity:0;width:1px;height:1px}.file-picker b{display:block;font-size:18px}.file-picker small{color:var(--dim)}.not-live{border-radius:14px;padding:13px;background:#2d2b41;color:#f2eafa;font-size:13px}.upload-note{color:var(--dim);font-size:13px}.feature-list{display:grid;gap:9px}.feature{display:flex;gap:14px;align-items:center;background:#191d30;border:1px solid var(--line);border-radius:14px;padding:15px}.feature .emoji{font-size:24px}.feature strong{display:block;font-size:15px}.feature small{font-size:13px;color:var(--dim)}.fullbtn{width:100%}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#10121eea;backdrop-filter:blur(15px);border-top:1px solid #31334c;z-index:7;display:flex;justify-content:space-around;padding:7px max(8px, env(safe-area-inset-right)) calc(7px + env(safe-area-inset-bottom));gap:1px}.navbtn{border:none;background:transparent;color:#aab0c6;display:grid;place-items:center;gap:2px;min-width:53px;font-size:10px;font-weight:750;padding:4px}.navbtn.active{color:#f0eaff}.navbtn .navicon{font-size:22px}.navbtn.create .navicon{background:linear-gradient(100deg,#78e7cb,#b4a0ff);border-radius:9px;width:42px;height:30px;color:#121320;display:grid;place-items:center;font-size:24px;font-weight:850}.footer{font-size:12px;line-height:1.5;color:#98a4bc;margin:20px 4px 15px}.link{min-height:40px;border:1px solid var(--line);color:#d6caff;padding:8px 12px;font-size:13px}.chat-list{display:grid;gap:9px;margin:13px 0}.chat-row{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;text-align:left;border:1px solid var(--line);background:#101728;color:#fff;border-radius:13px;padding:12px;cursor:pointer}.chat-row .chat-meta{font-size:12px;color:var(--dim)}.chat-row .chat-name{display:block;font-weight:850;overflow-wrap:anywhere}.chat-unread{color:#071d19;background:var(--mint);border-radius:999px;font-size:12px;padding:3px 8px;font-weight:850}.chat-header{display:flex;align-items:center;gap:8px;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:10px}.chat-header strong{flex:1;font-size:17px;overflow-wrap:anywhere}.chat-messages{display:flex;flex-direction:column;gap:10px;min-height:215px;max-height:44vh;overflow:auto;padding:12px 3px 15px}.bubble{max-width:83%;padding:10px 13px;border-radius:16px;background:#303958;align-self:flex-start;overflow-wrap:anywhere;white-space:pre-wrap}.bubble.mine{background:#473a77;align-self:flex-end}.bubble small{display:block;color:#ced6e8;font-size:10px;margin-top:4px;text-align:right}.chat-compose textarea{width:100%;padding:12px 14px;border-radius:13px;color:white;background:#0f1527;border:1px solid #5d668a;resize:vertical;min-height:66px;font:16px/1.4 -apple-system,Arial,sans-serif}.chat-compose button{width:100%;margin-top:8px}.chat-note{font-size:12px;color:var(--dim)}.found-actions{display:grid;gap:6px;min-width:108px}.found-actions button{min-width:100%;white-space:nowrap}.friend-pill{font-size:12px;color:var(--dim);display:block;margin:4px 0 9px}.friend-pill.online{color:var(--mint)}.friend-pill.checking{color:#eedb9e}.friend-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:10px}.friend-actions button{font-size:12px;padding:8px 5px;min-width:0}.friend-entry{border:1px solid var(--line);border-radius:15px;padding:14px;margin:10px 0;background:#101728}.friend-entry strong{font-size:16px}.friend-request-note{font-size:12px;color:var(--dim);line-height:1.5}.profile-hero{background:linear-gradient(115deg,#28234c,#14283b);padding:25px 20px;border-radius:18px;text-align:center;margin-bottom:15px}.profile-hero .avatar{margin:auto auto 8px;width:78px;height:78px;border-radius:50%;background:#b9a2ff;display:grid;place-items:center;color:#100c25;font-weight:950;font-size:34px}
+@media(max-width:360px){.card{padding:15px}.controls button{min-width:0}.account{flex-wrap:wrap}.navbtn{min-width:46px}.bottom-nav{padding-left:2px;padding-right:2px}}
+
+/* BULIGO V5: vertical short-video experience, screen reader friendly and mobile first */
+body.home-mode{background:#040509}
+body.home-mode main{max-width:540px;padding:0 0 calc(78px + env(safe-area-inset-bottom))}
+body.home-mode header,body.home-mode .footer{display:none}
+body.home-mode #homeTab{min-height:0}
+body.home-mode .bottom-nav{background:linear-gradient(0deg,#05060b 68%,#05060be8);border-top-color:#ffffff35}
+body.home-mode .pillrow{position:absolute;left:50%;top:max(13px,env(safe-area-inset-top));transform:translateX(-50%);z-index:4;padding:2px 13px;border-radius:999px;background:#0006;backdrop-filter:blur(6px);gap:18px;white-space:nowrap}
+body.home-mode .pillrow button{font-size:16px;padding:7px 0;text-shadow:0 1px 7px #000b}
+body.home-mode .pillrow button.selected{border-bottom:2px solid white}
+body.home-mode .feed-search{position:absolute;right:15px;top:max(18px,env(safe-area-inset-top));z-index:5;width:38px;height:38px;border:0;border-radius:50%;background:#0007;color:#fff;font-size:25px}
+.feed-scroll{height:calc(100dvh - 72px - env(safe-area-inset-bottom));overflow-y:auto;overscroll-behavior:contain;scroll-snap-type:y mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;background:#05060a}
+.feed-scroll::-webkit-scrollbar{display:none}
+.clip{position:relative;isolation:isolate;height:100%;min-height:300px;overflow:hidden;scroll-snap-align:start;scroll-snap-stop:always;background:#090e1d}
+.clip-bg{position:absolute;inset:0;background:radial-gradient(circle at 18% 23%,#783dd1a0,transparent 43%),radial-gradient(circle at 83% 70%,#00c4b4a0,transparent 47%),linear-gradient(136deg,#11182a,#241b42 59%,#090c17);overflow:hidden}
+.clip-bg.clip-bg-two{background:radial-gradient(circle at 82% 19%,#fe609380,transparent 39%),radial-gradient(circle at 19% 74%,#5bcce990,transparent 44%),linear-gradient(148deg,#171029,#132539 65%,#070912)}
+.clip-glow{position:absolute;border:1px solid #ffffff20;border-radius:35%;width:54%;aspect-ratio:1;top:24%;left:21%;transform:rotate(-27deg);box-shadow:0 0 110px #f9b3ff32,inset 0 0 90px #b991ed2b}
+.clip-bg-two .clip-glow{transform:rotate(29deg);border-radius:50%;box-shadow:0 0 120px #6ed9e766,inset 0 0 60px #ff85cc37}
+.clip-brand{position:absolute;top:39%;left:4%;right:4%;font-weight:950;letter-spacing:-.05em;text-align:center;font-size:clamp(45px,15vw,75px);color:#fff;text-shadow:0 8px 30px #000b}
+.clip-brand small{display:block;font-size:15px;letter-spacing:.03em;margin-top:9px;color:#f7defe}
+.clip video{position:absolute;inset:0;height:100%;width:100%;object-fit:cover;background:#070a13}
+.clip::after{content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,#05050a3b 0%,transparent 27%,transparent 45%,#05050a30 61%,#05050ad9 100%);pointer-events:none}
+.clip-demo-tag{position:absolute;z-index:2;left:14px;top:75px;font-size:11px;font-weight:800;background:#0007;border:1px solid #ffffff44;border-radius:30px;padding:5px 10px}
+.clip-side{position:absolute;right:9px;bottom:100px;z-index:3;display:grid;justify-items:center;gap:16px;width:65px}
+.clip-action{background:transparent;color:#fff;border:0;display:grid;justify-items:center;font-size:11px;font-weight:750;gap:0;text-shadow:0 2px 7px #000b;min-width:58px}
+.clip-action .sym{font-size:30px;display:block;line-height:1.25;filter:drop-shadow(0 2px 6px #0009)}
+.clip-action[aria-pressed="true"] .sym{color:#ff4b80}
+.clip-action.follow-action .sym{font-size:25px}
+.clip-avatar{width:47px;height:47px;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#c69dff,#5bc9db);color:#1d123e;display:grid;place-items:center;font-size:18px;font-weight:950;box-shadow:0 3px 12px #0008}
+.clip-details{position:absolute;z-index:3;left:16px;bottom:30px;right:84px;text-shadow:0 2px 8px #000b}
+.clip-details strong{font-size:17px}.clip-details p{font-size:14px;white-space:pre-line;line-height:1.4;margin:7px 0 8px;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.clip-details .music{font-size:12px;letter-spacing:.02em;color:#f0e5fb}
+.clip-local{font-size:11px;color:#f5e0ac;display:inline-block;margin-top:8px;background:#0008;padding:5px 8px;border-radius:12px}
+.clip-tap{position:absolute;inset:14% 17% 14% 6%;z-index:2;background:transparent;border:0;cursor:pointer}
+.clip-play{position:absolute;z-index:3;top:45%;left:48%;font-size:52px;pointer-events:none;filter:drop-shadow(0 2px 7px #000b)}
+#followingMessage{margin:64px 14px;min-height:50vh}
+.video-upload-preview{width:100%;max-height:420px;object-fit:contain;border-radius:16px;background:#05070b;margin:12px 0}
+#videoCaption{width:100%;background:#11182b;color:#fff;border:1px solid #60688a;border-radius:13px;padding:13px;min-height:75px;font:16px/1.4 -apple-system,Arial,sans-serif}
+.upload-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.comments-backdrop{position:fixed;inset:0;z-index:15;background:#0009;display:flex;align-items:flex-end;justify-content:center}
+.comments-sheet{background:#171a2b;border:1px solid #525771;border-radius:22px 22px 0 0;width:min(100%,560px);max-height:72dvh;padding:17px 18px calc(20px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:12px;box-shadow:0 -7px 30px #0009}
+.comments-head{display:flex;align-items:center;justify-content:space-between}.comments-head h3{margin:0;font-size:20px}.comments-head button{border:0;background:#303752;color:#fff;border-radius:50%;width:36px;height:36px;font-size:20px}
+.comments-list{overflow:auto;min-height:125px;max-height:40dvh;display:flex;flex-direction:column;gap:8px}
+.comment{background:#23283d;border-radius:14px;padding:10px 12px;font-size:14px;overflow-wrap:anywhere}.comment small{display:block;color:#aebce0;font-size:11px;margin-bottom:3px}
+.comment-form{display:flex;gap:8px}.comment-form input{flex:1;min-width:0}.comment-form button{white-space:nowrap}
+.feed-instruction{font-size:13px;color:#d0d3ec;text-align:center;margin:8px 0 0}
+@media (min-width:760px){body.home-mode .clip{border-radius:0 0 18px 18px}body.home-mode main{margin:auto}}
+@media (prefers-reduced-motion:reduce){.feed-scroll{scroll-behavior:auto}}
+/* BULIGO V6: ringing, opt-in sound, following and private profile settings */
+#ringEnable{font-size:12px;max-width:155px;line-height:1.1;min-height:37px}
+#ringEnable.ready{border-color:#65dfaf;color:#6fe7bb}
+.profile-private{background:#11182b;border:1px solid #434b66;padding:12px 15px;border-radius:14px;margin:14px 0;color:#d9def2;font-size:13px}
+.profile-private strong{display:block;font-size:14px;margin-bottom:3px}
+#signupExtras{margin-top:17px;padding:14px;border:1px solid #55577d;background:#191d33;border-radius:16px}
+#signupExtras h3{margin:0 0 4px;font-size:17px}
+#signupExtras p{font-size:13px;color:var(--dim);margin:5px 0}
+#signupExtras label{margin-top:11px}
+.checkline{display:flex;align-items:center;gap:9px;font-size:13px;line-height:1.35;font-weight:500;margin:16px 0 3px}
+.checkline input{width:19px;height:19px;flex:none;accent-color:var(--purple)}
+#followingDirectory{padding:18px 0 0;min-height:40vh}
+#followingDirectory .found{margin:12px 0}
+#followSummary{font-size:13px;color:var(--dim);margin-top:8px}
+#callPanel.voice-only #remoteVideo{opacity:0;pointer-events:none}
+#callPanel.voice-only #localVideo{display:none}
+#callPanel.voice-only #waiting{display:grid!important}
+#callPanel.voice-only #waiting b{font-size:64px}
+#incomingOverlay .ring-hint{font-size:12px;color:#d8e1fc}
+
+/* BULIGO V8: clear TikTok-style actions and separate Calls directory */
+.clip-side{gap:8px;bottom:92px;width:62px;right:7px}
+.clip-action{font-size:10px;min-width:54px;line-height:1.25}
+.clip-action .sym{font-size:25px}
+.clip-avatar{height:42px;width:42px}
+.clip-details{right:77px}
+@media(max-height:710px){.clip-side{gap:4px;bottom:69px}.clip-action .sym{font-size:23px}.clip-details{bottom:18px}}
+.calls-person{background:#0f1728;border:1px solid #4b5474;border-radius:15px;padding:14px;margin:11px 0}
+.calls-person strong{display:block;font-size:16px}
+.calls-person .call-actions{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}
+.calls-person .call-actions button{flex:1;min-width:87px}
+.calls-note{color:#c5cbe0;font-size:13px;line-height:1.5}
+.calls-dot{color:#94a1bb;font-size:12px;margin-top:5px}
+.calls-dot.online{color:#69e7b2}
+.reaction-bar{display:flex;justify-content:space-around;gap:7px;padding:12px 0}
+.reaction-bar button{font-size:25px;background:#303858;border:1px solid #657092;border-radius:13px;padding:8px 12px}
+.mini-toast{position:fixed;z-index:16;left:50%;bottom:calc(90px + env(safe-area-inset-bottom));transform:translateX(-50%);width:min(90vw,400px);padding:12px 15px;border-radius:14px;background:#29335b;border:1px solid #a9a3db;color:#fff;text-align:center;font-size:13px;box-shadow:0 7px 25px #000a;pointer-events:none}
+
+/* BULIGO LIVE: limited peer-to-peer broadcast beta; opt-in camera and microphone. */
+.live-video{width:100%;aspect-ratio:9/12;max-height:56dvh;background:#070a13;object-fit:cover;border:1px solid #4b526e;border-radius:18px;margin:12px 0}
+.live-video.is-mine{transform:scaleX(-1)}
+.live-badge{display:inline-flex;align-items:center;gap:7px;font-size:12px;background:#81233a;color:#fff;border:1px solid #f36083;padding:5px 10px;border-radius:100px;font-weight:900}
+.live-badge.off{background:#2e354b;border-color:#6b7390}
+.live-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.live-share-row{display:flex;gap:7px;flex-wrap:wrap}.live-share-row input{flex:2;min-width:180px;font-size:12px}
+.live-chat{min-height:90px;max-height:28dvh;overflow:auto;border:1px solid #424968;background:#101728;border-radius:14px;padding:10px;margin:12px 0;display:grid;gap:7px;align-content:start}
+.live-chat p{margin:0;font-size:13px;overflow-wrap:anywhere}.live-chat strong{color:#b5e9d3}.live-chat .live-heart{font-size:23px}
+.live-chat-form{display:flex;gap:7px;align-items:center}.live-chat-form input{min-width:0;flex:1}.live-chat-form button{flex:none}
+.live-friend{background:#11172b;border:1px solid #475275;border-radius:14px;padding:12px;display:flex;align-items:center;gap:8px;justify-content:space-between;margin:9px 0}
+.live-friend strong{display:block}.live-friend small{display:block;color:#b1bcd9}
+.live-friend button{min-width:92px}
+.navbtn{min-width:0;flex:1;padding:4px 1px;font-size:10px}
+@media(max-width:360px){.navbtn{font-size:9px}.navbtn .navicon{font-size:20px}}
+
+/* Public LIVE directory, synchronized using Firestore. */
+.public-live-container{margin:9px 0 14px;padding:12px;border-radius:15px;background:#1b223c;border:1px solid #394565}
+.public-live-title{display:flex;align-items:center;justify-content:space-between;gap:8px;font-weight:800}
+.public-live-grid{display:flex;gap:10px;overflow-x:auto;padding:10px 0 2px;scroll-snap-type:x proximity}
+.public-live-card{flex:0 0 min(70vw,230px);border:1px solid #7c415c;border-radius:14px;padding:11px;text-align:left;background:linear-gradient(140deg,#43213f,#1a2240);color:#fff;scroll-snap-align:start}
+.public-live-card strong{display:block;font-size:15px;overflow-wrap:anywhere}
+.public-live-card small{display:block;color:#ebdbe9;font-size:12px;margin-top:4px}
+.public-live-empty{color:#b8c2df;font-size:13px;margin:8px 0}
+.public-live-error{color:#ffd0d5;font-size:12px;margin-top:6px}
+
+/* LIVE overlay: show chat and hearts directly on the broadcaster/viewer video. */
+.live-stage{position:relative;isolation:isolate;width:100%;aspect-ratio:9/12;max-height:56dvh;overflow:hidden;border-radius:18px;background:#070a13;border:1px solid #4b526e;margin:12px 0;box-shadow:0 10px 25px #0005}
+.live-stage .live-video{position:absolute;inset:0;width:100%;height:100%;max-height:none;margin:0;border:0;border-radius:0;object-fit:cover;background:#070a13}
+.live-stage::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(to bottom,#0008,transparent 20%,transparent 45%,#000a 100%);z-index:1}
+.live-stage-live-label{position:absolute;top:12px;left:12px;z-index:3;background:#c91a43;color:#fff;border-radius:7px;padding:4px 9px;font-size:12px;font-weight:900;letter-spacing:.02em;box-shadow:0 2px 12px #0007}
+.live-chat-overlay{position:absolute;z-index:4;left:9px;right:50px;bottom:62px;min-height:0;max-height:42%;margin:0;padding:0;overflow:hidden;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:6px;border:0;border-radius:0;background:transparent;pointer-events:none;mask-image:linear-gradient(to bottom,transparent,#000 19%);-webkit-mask-image:linear-gradient(to bottom,transparent,#000 19%)}
+.live-chat-overlay p{flex:0 0 auto;max-width:100%;color:white;font-size:13px;line-height:1.35;letter-spacing:0;padding:6px 9px;border-radius:11px;background:#060914b8;backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);text-shadow:0 1px 3px #000;box-shadow:0 2px 6px #0004;overflow-wrap:anywhere;white-space:pre-wrap}
+.live-chat-overlay strong{color:#9cf5d5}
+.live-chat-overlay .live-heart{font-size:13px}
+.live-hearts{position:absolute;z-index:5;right:11px;bottom:88px;width:39px;height:55%;pointer-events:none;overflow:visible}
+.live-float-heart{position:absolute;bottom:2px;right:2px;font-size:29px;line-height:1;filter:drop-shadow(0 3px 6px #000b);animation:buligoHeartRise 2.2s ease-out forwards;opacity:0}
+@keyframes buligoHeartRise{0%{transform:translate(0,0) scale(.65);opacity:0}15%{opacity:1}80%{opacity:1}100%{transform:translate(-16px,-145px) scale(1.22);opacity:0}}
+@media(max-width:380px){.live-chat-overlay{right:43px;bottom:56px;max-height:41%}.live-chat-overlay p{font-size:12px;padding:5px 8px}.live-stage-live-label{font-size:11px}}
+@media(prefers-reduced-motion:reduce){.live-float-heart{animation-duration:.3s}}
+
+/* BULIGO LIVE V2: both incoming messages and composer are INSIDE video frames */
+.live-version-label{color:#88e5c4;display:inline-block;border:1px solid #367b6b;background:#0d2b2b;border-radius:999px;padding:5px 10px;margin:0 0 12px;font-size:12px;font-weight:900;letter-spacing:.025em}
+.live-stage{aspect-ratio:9/14;max-height:65dvh;scroll-margin-top:80px}
+.live-chat-overlay{left:10px;right:55px;bottom:76px;max-height:48%;gap:5px;mask-image:linear-gradient(to bottom,transparent,black 17%);-webkit-mask-image:linear-gradient(to bottom,transparent,black 17%)}
+.live-chat-overlay p{font-size:13px;padding:6px 10px;max-width:100%;line-height:1.35}
+.live-chat-overlay p.live-heart{background:#4a152d9c}
+.live-hearts{right:10px;bottom:92px}
+.live-composer{position:absolute;left:9px;right:9px;bottom:10px;z-index:7;display:flex;align-items:center;gap:5px;padding:6px;background:#070b16be;border:1px solid #f4f5ff55;border-radius:16px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.live-composer input:not([type=file]){min-width:0;flex:1;border:0;outline:none;background:#ffffff18;border-radius:10px;padding:10px 9px;font-size:16px;color:white;height:43px}
+.live-composer input::placeholder{color:#e0e2f4}
+.live-composer button{flex:none;border:0;min-height:43px;padding:4px 10px;border-radius:10px;font-size:17px;line-height:1}
+.live-send-btn{color:#161129;background:#bba1ff}.live-heart-btn{color:white;background:#5c2a4a}
+.live-overlay-note{color:#bac4e0;padding:8px 12px;font-size:12px;line-height:1.4}
+@media(max-width:360px){.live-composer{left:5px;right:5px;gap:4px;padding:5px}.live-composer button{padding:4px 8px}.live-chat-overlay{bottom:72px;right:47px}}
+/* BULIGO LIVE guest requests, moderation and viewer-only emoji reactions */
+.live-reactions{position:absolute;right:7px;top:53px;z-index:8;display:flex;flex-direction:column;gap:5px;max-height:55%;overflow-y:auto;scrollbar-width:none}
+.live-reactions button{background:#10162ab8;border:1px solid #ffffff6b;color:#fff;border-radius:999px;min-width:39px;min-height:41px;padding:4px;font-size:23px;touch-action:manipulation}
+.live-reactions button:focus-visible,.guest-tools button:focus-visible{outline:3px solid #bda3ff}
+.live-stage .live-chat-overlay{right:55px}
+#liveHostStage #liveHostHeartBtn{display:none}
+.live-reaction-floating{font-size:26px}
+.live-request-panel{margin:12px 0;padding:13px;border-radius:14px;border:1px solid #4b5f86;background:#10192c}
+.live-request-item{padding:10px 0;display:flex;justify-content:space-between;gap:8px;align-items:center;border-bottom:1px solid #354360}
+.live-request-item strong{font-size:14px;overflow-wrap:anywhere}
+.live-request-item .row{flex:0 0 auto}
+.live-request-item button{font-size:12px;padding:6px 9px;min-height:36px}
+.guest-tools{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.guest-tools button{flex:1;min-width:115px}
+.live-cohost{position:absolute;top:10px;right:9px;width:34%;height:30%;background:#121d2a;border:2px solid #c7b3ff;border-radius:14px;z-index:6;overflow:hidden;box-shadow:0 4px 20px #0009}
+.live-cohost video{width:100%;height:100%;object-fit:cover;background:#0b1425}
+.live-cohost span{position:absolute;bottom:0;left:0;right:0;background:#050b16ac;color:white;font-size:10px;padding:3px 5px}
+.live-cohost button{position:absolute;top:4px;right:4px;background:#1a1b2fe0;color:white;border:1px solid #fff8;border-radius:9px;padding:4px;font-size:11px}
+.live-reaction-info{font-size:12px;color:#d5def3}
+@media(max-width:390px){.live-reactions{top:54px;right:4px}.live-reactions button{min-height:35px;min-width:35px;font-size:20px}.live-cohost{width:32%;height:27%}}
+
+/* V11: photos alongside videos, with a local profile media gallery. */
+.photo-upload-preview{display:block;width:100%;max-height:440px;object-fit:contain;background:#070a13;border-radius:16px;margin:12px 0}
+.media-count{display:flex;gap:9px;flex-wrap:wrap;margin:12px 0}
+.media-count>span{flex:1;min-width:90px;text-align:center;background:#1f2540;padding:12px 8px;border-radius:13px;font-weight:800}
+.media-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;margin-top:12px}
+.media-tile{display:flex;justify-content:center;align-items:center;position:relative;aspect-ratio:3/4;border-radius:7px;border:1px solid #4d5779;background:#10162a;overflow:hidden;color:#fff;cursor:pointer;padding:0}
+.media-tile img,.media-tile video{width:100%;height:100%;object-fit:cover;pointer-events:none}
+.media-tile .media-kind{position:absolute;top:5px;left:5px;border-radius:5px;background:#0009;color:#fff;font-size:12px;padding:2px 6px}
+.media-tile .media-caption{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,#000c);padding:20px 5px 6px;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:left}
+/* V10: friend media repost preview. Local-only until the public posts backend exists. */
+.clip img.clip-image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.clip .clip-source-link{position:absolute;bottom:10px;left:16px;z-index:4;max-width:80%;font-size:12px;color:white;background:#302d58d8;padding:6px 11px;border:1px solid #b4a3fc8a;border-radius:999px;text-decoration:none}
+.repost-card{background:linear-gradient(145deg,#302252,#102b40);border:1px solid #9c82d2;border-radius:17px;padding:14px;margin:9px 0;display:flex;gap:12px;align-items:center;justify-content:space-between}
+.repost-card strong{display:block;overflow-wrap:anywhere}.repost-card p{margin:3px 0;color:var(--dim);font-size:12px;overflow-wrap:anywhere}.repost-card button{flex:none}
+.repost-form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.repost-notice{border-radius:11px;background:#23263e;color:#d6dcf0;font-size:13px;padding:11px;margin:12px 0}
+.clip-repost-credit{font-size:12px;color:#e7d9ff}
+.repost-source-open{position:absolute;z-index:4;top:115px;left:14px;color:#fff;text-decoration:none;font-size:12px;background:#3c315fb8;padding:6px 10px;border-radius:999px;border:1px solid #aaa0ee8a}
+/* Post ownership & draft visibility controls. Shared publishing is not enabled. */
+.clip-own-delete{position:absolute;top:112px;left:14px;z-index:6;border:1px solid #ffd0dd99;background:#622a3fe0;color:#fff;border-radius:999px;min-height:38px;padding:7px 12px;font-size:13px;font-weight:800}
+.my-media-entry{position:relative;min-width:0;border-radius:14px;overflow:hidden;background:#1b1e32}
+.my-media-entry .media-tile{width:100%;height:100%;min-height:175px}
+.media-delete{position:absolute;right:7px;top:7px;z-index:5;background:#73283ce8;color:white;border:1px solid #ffd0dd91;border-radius:999px;min-height:35px;min-width:35px;font-size:18px}
+.draft-notice{font-size:13px;color:#d7d1f0;background:#26243d;border:1px solid #514c76;border-radius:12px;padding:10px 12px}
+#postVisibility{width:100%;background:#0f1527;color:#fff;font-size:16px;border:1px solid #5d668a;border-radius:13px;padding:14px}
+
+/* BULIGO iPhone layout repair: no overlapping LIVE card and side actions. */
+#buligoBackupNotice{position:fixed;z-index:50;left:12px;right:12px;top:calc(10px + env(safe-area-inset-top));padding:11px 14px;border:1px solid #a67b4c;border-radius:13px;background:#422e1fee;color:#ffe9c7;font-size:12px;line-height:1.35;box-shadow:0 7px 20px #0008}
+body.home-mode .public-live-container{margin:0;padding:8px 12px;border-radius:0;min-height:0;position:relative;z-index:1}
+body.home-mode .public-live-title{padding-top:34px;font-size:13px}
+body.home-mode .public-live-title button{min-height:33px;padding:5px 9px;font-size:12px}
+body.home-mode .public-live-grid{padding:3px 0 0;min-height:0}
+body.home-mode .public-live-empty{margin:3px 0;font-size:12px}
+body.home-mode .pillrow{position:fixed;top:calc(5px + env(safe-area-inset-top));}
+body.home-mode .feed-search{position:fixed;top:calc(10px + env(safe-area-inset-top));}
+body.home-mode .feed-scroll{height:calc(100dvh - 160px - env(safe-area-inset-bottom));}
+body.home-mode .clip-side{gap:6px;bottom:76px;right:4px;width:60px}
+body.home-mode .clip-action{gap:0;padding:1px 0;font-size:10px;min-width:50px}
+body.home-mode .clip-action .sym{font-size:25px}
+body.home-mode .clip-avatar{width:40px;height:40px}
+body.home-mode .clip-details{left:12px;right:73px;bottom:16px}
+body.home-mode .clip-own-delete{top:36px;left:13px}
+body.home-mode .clip-demo-tag{top:8px}
+@media(max-height:750px){body.home-mode .clip-side{gap:2px;bottom:60px}body.home-mode .clip-action .sym{font-size:22px}body.home-mode .clip-action{font-size:9px}}
+
+/* BULIGO stable homepage V3 for mobile Safari: a single document scroll eliminates
+   nested-snap/fixed-layer ghosting of LIVE banners and reaction buttons. */
+body.home-mode{overflow-x:hidden;-webkit-overflow-scrolling:touch}
+body.home-mode main{max-width:560px;padding:0 0 calc(80px + env(safe-area-inset-bottom))}
+body.home-mode #homeTab{position:relative;overflow:visible;min-height:0}
+body.home-mode .pillrow{position:relative!important;left:auto!important;top:auto!important;transform:none!important;width:max-content;max-width:calc(100% - 90px);margin:10px auto!important;padding:4px 12px!important;z-index:2;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+body.home-mode .feed-search{position:absolute!important;top:12px!important;right:14px!important;left:auto!important;z-index:3}
+body.home-mode .public-live-container{position:relative;margin:6px 12px 14px!important;padding:12px!important;border-radius:16px!important;contain:layout style;z-index:auto!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+body.home-mode .public-live-title{padding-top:0!important;min-height:30px;font-size:14px;gap:8px}
+body.home-mode .public-live-title span{min-width:0;overflow-wrap:anywhere}
+body.home-mode .public-live-title button{flex:none}
+body.home-mode .feed-scroll{height:auto!important;overflow:visible!important;scroll-snap-type:none!important;overscroll-behavior:auto!important;scrollbar-width:auto!important;display:block!important;transform:none!important;contain:none!important;-webkit-overflow-scrolling:auto!important}
+body.home-mode .clip{height:calc(100dvh - 98px);min-height:500px;max-height:900px;scroll-snap-align:none!important;scroll-snap-stop:normal!important;contain:layout paint style;transform:translateZ(0);-webkit-backface-visibility:hidden;backface-visibility:hidden}
+body.home-mode .clip-side{position:absolute;right:7px!important;bottom:70px!important;width:53px!important;max-height:calc(100% - 100px);overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;scrollbar-width:none;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:5px!important;z-index:5}
+body.home-mode .clip-side::-webkit-scrollbar{display:none}
+body.home-mode .clip-action{flex:none;min-height:40px;padding:1px 0!important;font-size:10px!important;width:52px;min-width:0!important;line-height:1.17}
+body.home-mode .clip-action .sym{font-size:23px!important;line-height:1.15}
+body.home-mode .clip-avatar{flex:none;height:38px;width:38px}
+body.home-mode .clip-details{bottom:25px;left:13px;right:72px;z-index:4}
+body.home-mode .clip-own-delete{top:43px;left:12px;z-index:5}
+body.home-mode .clip-demo-tag{top:12px}
+body.home-mode .clip::after{will-change:auto}
+body.home-mode .bottom-nav{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;background:#10121e!important}
+@media(max-height:650px){body.home-mode .clip{min-height:520px}body.home-mode .clip-side{bottom:52px!important;gap:2px!important}body.home-mode .clip-action{min-height:36px}}
+
+/* BULIGO: optional TikTok-style profile photo, local to the signed-in account. */
+.profile-hero-social{padding:24px 18px 20px}
+.profile-avatar-select{position:relative;margin:0 auto 9px;width:108px;height:108px;border:3px solid #e2d5ff;border-radius:50%;background:linear-gradient(135deg,#bda2ff,#65cbe1);color:#1d1337;display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;font-size:42px;font-weight:900;box-shadow:0 8px 25px #0005}
+.profile-avatar-select img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%}
+.profile-avatar-select .profile-avatar-plus{position:absolute;bottom:0;right:0;z-index:1;background:#a893ff;color:#151027;min-width:28px;line-height:27px;font-size:20px;border-radius:50%;border:2px solid #23273f}
+.profile-social-name{font-size:25px;margin:6px 0 2px;font-weight:900;overflow-wrap:anywhere}
+.profile-social-handle{margin:0 0 14px;color:#c2c5df;font-size:13px;overflow-wrap:anywhere}
+.profile-social-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:13px 0 17px}
+.profile-social-stats>div,.profile-social-stats>button{padding:8px 3px;border-radius:13px;background:#ffffff0a}
+.profile-social-stats strong{display:block;font-size:23px;color:#fff;line-height:1.15}
+.profile-social-stats span{display:block;font-size:12px;color:#c7cde1;margin-top:4px}
+.avatar-edit-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
+.avatar-edit-row button{font-size:13px;min-height:38px}
+.profile-photo-note{font-size:12px;color:#c5cbe3;max-width:390px;margin:13px auto 0}
+.profile-avatar-select:focus-visible{outline:3px solid #71e4dc;outline-offset:4px}
+.clip-avatar.has-profile-photo{background-size:cover;background-position:center;background-repeat:no-repeat;font-size:0}
+.profile-social-stats>button{border:1px solid #9a84f28a;color:inherit;font:inherit;cursor:pointer;min-height:66px;-webkit-tap-highlight-color:transparent}.profile-social-stats>button:focus-visible{outline:3px solid #71e4dc;outline-offset:2px}.profile-social-stats>button:active{background:#8d74ec38}</style>
+<script defer src="https://cdn.jsdelivr.net/npm/peerjs@1.5.5/dist/peerjs.min.js"></script>
+</head>
+<body>
+<script>
+/* BULIGO navigation backup: keep tabs usable if the remote Firebase modules fail to load. */
+(function () {
+  var tabs = ['home','search','create','inbox','calls','live','profile','call'];
+  function go(page) {
+    if (tabs.indexOf(page) < 0) return;
+    document.body.classList.toggle('home-mode', page === 'home');
+    tabs.forEach(function(key){var el=document.getElementById(key+'Tab');if(el)el.classList.toggle('hidden',key!==page)});
+    document.querySelectorAll('.bottom-nav .navbtn').forEach(function(button){
+      var chosen=button.dataset.page===page;
+      button.classList.toggle('active',chosen);
+      button.setAttribute('aria-current',chosen?'page':'false');
+    });
+    window.scrollTo(0,0);
+    var note=document.getElementById('buligoBackupNotice');
+    if(note)note.classList.remove('hidden');
+  }
+  document.addEventListener('click',function(event){
+    if(window.__buligoMainReady)return;
+    var trigger=event.target.closest('[data-page]');
+    if(!trigger)return;
+    event.preventDefault();
+    go(trigger.dataset.page);
+  },true);
+  document.addEventListener('DOMContentLoaded',function(){
+    window.setTimeout(function(){
+      if(window.__buligoMainReady)return;
+      var note=document.getElementById('buligoBackupNotice');
+      if(note)note.classList.remove('hidden');
+    },4000);
+  });
+})();
+</script>
+
+<div id="buligoBackupNotice" class="hidden" role="status">⚠️ Limited connection: the menus work, but sign-in, LIVE and uploads may need you to open BULIGO in Safari and refresh.</div>
+<main>
+<header><div class="logo">BULI<span>GO</span></div><div style="display:flex;gap:6px;align-items:center"><button class="header-action" id="ringEnable" type="button" title="Enable audible ringing while BULIGO is open">🔔 Enable ringing</button><button class="header-action" data-page="live" type="button">🔴 LIVE</button><button class="header-action" data-page="search" type="button">⌕ Find friends</button></div></header>
+<section class="tabpage" id="homeTab">
+ <div class="pillrow" role="group" aria-label="Video feed"><button class="selected" id="feedForYou" type="button">For You</button><button id="feedFollowing" type="button">Following</button></div>
+ <button type="button" class="feed-search" data-page="search" aria-label="Find people">⌕</button>
+<div id="liveHomeSection" class="public-live-container" aria-live="polite">
+  <div class="public-live-title"><span>🔴 LIVE now on BULIGO <small style="font-size:10px;color:#9deac9;font-weight:700">V3</small></span><button class="outline small" data-page="live" type="button">See all</button></div>
+  <div id="homePublicLives" class="public-live-grid"><p class="public-live-empty">Sign in to discover live broadcasts.</p></div>
+</div>
+ <div class="feed-scroll" id="publicFeed" aria-label="Scroll to view the next video"><article class="clip" aria-label="BULIGO loading"><div class="clip-bg"><div class="clip-brand">BULIGO<small>Loading your feed…</small></div></div></article></div>
+ <div id="followingMessage" class="empty-state hidden"><div class="emoji">♡</div><h2>Following</h2><p>Follow friends you find by name. Saved follows work only on this phone. Public follower counts and following videos need a database.</p><button class="primary" id="goSearchFromHome" type="button">Find people</button></div><div id="followingDirectory" class="hidden" aria-live="polite"></div>
+</section>
+<section class="tabpage hidden" id="searchTab">
+ <h1 class="section-title">Find people</h1><p class="subtle">Search once, send a friend request, then call your accepted friends from the Friends list.</p>
+ <div id="searchGuest" class="empty-state"><div class="emoji">🔎</div><h2>Sign in to search</h2><p>Sign in and save your name to find friends who are online.</p><button class="primary" id="goProfile" type="button">Sign in or create account</button></div>
+ <section class="card hidden" id="friendsPanel"><div class="row" style="align-items:center"><h2 style="flex:2">👥 Friends <span id="friendsCount">(0)</span></h2><button class="outline small" id="refreshFriends" type="button">↻ Refresh</button></div><p class="smalltext">Accepted friends stay in this list on this phone. Call or message them with one tap when reachable.</p><div id="friendsList" aria-live="polite"></div><p class="friend-request-note">Beta: friend requests only reach someone with BULIGO open. A grey status means unreachable, not definitely offline. Friends on other phones or browsers are not synced yet.</p><p id="friendsStatus" class="status">Find someone once, then send a friend request.</p></section>
+ <section class="card hidden" id="dialPanel"><h2>🔎 Search online friends</h2><p class="smalltext">Only people who are online in this test version can appear. Names are not verified.</p><label for="findFirst">First name</label><input id="findFirst" type="text" maxlength="35" autocomplete="off" placeholder="e.g. Erika"><label for="findLast">Surname</label><input id="findLast" type="text" maxlength="35" autocomplete="off" placeholder="e.g. Siroki"><button class="primary fullbtn" id="findPeople" type="button" style="margin-top:17px">⌕ Find people</button><p class="status" id="searchStatus" aria-live="polite">Enter first name and surname to search.</p><div id="searchResults" aria-live="polite"></div><p id="appStatus" class="status" aria-live="polite">Connecting…</p></section>
+</section>
+<section class="tabpage hidden" id="createTab">
+ <button class="danger fullbtn" data-page="live" type="button" style="margin:6px 0 14px">🔴 Go LIVE with your camera</button>
+ <h1 class="section-title">Create a photo or video</h1>
+ <button id="goRepost" class="outline fullbtn" type="button" style="margin:8px 0 13px">↻ Repost a friend’s public photo or video</button><p class="subtle">Choose a photo or video from your phone to preview it in the BULIGO feed.</p>
+ <section class="card"><h2>＋ New photo or video</h2>
+  <label class="file-picker" for="videoPicker"><span style="font-size:36px">📸 🎬</span><b>Choose photo or video</b><small>Photos: JPG, PNG, HEIC or WebP (up to 15 MB). Videos: MP4, MOV or supported formats (up to 75 MB).</small><input id="videoPicker" type="file" accept="image/*,video/*"></label>
+  <img id="photoPreview" class="photo-upload-preview hidden" alt="Selected photo preview">
+  <video id="uploadPreview" class="video-upload-preview hidden" playsinline controls muted preload="metadata"></video>
+  <label for="videoCaption">Caption</label><textarea id="videoCaption" maxlength="180" placeholder="Write something about your photo or video…"></textarea>
+  <label for="postVisibility">Who can see it?</label>
+  <select id="postVisibility" aria-describedby="postVisibilityNote">
+   <option value="public">🌍 Public — everyone (upload to cloud)</option>
+   <option value="friends">👥 Friends — private draft only (not available yet)</option>
+   <option value="private" selected>🔒 Private — only me</option>
+  </select>
+  <p class="draft-notice" id="postVisibilityNote">Public publishes to BULIGO cloud. Private and Friends remain local drafts. Publish only content you are allowed to share. Cloud publishing requires Firebase–Supabase authentication integration and proper policies.</p>
+  <p id="previewStatus" class="not-live">Choose a photo or video to upload publicly, or save privately on this device.</p>
+  <button id="sharePreview" class="primary fullbtn" type="button" style="margin-top:16px" disabled>＋ Publish publicly / Save private draft</button>
+  <button type="button" class="outline fullbtn" id="refreshCloudPosts" style="margin-top:12px">↻ Refresh public videos</button><p class="smalltext" id="cloudFeedStatus" role="status">Checking public uploads…</p>
+ </section>
+ <section class="card" id="repostComposer"><h2>↻ Repost a public photo or video</h2>
+  <p class="smalltext">Preview only on this phone; sharing here does not publish it for other BULIGO users.</p>
+  <form id="repostForm">
+    <label for="repostUrl">Public HTTPS media or post link</label><input id="repostUrl" type="url" inputmode="url" maxlength="1000" placeholder="https://example.com/photo.jpg" required>
+    <label for="repostAuthor">Original creator name</label><input id="repostAuthor" maxlength="65" placeholder="Creator name" required>
+    <label for="repostCaption">Caption (optional)</label><textarea id="repostCaption" maxlength="160" placeholder="Say something…"></textarea>
+    <label class="checkline" for="repostPermission"><input id="repostPermission" type="checkbox" required> I have permission to repost this public content.</label>
+    <button class="primary fullbtn" type="submit" style="margin-top:12px">↻ Add local repost preview</button>
+  </form>
+  <p id="repostStatus" class="status" role="status" aria-live="polite">Reposts are local previews, not public BULIGO uploads.</p>
+ </section><p class="upload-note">Photos and videos are temporary drafts for this device and this signed-in account. The selected Public / Friends / Private option is only a draft preference, NOT a real audience setting yet. You can delete your own draft with the 🗑️ button, or refresh the page to clear drafts. Sharing the original file with your phone is separate from publishing it on BULIGO. Real uploads require secure cloud storage, audience rules and moderation.</p>
+</section>
+
+<section class="tabpage hidden" id="liveTab">
+ <div class="live-head"><h1 class="section-title">🔴 BULIGO LIVE</h1><span class="live-badge off" id="liveBadge">OFF AIR</span></div><p class="live-version-label">✅ VIDEO CHAT ON SCREEN · V2</p>
+ <p class="subtle">Discover LIVE broadcasts automatically in the LIVE now list. This early peer-to-peer beta is still limited to 3 concurrent viewers per broadcast.</p>
+ <div class="empty-state" id="liveGuest"><div class="emoji">📺</div><h2>Sign in to use LIVE</h2><p>Sign in to start a live stream or watch a friend.</p><button class="primary" data-page="profile" type="button">Sign in</button></div>
+ <div id="liveSigned" class="hidden">
+<section class="card" id="publicLiveSection"><h2>🔴 LIVE now – Everyone</h2>
+   <p class="smalltext">All connected BULIGO members can see public broadcasts here, including people who are not your friends. No invitation link needed. Tap Watch to join.</p>
+   <div id="liveDirectory" class="public-live-grid" aria-live="polite"><p class="public-live-empty">Sign in to see LIVE broadcasts.</p></div>
+   <p class="status" id="publicLiveStatus">Connecting to the live directory…</p>
+  </section>
+  <section class="card"><h2>🎥 Go LIVE</h2><p class="smalltext">Your camera and microphone turn on only after you tap Go LIVE and allow access. LIVE broadcasts are public to other BULIGO members once the directory is enabled.</p>
+   <label for="liveTitle">LIVE title</label><input id="liveTitle" maxlength="75" placeholder="Chat with me on BULIGO">
+   <div id="liveHostStage" class="live-stage hidden" aria-label="Your live video with comments overlaid">
+    <video id="liveHostVideo" class="live-video is-mine" autoplay playsinline muted></video>
+    <span class="live-stage-live-label">🔴 LIVE</span>
+    <div id="liveHostChat" class="live-chat-overlay" role="log" aria-live="polite" aria-label="Incoming comments displayed over your video"></div>
+    <div id="liveHostHearts" class="live-hearts" aria-hidden="true"></div>
+    <div id="liveCohostBox" class="live-cohost hidden"><video id="liveCohostVideo" autoplay playsinline></video><span id="liveCohostName">Guest</span><button id="liveRemoveCohost" type="button" aria-label="Remove guest from LIVE">✕</button></div>
+    <form id="liveHostCommentForm" class="live-composer" autocomplete="off">
+     <input id="liveHostCommentInput" aria-label="Write a LIVE comment" maxlength="140" required placeholder="Write a comment…">
+     <button class="live-send-btn" type="submit" aria-label="Send live comment">➤</button>
+     <button id="liveHostHeartBtn" class="live-heart-btn" type="button" aria-label="Send a LIVE heart">❤️</button>
+    </form>
+   </div>
+   <p id="liveHostStatus" class="status">Not broadcasting.</p>
+   <div id="liveHostModeration" class="live-request-panel hidden" aria-live="polite"><h3>🛡️ Manage your LIVE</h3><p class="live-reaction-info">Only you can approve guests to appear on camera. Remove or block disruptive viewers from this LIVE session.</p><h4>Guest requests</h4><div id="liveJoinRequests"><p class="smalltext">No requests.</p></div><h4>Viewers</h4><div id="liveModerationViewers"><p class="smalltext">No viewers yet.</p></div></div>
+   <div class="row" style="margin-top:11px"><button id="startLive" class="danger" type="button">🔴 Go LIVE</button><button id="endLive" class="outline hidden" type="button">■ End LIVE</button></div>
+   <div id="liveSharePanel" class="hidden"><label for="liveInvite">Share this LIVE link</label><div class="live-share-row"><input id="liveInvite" readonly aria-label="Your live stream link"><button id="shareLiveLink" class="secondary small" type="button">➤ Share</button><button id="copyLiveLink" class="outline small" type="button">Copy</button></div><p class="smalltext">Whoever has this link may be able to watch while you are LIVE. Streaming ends when you tap End LIVE, refresh, or close the page.</p></div>
+   <p class="smalltext" id="liveAudienceCount">0 connected viewers · maximum 3 in this beta.</p>
+  </section>
+  <section class="card"><h2>▶ Watch LIVE</h2><p class="smalltext">Tap Watch under LIVE now. You can also join from a shared invitation. The broadcaster must remain connected.</p>
+   <label for="liveCode">LIVE link or code</label><input id="liveCode" autocomplete="off" spellcheck="false" placeholder="Paste a LIVE invitation here" maxlength="400">
+   <div class="row" style="margin-top:11px"><button id="joinLive" class="primary" type="button">▶ Watch LIVE</button><button id="leaveLive" class="outline hidden" type="button">Leave LIVE</button></div>
+   <div id="liveGuestStage" class="live-stage hidden" aria-label="Live broadcast video with comments overlaid">
+    <video id="liveGuestVideo" class="live-video" autoplay playsinline controls></video>
+    <span class="live-stage-live-label">🔴 LIVE</span>
+    <div id="liveGuestChat" class="live-chat-overlay" role="log" aria-live="polite" aria-label="Comments displayed over the live video"></div>
+    <div id="liveGuestHearts" class="live-hearts" aria-hidden="true"></div>
+    <div class="live-reactions" aria-label="Send a LIVE reaction to the broadcaster"><button data-live-emoji="👍" aria-label="Like" type="button">👍</button><button data-live-emoji="❤️" aria-label="Love" type="button">❤️</button><button data-live-emoji="😂" aria-label="Laugh" type="button">😂</button><button data-live-emoji="😡" aria-label="Angry" type="button">😡</button><button data-live-emoji="🙏" aria-label="Pray" type="button">🙏</button><button data-live-emoji="😮" aria-label="Wow" type="button">😮</button></div>
+    <form id="liveGuestCommentForm" class="live-composer" autocomplete="off">
+     <input id="liveGuestCommentInput" aria-label="Write a LIVE comment" maxlength="140" required placeholder="Write a comment…">
+     <button class="live-send-btn" type="submit" aria-label="Send live comment">➤</button>
+     <button id="liveGuestHeartBtn" class="live-heart-btn" type="button" aria-label="Send a LIVE heart">❤️</button>
+    </form>
+   </div>
+   <div id="liveGuestJoinTools" class="live-request-panel hidden"><h3>🎤 Join this LIVE as a guest</h3><p class="smalltext">Ask the broadcaster first. Your camera and mic stay off until you explicitly enable them.</p><div class="guest-tools"><button id="liveRequestJoin" type="button" class="primary">✋ Request to join</button><button id="liveEnableGuestCam" type="button" class="green hidden">📹 Enable camera & mic</button><button id="liveStopGuestCam" type="button" class="outline hidden">Leave as guest</button></div><p id="liveJoinStatus" class="smalltext" aria-live="polite">You are watching only.</p></div>
+   <button id="livePlayAudio" class="secondary fullbtn hidden" type="button">🔊 Tap to play LIVE with sound</button>
+   <p id="liveViewerStatus" class="status">Not watching a LIVE.</p>
+  </section>
+  <p class="live-overlay-note">💬 LIVE comments and viewer reactions appear on the video. Viewers may request to join on camera; the broadcaster must approve. Beta: a guest camera is visible to the host and guest, but not relayed to other viewers. Names are not identity verified.</p>
+  <section class="card"><h2>👥 LIVE from your contacts</h2><p class="smalltext">Check only saved friends and followed accounts. The app cannot browse all public live streams yet.</p><button class="secondary fullbtn" type="button" id="checkLiveFriends">↻ Check LIVE friends</button><div id="liveFriendsList" aria-live="polite"></div><p class="smalltext">A missing result does not prove somebody is offline; phone browsers may pause connections.</p></section>
+ </div>
+</section>
+<section class="tabpage hidden" id="inboxTab">
+ <h1 class="section-title">Messages</h1><p class="subtle">Find people by first name and surname, then send a private message.</p>
+ <section class="card" id="chatListPanel"><h2>💬 Your chats <span id="unreadCounter"></span></h2><p class="chat-note">Live beta: both people must be online with BULIGO open. Messages are not saved to a cloud inbox or delivered offline. Names are not verified.</p><div class="chat-list" id="chatList"></div><button class="primary fullbtn" id="goSearchFromInbox" type="button">⌕ Find someone by name</button></section>
+ <section class="card hidden" id="chatPanel"><div class="chat-header"><button class="outline small" id="backToChats" type="button">← Back</button><strong id="chatWith"></strong><button class="green small" id="chatCall" type="button">📹 Video</button><button class="outline small" id="chatVoice" type="button">📞 Voice</button></div><div class="chat-messages" id="chatMessages" role="log" aria-live="polite" aria-label="Conversation"></div><p class="status" id="chatStatus" aria-live="polite">Both people must be online.</p><form id="messageForm" class="chat-compose"><label for="messageText">Your message</label><textarea id="messageText" maxlength="800" rows="2" placeholder="Write a message…" required></textarea><button type="submit" id="sendMessage" class="green">➤ Send message</button></form><p class="chat-note">Live messages only. Not identity-verified. Avoid sensitive information.</p></section>
+</section>
+<section class="tabpage hidden" id="callsTab">
+ <h1 class="section-title">📞 Calls</h1><p class="subtle">Find people you already know. Tap their name to call without searching again.</p>
+ <div class="empty-state" id="callsGuest"><div class="emoji">📞</div><h2>Sign in to see contacts</h2><p>Sign in and add people from Search to your Friends or Following list.</p><button class="primary" data-page="profile" type="button">Sign in</button></div>
+ <div id="callsSigned" class="hidden"><section class="card"><div class="row" style="align-items:center"><h2 style="flex:2">Contacts <span id="callsCount">(0)</span></h2><button class="outline small" type="button" id="refreshCalls">↻ Check now</button></div><p class="calls-note">🟢 Online means we just reached this person's BULIGO page. Grey means we could not reach them — they may be away or the browser may be suspended.</p><div id="callsPeople" aria-live="polite"></div><p id="callsMessage" class="status">Checking your saved contacts…</p><button type="button" id="callsAddFriend" class="primary fullbtn">＋ Find friends</button></section>
+ <section class="card"><h2>🔔 Calling someone who is away</h2><p class="calls-note">In this test version, a person must have BULIGO open to receive a live call. An offline phone cannot be switched on or have its camera or microphone activated by this website.</p><p class="calls-note">Future missed-call notifications require a secure server and permission for push notifications. On iPhone, web push also requires installing BULIGO on the Home Screen. The person must still tap to answer.</p></section></div>
+</section>
+<section class="tabpage hidden" id="profileTab">
+ <h1 class="section-title">Profile</h1><p class="subtle">Your BULIGO account, photo and friends. 14+ · LIVE and calls 18+.</p>
+ <section class="card" id="authPanel"><h2>Sign in to BULIGO</h2><p class="smalltext">BULIGO is for ages 14+. LIVE, calls and interactive messaging are for adults 18+ only. New members enter their date of birth.</p><form id="authForm"><label for="email">Your email address</label><input id="email" type="email" required autocomplete="email" placeholder="you@example.com"><label for="password">Password</label><input id="password" type="password" required minlength="6" autocomplete="current-password" placeholder="At least 6 characters"><div id="signupExtras" class="hidden"><h3>Create your BULIGO account</h3><p>BULIGO is 14+. Enter your real date of birth to check eligibility. The date is saved only on this device in this demo, not sent to the public profile. This is not verified age assurance.</p><label for="regFirst">First name</label><input id="regFirst" maxlength="35" autocomplete="given-name" placeholder="First name"><label for="regLast">Surname</label><input id="regLast" maxlength="35" autocomplete="family-name" placeholder="Surname"><label for="regDob">Date of birth (required)</label><input id="regDob" type="date" autocomplete="bday" aria-describedby="signupAgeNotice"><p id="signupAgeNotice" class="privacy">You must be 14 or older to register. LIVE, calls and chat require age 18+.</p><label for="regCountry">Country where you live</label><input id="regCountry" maxlength="60" autocomplete="country-name" placeholder="e.g. United Kingdom"><label for="regCity">City or town</label><input id="regCity" maxlength="60" autocomplete="address-level2" placeholder="e.g. Liverpool"><p>Never enter a street address or postcode. Do not share your date of birth in posts or chats.</p><label class="checkline" for="regConsent"><input type="checkbox" id="regConsent"> I confirm this is my real date of birth. I understand that this demo only checks my own declaration and is not verified age assurance.</label></div><div class="row" style="margin-top:16px"><button class="primary" id="signIn" type="submit">Sign in</button><button class="secondary" id="signUp" type="button">Create account</button></div></form><button class="outline small" id="resetPassword" type="button" style="margin-top:12px">Forgot password?</button><p class="status" id="authStatus" role="status" aria-live="polite">Checking your account…</p></section>
+ <div class="hidden" id="loggedIn"><div class="account"><strong id="currentEmail"></strong><button class="outline small" id="signOut" type="button">Sign out</button></div>
+  <section class="card" id="ageGatePanel"><h2>🛡️ Age & safety</h2><p class="smalltext" id="ageGateText">Before using BULIGO's interactive features, enter your real date of birth. Accounts aged 14–17 can only use private, on-device previews in this beta. Age under 14 is not permitted.</p><label for="ageGateDob">Date of birth</label><input id="ageGateDob" type="date" autocomplete="bday"><button type="button" id="ageGateConfirm" class="primary fullbtn" style="margin-top:12px">Confirm my age</button><p class="status" id="ageGateStatus" aria-live="polite">This is a self-declared date, not an official age verification.</p></section>
+  <p id="ageSafetyStatus" class="smalltext" role="status">Age not confirmed. LIVE, calls and messaging are locked.</p><div class="profile-hero profile-hero-social">
+  <button id="profileAvatarButton" class="profile-avatar-select" type="button" aria-label="Choose a profile photo" title="Change profile photo"><span id="profileAvatarLetter">B</span><img class="hidden" id="profileAvatarImage" alt="Your chosen profile photo"><span class="profile-avatar-plus" aria-hidden="true">+</span></button>
+  <h2 class="profile-social-name" id="profileSocialName">My BULIGO profile</h2>
+  <p class="profile-social-handle" id="profileSocialHandle">Optional profile photo</p>
+  <div class="profile-social-stats" aria-label="Profile numbers"><button type="button" class="profile-stat-open" id="profileFriendsOpen" aria-label="View accepted friends"><strong id="profileFriendsNumber">0</strong><span>Friends</span></button><div><strong id="profileFollowersNumber">—</strong><span>Followers*</span></div><div><strong id="profileFollowingNumber">0</strong><span>Following</span></div></div>
+  <div class="avatar-edit-row"><button type="button" id="chooseProfilePhoto" class="primary small">📷 Choose photo</button><button type="button" id="removeProfilePhoto" class="outline small" disabled>Remove photo</button></div>
+  <input type="file" id="profilePhotoInput" accept="image/*" class="hidden" aria-label="Select profile picture from your photos">
+  <p id="profilePhotoStatus" class="profile-photo-note" aria-live="polite">Photo is optional. Saved privately on this phone only, not shown to other users yet. *Follower count needs cloud profiles.</p>
+ </div><section class="card" id="setupPanel"><h2>👤 Your BULIGO profile</h2><p class="smalltext">Choose the name friends search for. Birth year and location stay private on this device. Date of birth is managed separately in Age &amp; safety.</p><label for="myFirst">First name</label><input id="myFirst" type="text" maxlength="35" autocomplete="given-name" placeholder="e.g. Erika"><label for="myLast">Surname</label><input id="myLast" type="text" maxlength="35" autocomplete="family-name" placeholder="e.g. Siroki"><label for="myYear">Year of birth (private)</label><input id="myYear" type="number" min="1900" max="2013" inputmode="numeric" placeholder="e.g. 1990"><label for="myCountry">Country (private)</label><input id="myCountry" maxlength="60" autocomplete="country-name" placeholder="e.g. United Kingdom"><label for="myCity">City or town (private)</label><input id="myCity" maxlength="60" autocomplete="address-level2" placeholder="e.g. Liverpool"><button id="saveProfile" class="primary fullbtn" type="button" style="margin-top:18px">Save my profile</button><p id="profileStatus" class="status" aria-live="polite">Only your name is used for online searches. Never share an exact street address here.</p></section><div id="profileBox" class="namebox hidden"><span>Your name: <strong id="profileLabel"></strong></span><button class="outline small" type="button" id="editProfile">Edit profile</button></div><div id="privateDetails" class="profile-private"><strong>Private profile details</strong><span id="privateDetailsText">Optional — stored only on this phone.</span><div id="followSummary">Following 0 people on this device</div></div>
+<section class="card" id="myMediaPanel"><h2>📷 My photos and videos</h2><p class="smalltext">Your private drafts on this phone. Tap 🗑️ to permanently remove your own draft. Public uploading is not active yet.</p><div class="media-count"><span id="myPhotoCount">0 photos</span><span id="myVideoCount">0 videos</span></div><div id="myMediaGallery" class="media-grid" aria-label="My photo and video previews"></div><p class="smalltext" id="myMediaEmpty">Tap Create to choose a photo or video.</p><button class="outline fullbtn" data-page="create" type="button">＋ Add a photo or video</button></section><section class="card" id="myRepostsPanel"><h2>↻ My repost previews</h2><p class="smalltext">Saved on this device only. Other BULIGO users cannot view these reposts.</p><div id="myRepostsList"></div></section><p id="ringStatus" class="smalltext">Tap “Enable ringing” at the top to hear incoming calls while this page is open.</p><p class="upload-note">Email/password are handled by Firebase Authentication. Your name is saved to your own Firebase account display name; date of birth and location are saved only on this device. Other people cannot browse your date of birth or city in this preview. Follows and accepted friends are saved on this phone; invitations only work while both people are online. A real cloud friends list needs a secure backend.</p></div>
+</section>
+<section class="tabpage hidden" id="callTab"><h1 class="section-title">Video call</h1><section class="hidden" id="callPanel"><div class="stage"><video id="remoteVideo" autoplay playsinline></video><div class="waiting" id="waiting"><b id="waitSymbol">📹</b><span id="waitingText">Connecting…</span></div><video id="localVideo" autoplay playsinline muted></video></div><p class="status" id="callStatus" aria-live="polite">Connecting…</p><div class="controls"><button class="secondary" id="toggleMic" type="button">🎙️ Mute</button><button class="secondary" id="toggleCamera" type="button">📷 Camera off</button><button class="danger" id="hangUp" type="button">📞 End call</button></div><button class="outline small hidden" type="button" id="enableSound" style="margin-top:9px">🔊 Enable sound</button></section></section>
+<p class="footer">Age policy: BULIGO sign-up is 14+. Accounts aged 14–17 are limited to private, on-device previews; LIVE, voice/video calls, chat, search and friend discovery require 18+. A self-declared birth date in front-end code is NOT reliable age verification, and is not enforced by Firebase server-side rules. Do not publicly launch for minors until independent age assurance, moderation, reporting/blocking, privacy and UK Online Safety Act assessments are implemented. BULIGO social preview with experimental public LIVE directory that requires Firebase Firestore rules to be installed. After that, logged-in members can discover live broadcasts automatically, without an invitation. Streams use peer-to-peer technology with a maximum of 3 viewers per broadcaster; this is not a scalable public streaming service. Video quality, connectivity and audio depend on devices and networks. Do not broadcast private information. Email registration is real, using Firebase Authentication. You can preview photos and videos, swipe, like and comment on this device only. Public posting, cloud reposts, global share counts, cloud comments, mutual/cloud followers, saved messages and push alerts are not active. Friend media reposts and share counts are local previews on this phone. Do not repost private or unlicensed content. The Share button on a personal video can open the phone share sheet to send its original video file to other apps, but it does not create a public BULIGO post. The Calls tab checks only saved contacts. Offline calls and background push alerts are not active. Incoming calls may ring audibly only after you tap Enable ringing and while BULIGO is open. iPhone Safari does not support website-triggered vibration. Name search, live chats and video calls are experimental; both people must have BULIGO open to answer. An inactive phone cannot be switched on by a website. Names are not verified. Connection depends on an external service and may fail. Do not use for sensitive or emergency communications.</p>
+</main>
+<nav class="bottom-nav" aria-label="Main navigation"><button type="button" class="navbtn active" data-page="home"><span class="navicon">⌂</span>Home</button><button type="button" class="navbtn" data-page="search"><span class="navicon">⌕</span>Search</button><button type="button" class="navbtn create" data-page="create"><span class="navicon">＋</span>Create</button><button type="button" class="navbtn" data-page="inbox"><span class="navicon">✉</span><span id="inboxNavLabel">Inbox</span></button><button type="button" class="navbtn" data-page="calls"><span class="navicon">📞</span>Calls</button><button type="button" class="navbtn" data-page="live"><span class="navicon">🔴</span>LIVE</button><button type="button" class="navbtn" data-page="profile"><span class="navicon">◉</span>Profile</button></nav>
+<aside class="comments-backdrop hidden" id="reactionsOverlay" role="dialog" aria-modal="true" aria-label="React to video"><section class="comments-sheet"><div class="comments-head"><h3>Send a reaction</h3><button id="closeReactions" type="button" aria-label="Close reactions">×</button></div><div class="reaction-bar"><button data-reaction="❤️" type="button">❤️</button><button data-reaction="😂" type="button">😂</button><button data-reaction="😍" type="button">😍</button><button data-reaction="🔥" type="button">🔥</button><button data-reaction="👏" type="button">👏</button></div><p class="privacy">Reaction preview only: it is saved on your phone, not sent to the creator.</p></section></aside><div class="mini-toast hidden" id="miniToast" role="status" aria-live="polite"></div>
+<aside class="comments-backdrop hidden" id="commentsOverlay" role="dialog" aria-modal="true" aria-label="Video comments"><section class="comments-sheet"><div class="comments-head"><h3>Comments <span id="commentCount"></span></h3><button id="closeComments" type="button" aria-label="Close comments">×</button></div><p class="privacy">Comments in this preview are visible only on this phone.</p><div id="commentsList" class="comments-list" role="log" aria-live="polite"></div><form id="commentForm" class="comment-form"><input id="commentInput" maxlength="280" placeholder="Add a comment…" required autocomplete="off"><button class="primary small" type="submit">Post</button></form></section></aside>
+<div class="overlay hidden" id="friendRequestOverlay" role="dialog" aria-modal="true" aria-labelledby="friendInviteTitle"><div class="dialog"><div class="symbol">👋</div><h2 id="friendInviteTitle">Friend request</h2><p id="friendInviteName">Someone wants to add you.</p><p class="smalltext">Names are not verified in this beta. Only accept people you know.</p><div class="row" style="margin-top:20px"><button id="acceptFriend" class="green" type="button">✓ Accept</button><button id="rejectFriend" class="danger" type="button">Decline</button></div></div></div>
+<div class="overlay hidden" id="incomingOverlay" role="dialog" aria-modal="true"><div class="dialog"><div class="symbol" id="incomingIcon">📲</div><h2 id="incomingTitle">Incoming video call</h2><p id="incomingName">Someone is calling…</p><p class="ring-hint" id="incomingRingStatus">For audible ringing, tap Enable ringing when BULIGO is open.</p><button id="enableIncomingRing" class="outline small" type="button">🔔 Enable ringtone</button><div class="row" style="margin-top:20px"><button class="green" id="answerCall" type="button">📹 Answer</button><button class="danger" id="declineCall" type="button">Decline</button></div></div></div>
+<script type="module">
+import {initializeApp} from 'https://www.gstatic.com/firebasejs/13.3.0/firebase-app.js';
+import {getAuth,onAuthStateChanged,createUserWithEmailAndPassword,signInWithEmailAndPassword,sendPasswordResetEmail,signOut,updateProfile} from 'https://www.gstatic.com/firebasejs/13.3.0/firebase-auth.js';
+import {getFirestore,collection,doc,onSnapshot,setDoc,deleteDoc} from 'https://www.gstatic.com/firebasejs/13.3.0/firebase-firestore.js';
+import {createClient} from 'https://esm.sh/@supabase/supabase-js@2';
+const firebaseConfig={apiKey:'AIzaSyC3y_C5X3U0GMyCzdkHQmv7eTBp5QPi3NY',authDomain:'buligo-6c67a.firebaseapp.com',projectId:'buligo-6c67a',storageBucket:'buligo-6c67a.firebasestorage.app',messagingSenderId:'740875040307',appId:'1:740875040307:web:3382bbc9692c2eac199546',measurementId:'G-RZQCMXXDVW'};
+const firebaseApp=initializeApp(firebaseConfig);
+const auth=getAuth(firebaseApp);
+const firestore=getFirestore(firebaseApp);
+// Public/browser key only. Never put Supabase secret/service_role keys in frontend files.
+const BULIGO_STORAGE_URL='https://trfwoblyafjejsyrxnte.supabase.co';
+const BULIGO_STORAGE_KEY='sb_publishable_cvapMmrStfwJcTrq8rRs2Q_-zqEVFP_';
+const BULIGO_BUCKET='buligo-videos';
+// Firebase must be configured in Supabase Authentication > Third-Party Auth,
+// and each Firebase user needs the role='authenticated' custom claim.
+const buligoStorage=createClient(BULIGO_STORAGE_URL,BULIGO_STORAGE_KEY,{
+  accessToken:async()=>auth.currentUser?await auth.currentUser.getIdToken():null
+});
+let publicCloudClips=[];
+function postFileParts(name){
+ const match=/^(\d{13})_([A-Za-z0-9_-]{5,32})_([a-z0-9-]{1,70})_([a-z0-9]{6,20})\.(mp4|mov|m4v|webm|jpg|jpeg|png|webp|heic)$/i.exec(name);
+ if(!match)return null;
+ return {time:Number(match[1]),owner:match[2],caption:match[3].replace(/-/g,' '),ext:match[5].toLowerCase()};
+}
+async function refreshCloudClips(){
+ try{
+  // Public feed is readable without login only if a bucket-specific SELECT policy exists.
+  const {data,error}=await buligoStorage.storage.from(BULIGO_BUCKET).list('public',{limit:100,sortBy:{column:'name',order:'desc'}});
+  if(error)throw error;
+  publicCloudClips=(data||[]).filter(f=>f&&f.name&&!f.id?.startsWith('folder')).map(f=>{
+   const parts=postFileParts(f.name);if(!parts)return null;
+   const path='public/'+f.name;
+   const {data:link}=buligoStorage.storage.from(BULIGO_BUCKET).getPublicUrl(path);
+   return {id:'cloud-'+f.name,url:link.publicUrl,username:'@buligo-member',caption:parts.caption,type:/^(mp4|mov|m4v|webm)$/.test(parts.ext)?'video':'image',cloud:true,visibility:'public',ownerUid:null};
+  }).filter(Boolean);
+  if(typeof renderFeed==='function')renderFeed();
+  const result=document.getElementById('cloudFeedStatus');if(result)result.textContent=publicCloudClips.length+' public uploads available.';
+ }catch(e){const result=document.getElementById('cloudFeedStatus');if(result)result.textContent='Public feed unavailable: '+(e?.message||'Check SELECT policy and connection');}
+}
+
+const $=id=>document.getElementById(id),hide=id=>$(id).classList.add('hidden'),show=id=>$(id).classList.remove('hidden');
+const say=(id,msg,kind='')=>{$(id).textContent=msg;$(id).className='status'+(kind?' '+kind:'');};
+const norm=s=>String(s||'').normalize('NFKC').trim().replace(/\s+/g,' ');
+const goodName=s=>norm(s).length>=2&&norm(s).length<=35&&!/[<>\u0000-\u001F]/.test(s);
+const fullKey=(first,last)=>{const raw=(norm(first)+'|'+norm(last)).toLocaleLowerCase('en').normalize('NFD').replace(/[\u0300-\u036f]/g,'');return Array.from(new TextEncoder().encode(raw)).map(n=>n.toString(16).padStart(2,'0')).join('').slice(0,150);};
+const maxSlots=6;
+const peerId=(first,last,slot)=>'buligo-person-v4-'+fullKey(first,last)+'-'+slot;
+const myStorageKey=uid=>'buligo_fullname_v4_'+uid;
+const ageStorageKey=uid=>'buligo_age_declaration_v1_'+uid;
+
+// TikTok-style V5 local video feed. This frontend does NOT publish content to other users.
+const tabKeys=['home','search','create','inbox','calls','live','profile','call'];
+let activeTab='home';
+const demoClips=[
+ {id:'welcome',username:'@buligo',caption:'Welcome to BULIGO ✨\nScroll up for more. Create your own video and connect with friends.',demo:true,background:0},
+ {id:'discover',username:'@buligo',caption:'Find friends by first name and surname 🔎\nMessage or video call while you are both online.',demo:true,background:1}
+];
+const localClips=[];let repostClips=[];const shareCounts=new Map();let selectedMedia=null,viewFollowing=false,feedCurrentId=null,commentsClipId=null;
+const repostStorageKey=uid=>'buligo_reposts_v10_'+uid;
+const shareStorageKey=uid=>'buligo_sharecounts_v10_'+uid;
+function validPublicLink(raw){try{const u=new URL(String(raw).trim());return u.protocol==='https:'&&u.hostname.length>3&&!u.username&&!u.password&&u.href.length<=1000?u:null;}catch{return null;}}
+function mediaLinkType(url){const path=new URL(url).pathname.toLowerCase();return /\.(?:jpg|jpeg|png|gif|webp|avif)$/.test(path)?'image':/\.(?:mp4|webm|mov|m4v)$/.test(path)?'video':'link';}
+function loadLocalReposts(){repostClips=[];shareCounts.clear();if(!user)return;try{const saved=JSON.parse(localStorage.getItem(repostStorageKey(user.uid))||'[]');if(Array.isArray(saved)){for(const r of saved.slice(0,60)){const parsed=validPublicLink(r.originalUrl);if(parsed&&typeof r.author==='string'&&r.author.trim()){repostClips.push({id:String(r.id).slice(0,80),originalUrl:parsed.href,author:r.author.slice(0,65),username:'@'+r.author.slice(0,65),caption:String(r.caption||'').slice(0,160),type:mediaLinkType(parsed.href),repost:true});}}}}catch{}
+try{const saved=JSON.parse(localStorage.getItem(shareStorageKey(user.uid))||'{}');for(const [key,value] of Object.entries(saved))if(Number.isSafeInteger(value)&&value>=0&&value<100000)shareCounts.set(key,value);}catch{}
+renderMyReposts();renderFeed();}
+function saveLocalReposts(){if(!user)return;try{localStorage.setItem(repostStorageKey(user.uid),JSON.stringify(repostClips.map(({id,originalUrl,author,caption})=>({id,originalUrl,author,caption}))));}catch{notifyPreview('Could not save repost on this phone.');}}
+function recordShare(clip,el){const count=(shareCounts.get(clip.id)||0)+1;shareCounts.set(clip.id,count);if(el)el.textContent=String(count);if(user){try{localStorage.setItem(shareStorageKey(user.uid),JSON.stringify(Object.fromEntries(shareCounts)));}catch{}}}
+function renderMyReposts(){const box=$('myRepostsList');if(!box)return;box.replaceChildren();if(!repostClips.length){box.append(make('p','smalltext','No reposts yet on this phone.'));return;}for(const clip of repostClips){const row=make('div','repost-card');const info=make('div');info.append(make('strong','',clip.author+' · '+clip.type),make('p','',clip.caption||'Reposted media'));const link=make('a','link','↗ Original');link.href=clip.originalUrl;link.target='_blank';link.rel='noopener noreferrer';const remove=make('button','outline small','Remove');remove.type='button';remove.onclick=()=>{repostClips=repostClips.filter(r=>r.id!==clip.id);saveLocalReposts();renderMyReposts();renderFeed();notifyPreview('Repost removed from this phone.');};const actions=make('div');actions.append(link,remove);row.append(info,actions);box.append(row);}}
+
+const likeIds=new Set();const followed=new Map();const friends=new Map();const friendStatus=new Map();const commentStore=new Map();
+let pendingFriendInvite=null,friendRefreshTick=null,friendCheckInProgress=false;
+function followStorageKey(uid){return 'buligo_follows_v6_'+uid;}
+function saveFollowing(){if(!user)return;try{localStorage.setItem(followStorageKey(user.uid),JSON.stringify([...followed.values()]));}catch{}renderFollowingDirectory();renderFollowSummary();renderProfileStats();}
+function renderFollowSummary(){if($('followSummary'))$('followSummary').textContent='Following '+followed.size+' account'+(followed.size===1?'':'s')+' on this device';}
+function toggleFollow(person){if(!user){switchTab('profile');return;}if(followed.has(person.id))followed.delete(person.id);else followed.set(person.id,{first:person.first,last:person.last,id:person.id,slot:person.slot});saveFollowing();renderCalls();if(activeTab==='search'&&$('searchResults').children.length){for(const btn of $('searchResults').querySelectorAll('[data-follow-id]'))if(btn.dataset.followId===person.id){btn.textContent=followed.has(person.id)?'✓ Following':'＋ Follow';btn.setAttribute('aria-pressed',String(followed.has(person.id)));}}}
+function friendStorageKey(uid){return 'buligo_accepted_friends_v1_'+uid;}
+function storeFriend(person){
+ if(!user||!person?.id||!goodName(person.first)||!goodName(person.last)||person.id===peer?.id)return;
+ friends.set(person.id,{id:person.id,first:norm(person.first),last:norm(person.last),slot:Number(person.slot)||0});
+ try{localStorage.setItem(friendStorageKey(user.uid),JSON.stringify([...friends.values()]));}catch{}
+ friendStatus.set(person.id,'checking');renderFriends();renderCalls();void refreshFriendPresence(person);
+}
+function makeFriendsCard(person){
+ const wrap=make('article','friend-entry');const title=make('strong','',person.first+' '+person.last);wrap.append(title);
+ const status=friendStatus.get(person.id)||'checking';const label=make('span','friend-pill '+(status==='online'?'online':status==='checking'?'checking':''),status==='online'?'● Online – reachable now':status==='checking'?'◌ Checking availability…':'○ Not reachable – may be offline or in background');wrap.append(label);
+ const actions=make('div','friend-actions');
+ for(const [txt,fn,cls] of [['✉ Message',()=>openConversation(person),'outline'],['📞 Voice',()=>void dial(person,'audio'),'secondary'],['📹 Video',()=>void dial(person,'video'),'green']]){
+  const b=make('button',cls,txt);b.type='button';b.disabled=status!=='online';b.onclick=fn;actions.append(b);
+ }
+ wrap.append(actions);const remove=make('button','outline small','Remove friend');remove.type='button';remove.style.marginTop='9px';remove.onclick=()=>{friends.delete(person.id);friendStatus.delete(person.id);try{localStorage.setItem(friendStorageKey(user.uid),JSON.stringify([...friends.values()]));}catch{}renderFriends();};wrap.append(remove);return wrap;
+}
+function renderFriends(){const target=$('friendsList');if(!target)return;renderProfileStats();target.replaceChildren();$('friendsCount').textContent='('+friends.size+')';if(!friends.size){target.append(make('p','smalltext','No friends yet. Use Search once, tap Add friend, and wait for them to accept.'));return;}
+ for(const person of friends.values())target.append(makeFriendsCard(person));
+}
+async function refreshFriendPresence(person){if(!user||!person?.id||!friends.has(person.id)||document.hidden)return;
+ const targetId=person.id;friendStatus.set(targetId,'checking');renderFriends();
+ let dc=null,timer=null,done=false;
+ const finish=(reachable)=>{if(done)return;done=true;if(timer)clearTimeout(timer);try{dc?.close();}catch{}if(!friends.has(targetId))return;friendStatus.set(targetId,reachable?'online':'unreachable');renderFriends();};
+ try{const p=await peerReady();if(!user||!friends.has(targetId)||document.hidden){finish(false);return;}
+  if(p.id===targetId){finish(false);return;}
+  dc=p.connect(targetId,{reliable:true,metadata:{kind:'buligo-presence-v1'}});if(!dc){finish(false);return;}
+  dc.on('data',data=>{if(data?.kind==='buligo-presence-online')finish(true);});dc.on('error',()=>finish(false));dc.on('close',()=>finish(false));timer=setTimeout(()=>finish(false),5500);
+ }catch{finish(false);}
+}
+async function refreshFriends(){if(friendCheckInProgress||!user||document.hidden)return;friendCheckInProgress=true;
+ const list=[...friends.values()];if(list.length)say('friendsStatus','Checking which friends can receive calls…');
+ try{await Promise.all(list.map(refreshFriendPresence));if(list.length)say('friendsStatus','Updated. Unreachable does not necessarily mean logged out.');}
+ finally{friendCheckInProgress=false;}
+}
+function replyFriendInvite(accept){if(!adultAccess())accept=false;const current=pendingFriendInvite;if(!current)return;pendingFriendInvite=null;hide('friendRequestOverlay');
+ try{if(accept){storeFriend(current.person);current.dc.send({kind:'buligo-friend-accepted',first:firstName,last:surname,slot});}
+ else current.dc.send({kind:'buligo-friend-declined'});
+ setTimeout(()=>{try{current.dc.close();}catch{}},500);
+ }catch{}if(accept)say('friendsStatus',current.person.first+' '+current.person.last+' added to your Friends list.','ok');
+}
+$('acceptFriend').onclick=()=>replyFriendInvite(true);$('rejectFriend').onclick=()=>replyFriendInvite(false);
+function acceptFriendChannel(dc){
+ let person=null;
+ dc.on('data',data=>{if(data?.kind!=='buligo-friend-request'||!goodName(data.first)||!goodName(data.last))return;
+  person={id:dc.peer,first:norm(data.first),last:norm(data.last),slot:Number(data.slot)||0};
+  if(pendingFriendInvite){try{dc.send({kind:'buligo-friend-declined'});}catch{}return;}
+  pendingFriendInvite={dc,person};$('friendInviteName').textContent=person.first+' '+person.last+' wants to add you as a friend.';show('friendRequestOverlay');
+ });dc.on('close',()=>{if(pendingFriendInvite?.dc===dc){pendingFriendInvite=null;hide('friendRequestOverlay');}});
+ dc.on('error',()=>{if(pendingFriendInvite?.dc===dc){pendingFriendInvite=null;hide('friendRequestOverlay');}});
+}
+async function requestFriend(person){if(!adultAccess()||!person?.id||friends.has(person.id))return;
+ if(person.id===peer?.id){say('friendsStatus','You cannot add yourself.','error');return;}
+ say('friendsStatus','Sending a friend request to '+person.first+' '+person.last+'…');
+ let dc=null,timer=null;try{const p=await peerReady();dc=p.connect(person.id,{reliable:true,metadata:{kind:'buligo-friend-v1'}});
+  if(!dc)throw Error('Friend request could not be sent.');
+  dc.on('open',()=>{try{dc.send({kind:'buligo-friend-request',first:firstName,last:surname,slot});say('friendsStatus','Friend request sent. Waiting for an answer…');}catch{}});
+  dc.on('data',data=>{if(data?.kind==='buligo-friend-accepted'){
+    clearTimeout(timer);storeFriend(person);say('friendsStatus',person.first+' '+person.last+' accepted your friend request!','ok');setTimeout(()=>{try{dc.close();}catch{}},350);
+   }else if(data?.kind==='buligo-friend-declined'){clearTimeout(timer);say('friendsStatus','Friend request declined.');try{dc.close();}catch{}}
+  });dc.on('error',()=>{clearTimeout(timer);say('friendsStatus','Could not reach this person. They may be offline or the connection may be blocked.','error');});
+  timer=setTimeout(()=>{if(!friends.has(person.id)){say('friendsStatus','No answer. Both people must keep BULIGO open to accept requests.','error');try{dc.close();}catch{}}},18000);
+ }catch(e){say('friendsStatus',errorText(e),'error');}
+}
+$('refreshFriends').onclick=()=>void refreshFriends();
+friendRefreshTick=setInterval(()=>{if(!document.hidden&&user&&friends.size)void refreshFriends();if(!document.hidden&&user&&activeTab==='calls')void refreshCalls();},30000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&user&&friends.size)void refreshFriends();});
+function renderFollowingDirectory(){const dir=$('followingDirectory');if(!dir)return;dir.replaceChildren();const panel=$('followingMessage');
+ if(!followed.size){show('followingMessage');hide('followingDirectory');return;}hide('followingMessage');show('followingDirectory');const heading=make('h2','',`Following ${followed.size} (this phone only)`);const note=make('p','smalltext','Followed names are saved on this device. Public following feeds, mutual follows and follower counts are not active yet.');dir.append(heading,note);
+ for(const person of followed.values()){const row=make('div','found'),info=make('div'),name=make('strong','',person.first+' '+person.last),small=make('small','', 'Previously found online · not verified');info.append(name,small);const actions=make('div','found-actions'),msg=make('button','primary small','✉ Message'),voice=make('button','outline small','📞 Voice'),video=make('button','green small','📹 Video'),unfollow=make('button','outline small','− Unfollow');msg.onclick=()=>openConversation(person);voice.onclick=()=>void dial(person,'audio');video.onclick=()=>void dial(person,'video');unfollow.onclick=()=>toggleFollow(person);actions.append(msg,voice,video,unfollow);row.append(info,actions);dir.append(row);}
+}
+const ownedDrafts=()=>localClips.filter(c=>user&&c.ownerUid===user.uid);
+const clipById=id=>[...publicCloudClips,...repostClips,...ownedDrafts(),...demoClips].find(x=>x.id===id);
+function deleteMyDraft(id){
+ const idx=localClips.findIndex(c=>c.id===id&&user&&c.ownerUid===user.uid);
+ if(idx<0){notifyPreview('Only the account that created this draft can delete it.');return;}
+ const clip=localClips[idx];
+ if(!window.confirm('Delete your '+(clip.type==='image'?'photo':'video')+' draft? This cannot be undone.'))return;
+ localClips.splice(idx,1);
+ if(clip.url)try{URL.revokeObjectURL(clip.url);}catch{}
+ commentStore.delete(clip.id);likeIds.delete(clip.id);shareCounts.delete(clip.id);
+ renderMyMedia();renderFeed();notifyPreview('Your draft was deleted from this phone.');
+}
+const feed=$('publicFeed');
+function switchTab(next){
+ if(!tabKeys.includes(next))return;
+ if(user&&!adultAccess()&&['search','calls','live','inbox','call'].includes(next)){
+   next='profile';
+   requestAnimationFrame(()=>{const status=$('ageSafetyStatus');if(status)status.scrollIntoView({block:'center',behavior:'instant'});});
+ }
+ if(connection&&next!=='call')next='call';
+ activeTab=next;document.body.classList.toggle('home-mode',next==='home');
+ for(const key of tabKeys){const el=$(key+'Tab');if(el)el.classList.toggle('hidden',key!==next);}
+ document.querySelectorAll('.navbtn').forEach(b=>{const selected=b.dataset.page===next;b.classList.toggle('active',selected);b.setAttribute('aria-current',selected?'page':'false');});
+ if(next==='home'){requestAnimationFrame(syncFeedPlayback);}else pauseFeed();if(next==='calls'){renderCalls();void refreshCalls();}
+ window.scrollTo({top:0,behavior:'instant'});
+}
+document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.page)));
+// The Friends number on the profile opens the existing accepted-friends directory.
+// Friends and their names are kept only on this phone in this beta.
+$('profileFriendsOpen').onclick=()=>{
+  if(!user){switchTab('profile');return;}
+  renderFriends();
+  switchTab('search');
+  requestAnimationFrame(()=>{
+    const panel=$('friendsPanel');
+    if(panel&&!panel.classList.contains('hidden')) panel.scrollIntoView({block:'start',behavior:'instant'});
+  });
+};
+$('goProfile').onclick=()=>switchTab('profile');
+$('goSearchFromInbox').onclick=()=>switchTab('search');
+$('backToChats').onclick=()=>closeConversation();
+$('chatCall').onclick=()=>{const person=conversations.get(activeChatId)?.person;if(person)void dial(person,'video');};
+$('chatVoice').onclick=()=>{const person=conversations.get(activeChatId)?.person;if(person)void dial(person,'audio');};
+$('goSearchFromHome').onclick=()=>switchTab('search');
+function pauseFeed(){feed.querySelectorAll('video').forEach(v=>{try{v.pause();}catch{}});}
+function syncFeedPlayback(){
+ if(activeTab!=='home'||document.hidden)return pauseFeed();
+ const box=feed.getBoundingClientRect();let closest=null,delta=Infinity;
+ feed.querySelectorAll('.clip').forEach(c=>{const d=Math.abs(c.getBoundingClientRect().top-box.top);if(d<delta){delta=d;closest=c;}});
+ if(!closest)return;feedCurrentId=closest.dataset.clipid;
+ feed.querySelectorAll('.clip').forEach(c=>{const v=c.querySelector('video');if(!v)return;if(c===closest){v.muted=true;v.play().catch(()=>{});}else v.pause();});
+}
+let scrollScheduled=false;
+feed.addEventListener('scroll',()=>{if(scrollScheduled)return;scrollScheduled=true;requestAnimationFrame(()=>{scrollScheduled=false;syncFeedPlayback();});},{passive:true});
+document.addEventListener('visibilitychange',()=>{if(document.hidden)pauseFeed();else syncFeedPlayback();});
+const make=(tag,cls,txt)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(txt!==undefined)e.textContent=txt;return e;};
+// Saved-contact Calls directory: shows ONLY saved friends/follows, never a fictitious global online list.
+const callPresence=new Map();let callsRefreshBusy=false,toastTimer=null,reactionClipId=null;
+function notifyPreview(msg){const el=$('miniToast');el.textContent=msg;show('miniToast');clearTimeout(toastTimer);toastTimer=setTimeout(()=>hide('miniToast'),3600);}
+function savedContacts(){const all=new Map([...followed.entries(),...friends.entries()]);return [...all.values()].filter(p=>p?.id&&goodName(p.first)&&goodName(p.last));}
+function renderCalls(){if(!$('callsPeople'))return;
+ const guest=!user||!firstName||!surname;$('callsGuest').classList.toggle('hidden',!guest);$('callsSigned').classList.toggle('hidden',guest);if(guest)return;
+ const list=$('callsPeople');list.replaceChildren();const people=savedContacts();$('callsCount').textContent='('+people.length+')';
+ if(!people.length){list.append(make('p','smalltext','Nobody saved yet. Find someone by name, then Follow or Add friend.'));return;}
+ for(const person of people){const card=make('article','calls-person');card.append(make('strong','',person.first+' '+person.last));const state=callPresence.get(person.id)||friendStatus.get(person.id)||'unknown';card.append(make('div','calls-dot'+(state==='online'?' online':''),state==='online'?'● Online – reachable':state==='checking'?'◌ Checking connection…':'○ Not reachable right now'));
+ const actions=make('div','call-actions');const b1=make('button','secondary small','📞 Voice');b1.type='button';const b2=make('button','green small','📹 Video');b2.type='button';const b3=make('button','outline small','✉ Message');b3.type='button';b1.onclick=()=>state==='online'?void dial(person,'audio'):notifyPreview('Cannot ring this person while unreachable. Check again when they open BULIGO.');b2.onclick=()=>state==='online'?void dial(person,'video'):notifyPreview('This preview cannot wake an offline phone. They need BULIGO open to receive the call.');b3.onclick=()=>openConversation(person);actions.append(b1,b2,b3);card.append(actions);list.append(card);}
+}
+async function checkCallPresence(person){if(!user||!person?.id||document.hidden)return;callPresence.set(person.id,'checking');renderCalls();
+ let dc=null,tm=null,finished=false;const finish=ok=>{if(finished)return;finished=true;clearTimeout(tm);try{dc?.close();}catch{}callPresence.set(person.id,ok?'online':'unreachable');renderCalls();};
+ try{const p=await peerReady();if(!user||document.hidden||p.id===person.id){finish(false);return;}dc=p.connect(person.id,{reliable:true,metadata:{kind:'buligo-presence-v1'}});if(!dc){finish(false);return;}dc.on('data',v=>{if(v?.kind==='buligo-presence-online')finish(true);});dc.on('error',()=>finish(false));dc.on('close',()=>finish(false));tm=setTimeout(()=>finish(false),5500);}catch{finish(false);}
+}
+async function refreshCalls(){if(callsRefreshBusy||!user)return;callsRefreshBusy=true;const people=savedContacts();say('callsMessage',people.length?'Checking who can receive a call now…':'Find people and save them to your contacts.');
+ try{await Promise.all(people.map(checkCallPresence));say('callsMessage',people.length?'Checked. Grey does not necessarily mean offline.':'No contacts saved on this phone.');}finally{callsRefreshBusy=false;}}
+$('refreshCalls').onclick=()=>void refreshCalls();$('callsAddFriend').onclick=()=>switchTab('search');
+
+function renderFeed(restoreId){
+ feed.replaceChildren();const clips=viewFollowing?[]:[...publicCloudClips,...repostClips,...ownedDrafts(),...demoClips];
+ if(viewFollowing){feed.classList.add('hidden');renderFollowingDirectory();return;}feed.classList.remove('hidden');hide('followingMessage');hide('followingDirectory');if(!clips.length){const article=make('article','clip');const bg=make('div','clip-bg');const msg=make('div','clip-brand','BULIGO');msg.append(make('small','', 'Following feed needs published videos.'));bg.append(msg);article.append(bg);const actions=make('div','clip-details');const button=make('button','primary','Find friends');button.onclick=()=>switchTab('search');actions.append(button);article.append(actions);feed.append(article);return;}
+ for(const clip of clips){
+  const article=make('article','clip');article.dataset.clipid=clip.id;
+  if(clip.type==='image'){const img=make('img','clip-image');img.src=clip.repost?clip.originalUrl:clip.url;img.alt=clip.caption||'Photo on BULIGO';if(clip.repost)img.referrerPolicy='no-referrer';img.loading='lazy';article.append(img);}else if(clip.url||(clip.repost&&clip.type==='video')){const video=make('video','');video.src=clip.repost?clip.originalUrl:clip.url;video.muted=true;video.autoplay=false;video.playsInline=true;video.loop=true;video.preload='metadata';video.setAttribute('aria-label',clip.caption||'Video preview');article.append(video);const tap=make('button','clip-tap');tap.type='button';tap.setAttribute('aria-label','Play or pause video');tap.onclick=()=>{if(video.paused)video.play().catch(()=>{});else video.pause();};article.append(tap);}
+  else{const bg=make('div','clip-bg'+(clip.background?' clip-bg-two':''));const glow=make('div','clip-glow');const brand=make('div','clip-brand',clip.repost?'↻ REPOST':'BULIGO');brand.append(make('small','',clip.repost?'Open the original post':clip.background?'Connect with friends':'Your videos. Your world.'));bg.append(glow,brand);article.append(bg);}
+  const tag=make('span','clip-demo-tag',clip.cloud?'🌍 PUBLIC ON BULIGO':clip.demo?'BULIGO DEMO':clip.repost?'↻ REPOST · LOCAL':(clip.visibility==='public'?'🌍 Public draft · not posted':clip.visibility==='friends'?'👥 Friends draft · not posted':'🔒 Private draft'));article.append(tag);
+  if(!clip.demo&&!clip.repost&&user&&clip.ownerUid===user.uid){const remove=make('button','clip-own-delete','🗑️ Delete my post');remove.type='button';remove.setAttribute('aria-label','Delete your photo or video draft');remove.onclick=()=>deleteMyDraft(clip.id);article.append(remove);}
+  const side=make('div','clip-side');const avatar=make('span','clip-avatar',clip.demo?'B':(clip.username[1]||'U').toUpperCase());if(user&&clip.ownerUid===user.uid&&profileAvatarData){avatar.textContent='';avatar.classList.add('has-profile-photo');avatar.style.backgroundImage='url('+JSON.stringify(profileAvatarData)+')';}side.append(avatar);
+  const like=make('button','clip-action');like.type='button';like.setAttribute('aria-label','Like post');like.setAttribute('aria-pressed',String(likeIds.has(clip.id)));const heart=make('span','sym',likeIds.has(clip.id)?'♥':'♡');like.append(heart,make('span','',likeIds.has(clip.id)?'1 Like':'Like'));
+  like.onclick=()=>{if(likeIds.has(clip.id))likeIds.delete(clip.id);else likeIds.add(clip.id);like.setAttribute('aria-pressed',String(likeIds.has(clip.id)));heart.textContent=likeIds.has(clip.id)?'♥':'♡';like.lastChild.textContent=likeIds.has(clip.id)?'1 Like':'Like';};side.append(like);
+  const reaction=make('button','clip-action');reaction.type='button';reaction.setAttribute('aria-label','Send an emoji reaction');reaction.append(make('span','sym','🥰'),make('span','', 'React'));reaction.onclick=()=>{reactionClipId=clip.id;show('reactionsOverlay');pauseFeed();};side.append(reaction);
+  const comment=make('button','clip-action');comment.type='button';comment.setAttribute('aria-label','Show comments');comment.append(make('span','sym','💬'),make('span','', 'Comment'));comment.onclick=()=>openComments(clip.id);side.append(comment);
+  const bookmark=make('button','clip-action');bookmark.type='button';bookmark.setAttribute('aria-label','Save photo or video on this phone');const saved=make('span','sym','♧');bookmark.append(saved,make('span','', 'Save'));bookmark.onclick=()=>{const has=bookmark.getAttribute('aria-pressed')==='true';bookmark.setAttribute('aria-pressed',String(!has));saved.textContent=has?'♧':'🔖';notifyPreview(has?'Removed from saved items.':'Saved in this browser session only.');};side.append(bookmark);
+  const share=make('button','clip-action');share.type='button';share.setAttribute('aria-label',clip.demo?'Share BULIGO website':'Share this post with another app');const shareCount=make('span','',shareCounts.get(clip.id)?String(shareCounts.get(clip.id)):'Share');share.append(make('span','sym','➤'),shareCount);share.onclick=async()=>{if(await shareClip(clip))recordShare(clip,shareCount);};side.append(share);
+  const dm=make('button','clip-action');dm.type='button';dm.setAttribute('aria-label','Send a private message');dm.append(make('span','sym','✉'),make('span','', 'Message'));dm.onclick=()=>{if(!user){switchTab('profile');notifyPreview('Sign in first to send a message.');}else{switchTab('inbox');notifyPreview('Choose a contact to send a private message.');}};side.append(dm);
+  const callsAction=make('button','clip-action');callsAction.type='button';callsAction.setAttribute('aria-label','Open video calls and online contacts');callsAction.append(make('span','sym','📹'),make('span','', 'Call'));callsAction.onclick=()=>switchTab('calls');side.append(callsAction);
+  if(!clip.demo&&clip.type!=='image'&&(!clip.repost||clip.type==='video')){const mute=make('button','clip-action');mute.type='button';mute.setAttribute('aria-label','Enable sound on your preview');mute.append(make('span','sym','♫'),make('span','', 'Sound'));mute.onclick=()=>{const v=article.querySelector('video');if(!v)return;v.muted=!v.muted;mute.lastChild.textContent=v.muted?'Sound':'Mute';};side.append(mute);}
+  article.append(side);
+  const info=make('div','clip-details');info.append(make('strong','',clip.username));info.append(make('p','',clip.caption));info.append(make('div','music',clip.repost?'↻ Original creator: '+clip.author:clip.type==='image'?'📷 Photo':'♫ Original audio'));info.append(make('span','clip-local',clip.cloud?'Public cloud post · other visitors can watch':clip.demo?'Example post — not a real upload':clip.repost?'Repost preview only · not published':'Only visible on this phone'));article.append(info);if(clip.repost){const original=make('a','repost-source-open','↗ Original post');original.href=clip.originalUrl;original.target='_blank';original.rel='noopener noreferrer';article.append(original);}
+  if(clip.demo){const tap=make('button','clip-tap');tap.type='button';tap.setAttribute('aria-label','Create a photo or video like this');tap.onclick=()=>switchTab('create');article.append(tap);}
+  feed.append(article);
+ }
+ if(restoreId){const target=[...feed.children].find(el=>el.dataset.clipid===restoreId);if(target)target.scrollIntoView({block:'start',behavior:'instant'});}
+ requestAnimationFrame(syncFeedPlayback);
+}
+function toggleFeed(follow){viewFollowing=follow;$('feedForYou').classList.toggle('selected',!follow);$('feedFollowing').classList.toggle('selected',follow);feed.scrollTop=0;renderFeed();}
+$('feedFollowing').onclick=()=>toggleFeed(true);
+$('feedForYou').onclick=()=>toggleFeed(false);
+async function shareClip(clip){
+ // Social/share UI, never an invented public BULIGO repost or public count.
+ if(clip.repost&&clip.originalUrl){
+  try{if(navigator.share){await navigator.share({title:'Post by '+clip.author,text:clip.caption||'Shared from BULIGO',url:clip.originalUrl});return true;}
+  if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(clip.originalUrl);notifyPreview('Original post link copied.');return true;}}
+  catch(e){if(e?.name==='AbortError')return false;}
+  notifyPreview('Copy the original post link to share it.');return false;
+ }
+ if(!clip.demo && clip.file){
+  try{if(navigator.share&&navigator.canShare?.({files:[clip.file]})){await navigator.share({files:[clip.file],title:clip.type==='image'?'BULIGO photo':'BULIGO video',text:clip.caption||'Shared from BULIGO'});return true;}}
+  catch(e){if(e?.name==='AbortError')return false;}
+  notifyPreview('Share the photo or video from Photos or Files. This preview is not publicly uploaded.');return false;
+ }
+ return shareSite();
+}
+async function shareSite(){const url=location.origin+location.pathname;try{if(navigator.share){await navigator.share({title:'BULIGO',text:'Explore BULIGO',url});return true;}if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(url);notifyPreview('BULIGO site link copied.');return true;}}catch(e){if(e?.name==='AbortError')return false;}notifyPreview('Unable to share from this browser.');return false;}
+function openRepostComposer(){switchTab('create');$('repostUrl').focus();}
+if($('goRepost'))$('goRepost').onclick=openRepostComposer;
+if($('repostForm'))$('repostForm').onsubmit=e=>{e.preventDefault();if(!user){switchTab('profile');notifyPreview('Sign in to save your reposts.');return;}
+ const url=validPublicLink($('repostUrl').value);const author=norm($('repostAuthor').value);const caption=norm($('repostCaption').value);
+ if(!url){say('repostStatus','Enter a valid public HTTPS photo or video link.','error');return;}
+ if(author.length<2||author.length>65){say('repostStatus','Enter the original creator’s name.','error');return;}
+ if(!$('repostPermission').checked){say('repostStatus','Only repost with the creator’s permission.','error');return;}
+ if(repostClips.some(r=>r.originalUrl===url.href)){say('repostStatus','You already reposted this link on this phone.','error');return;}
+ const type=mediaLinkType(url.href);const clip={id:'repost-'+Date.now()+'-'+Math.random().toString(36).slice(2,7),originalUrl:url.href,author,username:'@'+author,caption:caption||'Shared from '+author,type,repost:true};repostClips.unshift(clip);repostClips=repostClips.slice(0,60);saveLocalReposts();renderMyReposts();viewFollowing=false;$('feedForYou').classList.add('selected');$('feedFollowing').classList.remove('selected');renderFeed();$('repostForm').reset();say('repostStatus','Reposted on this device only. Other people cannot see it yet.','ok');switchTab('home');notifyPreview(type==='link'?'Added a link to the original post on this phone.':'Added the media preview on this phone.');
+};
+function openComments(id){commentsClipId=id;show('commentsOverlay');renderComments();$('commentInput').focus();pauseFeed();}
+function closeComments(){commentsClipId=null;hide('commentsOverlay');$('commentInput').value='';syncFeedPlayback();}
+function renderComments(){const arr=commentStore.get(commentsClipId)||[];$('commentCount').textContent='('+arr.length+')';const list=$('commentsList');list.replaceChildren();if(!arr.length)list.append(make('p','smalltext','No comments yet on this phone. Be the first!'));for(const c of arr){const d=make('div','comment');d.append(make('small','',c.name+' · '+c.time),make('span','',c.text));list.append(d);}list.scrollTop=list.scrollHeight;}
+$('closeComments').onclick=closeComments;
+$('closeReactions').onclick=()=>{reactionClipId=null;hide('reactionsOverlay');syncFeedPlayback();};
+$('reactionsOverlay').addEventListener('click',e=>{if(e.target===$('reactionsOverlay'))$('closeReactions').click();});
+$('reactionsOverlay').querySelectorAll('[data-reaction]').forEach(b=>b.onclick=()=>{const emoji=b.dataset.reaction;const clip=reactionClipId;reactionClipId=null;hide('reactionsOverlay');notifyPreview(emoji+' Reaction added on your phone only — not sent to other users.');syncFeedPlayback();});
+
+$('commentsOverlay').addEventListener('click',e=>{if(e.target===$('commentsOverlay'))closeComments();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&commentsClipId)closeComments();});
+$('commentForm').onsubmit=e=>{e.preventDefault();if(!commentsClipId)return;const text=norm($('commentInput').value);if(!text||text.length>280)return;const arr=commentStore.get(commentsClipId)||[];arr.push({name:firstName&&surname?firstName+' '+surname:'You',text,time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})});commentStore.set(commentsClipId,arr);$('commentInput').value='';renderComments();};
+function resetMediaPreview(){
+ const v=$('uploadPreview');v.pause();v.removeAttribute('src');v.load();hide('uploadPreview');
+ const img=$('photoPreview');img.removeAttribute('src');hide('photoPreview');
+}
+$('videoPicker').onchange=e=>{
+ const file=e.target.files?.[0];if(!file)return;
+ const type=file.type.startsWith('image/')?'image':file.type.startsWith('video/')?'video':null;
+ if(selectedMedia?.url)URL.revokeObjectURL(selectedMedia.url);
+ selectedMedia=null;resetMediaPreview();$('sharePreview').disabled=true;
+ if(!type){$('previewStatus').textContent='Please choose a photo or video file.';return;}
+ const limit=type==='image'?15:75;
+ if(file.size>limit*1024*1024){$('previewStatus').textContent='This '+type+' is larger than '+limit+' MB. Please choose a smaller file.';return;}
+ const url=URL.createObjectURL(file);selectedMedia={file,url,type};
+ if(type==='image'){$('photoPreview').src=url;show('photoPreview');}
+ else{const preview=$('uploadPreview');preview.src=url;preview.muted=true;preview.load();show('uploadPreview');}
+ $('previewStatus').textContent='Ready: '+(type==='image'?'photo':'video')+'. Select Public to publish to BULIGO, or Private to save locally.';
+ $('sharePreview').disabled=false;
+};
+function renderMyMedia(){
+ const gallery=$('myMediaGallery');if(!gallery)return;gallery.replaceChildren();
+ const myClips=ownedDrafts();const photos=myClips.filter(c=>c.type==='image');const videos=myClips.filter(c=>c.type==='video');
+ $('myPhotoCount').textContent=photos.length+' photo'+(photos.length===1?'':'s');
+ $('myVideoCount').textContent=videos.length+' video'+(videos.length===1?'':'s');
+ $('myMediaEmpty').classList.toggle('hidden',!!myClips.length);
+ for(const clip of myClips){
+  const tile=make('button','media-tile');tile.type='button';tile.setAttribute('aria-label','View '+clip.type+': '+clip.caption);
+  if(clip.type==='image'){const img=make('img');img.src=clip.url;img.alt=clip.caption;tile.append(img);}
+  else{const vid=make('video');vid.src=clip.url;vid.preload='metadata';vid.muted=true;vid.playsInline=true;tile.append(vid);}
+  tile.append(make('span','media-kind',clip.type==='image'?'📷':'▶'),make('span','media-caption',clip.caption));
+  tile.onclick=()=>{viewFollowing=false;$('feedForYou').classList.add('selected');$('feedFollowing').classList.remove('selected');renderFeed();switchTab('home');requestAnimationFrame(()=>{const item=[...feed.children].find(el=>el.dataset.clipid===clip.id);item?.scrollIntoView({block:'start'});});};
+  const entry=make('div','my-media-entry');entry.append(tile);
+  const remove=make('button','media-delete','🗑');remove.type='button';remove.setAttribute('aria-label','Delete my '+clip.type+' draft');remove.title='Delete my draft';remove.onclick=()=>deleteMyDraft(clip.id);entry.append(remove);
+  gallery.append(entry);
+ }
+}
+$('refreshCloudPosts').onclick=()=>void refreshCloudClips();
+$('sharePreview').onclick=async()=>{
+ if(!selectedMedia)return;
+ if(!user){switchTab('profile');notifyPreview('Sign in to publish a video.');return;}
+ const visibility=$('postVisibility').value;
+ const caption=norm($('videoCaption').value)||selectedMedia.file.name.replace(/\.[^/.]+$/,'');
+ if(visibility==='public'){
+  // Storage access follows current Firebase ID token; server checks its role and issuer.
+  const button=$('sharePreview');button.disabled=true;button.textContent='Uploading…';
+  $('previewStatus').textContent='Uploading your public post to BULIGO cloud…';
+  try{
+   const claims=await user.getIdTokenResult();
+   if(claims.claims.role!=='authenticated')throw new Error('Your Firebase account needs the authenticated custom claim before Supabase can accept the upload.');
+   const extension=(selectedMedia.file.name.split('.').pop()||'').toLowerCase();
+   const fallback=selectedMedia.type==='image'?'jpg':'mp4';
+   const ext=/^(mp4|mov|m4v|webm|jpg|jpeg|png|webp|heic)$/.test(extension)?extension:fallback;
+   const slug=caption.normalize('NFKD').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,58)||'new-post';
+   const filename=Date.now()+'_'+user.uid.slice(0,24).replace(/[^a-zA-Z0-9_-]/g,'')+'_'+slug+'_'+Math.random().toString(36).slice(2,10)+'.'+ext;
+   const {error}=await buligoStorage.storage.from(BULIGO_BUCKET).upload('public/'+filename,selectedMedia.file,{contentType:selectedMedia.file.type||'application/octet-stream',cacheControl:'3600',upsert:false});
+   if(error)throw error;
+   if(selectedMedia.url)URL.revokeObjectURL(selectedMedia.url);
+   selectedMedia=null;resetMediaPreview();$('videoPicker').value='';$('videoCaption').value='';$('postVisibility').value='private';
+   $('previewStatus').textContent='Published to BULIGO cloud! Anyone can see your public post.';
+   await refreshCloudClips();viewFollowing=false;$('feedForYou').classList.add('selected');$('feedFollowing').classList.remove('selected');renderFeed();switchTab('home');
+  }catch(e){$('previewStatus').textContent='Upload failed: '+(e?.message||'Unknown error')+'. Please check Firebase third-party authentication and INSERT permissions.';}
+  finally{button.disabled=!selectedMedia;button.textContent='＋ Publish publicly / Save private draft';}
+  return;
+ }
+ const clip={id:'local-'+Date.now()+'-'+Math.random().toString(36).slice(2,8),ownerUid:user.uid,visibility,url:selectedMedia.url,file:selectedMedia.file,type:selectedMedia.type,username:firstName&&surname?'@'+firstName.toLowerCase()+'.'+surname.toLowerCase():'@mybuligo',caption:caption.slice(0,180),demo:false};
+ localClips.unshift(clip);selectedMedia=null;resetMediaPreview();
+ $('videoPicker').value='';$('videoCaption').value='';$('postVisibility').value='private';$('sharePreview').disabled=true;
+ $('previewStatus').textContent='Private draft saved on this phone. Not visible to others.';
+ renderMyMedia();viewFollowing=false;$('feedForYou').classList.add('selected');$('feedFollowing').classList.remove('selected');renderFeed();feed.scrollTop=0;switchTab('home');
+};
+// Visitors can browse the public feed without signing in, subject to Supabase SELECT RLS.
+void refreshCloudClips();
+
+let user=null,firstName='',surname='',peer=null,slot=0,connection=null,incoming=null,stream=null;
+
+let profileAvatarData='';
+const avatarStorageKey=uid=>'buligo_profile_photo_v1_'+uid;
+function renderProfileStats(){
+ if($('profileFriendsNumber'))$('profileFriendsNumber').textContent=String(user?friends.size:0);
+ if($('profileFollowingNumber'))$('profileFollowingNumber').textContent=String(user?followed.size:0);
+ // No cloud followers database in this preview: do not invent a count.
+ if($('profileFollowersNumber'))$('profileFollowersNumber').textContent='—';
+}
+function renderProfileIdentity(){
+ const name=(firstName&&surname)?firstName+' '+surname:'My BULIGO profile';
+ $('profileSocialName').textContent=name;
+ $('profileSocialHandle').textContent=user?'Profile photo saved on this phone':'Sign in to choose a photo';
+ $('profileAvatarLetter').textContent=(firstName||surname||'B').charAt(0).toLocaleUpperCase();
+ const img=$('profileAvatarImage');
+ if(profileAvatarData){img.src=profileAvatarData;img.classList.remove('hidden');$('profileAvatarLetter').classList.add('hidden');}
+ else{img.removeAttribute('src');img.classList.add('hidden');$('profileAvatarLetter').classList.remove('hidden');}
+ $('removeProfilePhoto').disabled=!user||!profileAvatarData;
+ renderProfileStats();
+}
+function loadProfileAvatar(){
+ profileAvatarData='';
+ if(user){try{const value=localStorage.getItem(avatarStorageKey(user.uid))||'';if(/^data:image\/jpeg;base64,[a-z0-9+/=]+$/i.test(value)&&value.length<450000)profileAvatarData=value;}catch{}}
+ renderProfileIdentity();
+}
+function photoToSquareJpeg(file){
+ return new Promise((resolve,reject)=>{
+  if(!file||!file.type.startsWith('image/')){reject(new Error('Choose a photo from your gallery.'));return;}
+  if(file.size>12*1024*1024){reject(new Error('Choose a photo smaller than 12 MB.'));return;}
+  const url=URL.createObjectURL(file);const img=new Image();
+  img.onload=()=>{
+   try{const size=256;const canvas=document.createElement('canvas');canvas.width=size;canvas.height=size;
+    const ctx=canvas.getContext('2d');if(!ctx)throw new Error('Photo processing unavailable.');
+    const w=img.naturalWidth,h=img.naturalHeight,side=Math.min(w,h);
+    ctx.drawImage(img,(w-side)/2,(h-side)/2,side,side,0,0,size,size);
+    const data=canvas.toDataURL('image/jpeg',0.78);
+    if(!data||data.length>450000)throw new Error('Photo is too large to save.');resolve(data);
+   }catch(err){reject(err);}finally{URL.revokeObjectURL(url);}
+  };
+  img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error('This photo could not be opened. Try another.'));};
+  img.src=url;
+ });
+}
+$('profileAvatarButton').onclick=$('chooseProfilePhoto').onclick=()=>{
+ if(!user){switchTab('profile');return;}
+ $('profilePhotoInput').click();
+};
+$('profilePhotoInput').onchange=async()=>{
+ const file=$('profilePhotoInput').files?.[0];if(!file||!user)return;
+ const uid=user.uid;
+ $('profilePhotoStatus').textContent='Preparing your profile photo…';
+ try{const data=await photoToSquareJpeg(file);
+  if(!user||user.uid!==uid)throw new Error('Please sign in again to save your photo.');
+  localStorage.setItem(avatarStorageKey(uid),data);
+  profileAvatarData=data;renderProfileIdentity();renderFeed();
+  $('profilePhotoStatus').textContent='✅ Profile photo saved on this phone. Other people cannot see it until cloud profile storage is enabled.';
+ }catch(err){$('profilePhotoStatus').textContent='⚠️ '+(err?.message||'Could not save this photo on the phone.');}
+ finally{$('profilePhotoInput').value='';}
+};
+$('removeProfilePhoto').onclick=()=>{
+ if(!user||!profileAvatarData)return;
+ if(!confirm('Remove your profile photo from this phone?'))return;
+ try{localStorage.removeItem(avatarStorageKey(user.uid));profileAvatarData='';renderProfileIdentity();renderFeed();$('profilePhotoStatus').textContent='Profile photo removed. You can choose another anytime.';}
+ catch{$('profilePhotoStatus').textContent='Could not remove the saved photo.';}
+};
+
+renderFeed();document.body.classList.add('home-mode');
+let instance=0,retryTimer=null,openTimer=null,retryDelay=2000,callTimer=null,searchToken=0,searching=false,ending=false;
+const conversations=new Map(),chatChannels=new Map();let activeChatId=null,messageNumber=0;
+function errorText(e){
+ if(e?.code==='auth/invalid-credential')return 'Incorrect email or password.';
+ if(e?.code==='auth/email-already-in-use')return 'This email already has an account. Sign in instead.';
+ if(e?.code==='auth/unauthorized-domain')return 'This website needs to be authorised in Firebase Authentication.';
+ if(e?.name==='NotAllowedError')return 'Please allow camera and microphone access.';
+ if(e?.name==='NotFoundError')return 'No camera or microphone was found.';
+ if(e?.type==='unavailable-id')return 'That name already has a person online.';
+ if(e?.type==='peer-unavailable')return 'That person is not online right now.';
+ if(['network','server-error','socket-closed','socket-error'].includes(e?.type))return 'Calling service is temporarily unavailable. Trying again…';
+ return e?.message||String(e)||'An error occurred.';
+}
+// AGE SAFETY (preview only): self-declared birth date in this browser. It is not age assurance.
+// No date of birth is transmitted to Firebase by this page. Real launch needs backend checks.
+let ageDeclaration=null;
+const todayISO=()=>{const d=new Date();return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');};
+function declaredAge(dob){
+ if(typeof dob!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(dob))return -1;
+ const [year,month,day]=dob.split('-').map(Number),d=new Date(year,month-1,day);
+ if(d.getFullYear()!==year||d.getMonth()!==month-1||d.getDate()!==day)return -1;
+ const today=new Date();let age=today.getFullYear()-year;
+ if(today.getMonth()+1<month||(today.getMonth()+1===month&&today.getDate()<day))age--;
+ return age>=0&&age<=120?age:-1;
+}
+function adultAccess(){return !!user&&declaredAge(ageDeclaration)>=18;}
+function childAccess(){const age=declaredAge(ageDeclaration);return !!user&&age>=14&&age<18;}
+function accessText(){if(!user)return 'Sign in first.';const n=declaredAge(ageDeclaration);
+ if(n<0)return 'Confirm your date of birth in Profile before using LIVE, calls, search or messaging.';
+ if(n<14)return 'BULIGO is for ages 14 and over. This account cannot use interactive features.';
+ return 'LIVE, voice/video calls, search and messaging are available only to ages 18+ in this beta.';
+}
+function updateAgeUI(){
+ const n=declaredAge(ageDeclaration),adult=n>=18,child=n>=14&&n<18;
+ $('ageGatePanel').classList.toggle('hidden',n>=14);
+ $('ageSafetyStatus').textContent=adult?'✅ Adult (18+) — interactive features available in this demo. Age is self-declared, not verified.':child?'🛡️ Under 18: private local photo/video previews only. LIVE, calls, chat, search and friend discovery are disabled.':accessText();
+ $('ageSafetyStatus').style.color=adult?'#91e6c2':'#f6d58a';
+ $('liveHomeSection').classList.toggle('hidden',!!user&&!adult);
+ $('ringEnable').disabled=!adult;
+ if(!adult){stopLiveDirectoryListener();if(peer)stopPeer();}
+ renderPublicLives();
+}
+function loadAgeDeclaration(){
+ ageDeclaration=null;if(user){try{const raw=localStorage.getItem(ageStorageKey(user.uid));if(declaredAge(raw)>=14)ageDeclaration=raw;}catch{}}
+ updateAgeUI();
+}
+$('ageGateConfirm').onclick=()=>{
+ if(!user)return;const value=$('ageGateDob').value,age=declaredAge(value);
+ if(age<0){say('ageGateStatus','Enter a valid date of birth.','error');return;}
+ if(age<14){say('ageGateStatus','BULIGO is for ages 14 and over. Registration and interactive access are not permitted.','error');return;}
+ try{localStorage.setItem(ageStorageKey(user.uid),value);}catch{say('ageGateStatus','Unable to save age on this device. Check private browsing settings.','error');return;}
+ ageDeclaration=value;updateAgeUI();updateProfileView();
+ if(adultAccess()){
+   if(firstName&&surname&&!peer)trySlot(1);
+   startLiveDirectoryListener();
+   say('ageGateStatus','Adult declaration saved privately on this device. This is NOT verified age assurance.','ok');
+ }else say('ageGateStatus','Age confirmed. You can use only private photo/video previews in this beta.','ok');
+};
+let pendingSignupDetails=null;
+function gatherDetails(prefix){const dob=prefix==='reg'?$('regDob').value.trim():'';
+ return {first:norm($(prefix+'First').value),last:norm($(prefix+'Last').value),dob,year:prefix==='reg'?(dob?dob.slice(0,4):''):$(prefix+'Year').value.trim(),country:norm($(prefix+'Country').value),city:norm($(prefix+'City').value)};}
+function validatedDetails(info,required){if(!goodName(info.first)||!goodName(info.last))return 'Enter first name and surname (2–35 characters).';
+ if(required){const age=declaredAge(info.dob);if(age<0)return 'Enter your real date of birth.';if(age<14)return 'You must be at least 14 years old to create a BULIGO account.';}
+ const year=Number(info.year);if((required||info.year)&&(!Number.isInteger(year)||year<1900||year>new Date().getFullYear()))return 'Enter a valid birth year.';
+ if(required&&(!info.country||!info.city))return 'Enter your country and city or town.';
+ if(info.country.length>60||info.city.length>60)return 'Country and city must be 60 characters or fewer.';
+ return '';
+}
+function fillProfileFields(info){$('myFirst').value=info.first||'';$('myLast').value=info.last||'';$('myYear').value=info.year||'';$('myCountry').value=info.country||'';$('myCity').value=info.city||'';}
+function readProfileDetails(){return gatherDetails('my');}
+function profilePrivateText(info){const parts=[];if(info.year)parts.push('Birth year: '+info.year);if(info.city||info.country)parts.push('Location: '+[info.city,info.country].filter(Boolean).join(', '));return parts.join(' · ')||'Not added yet';}
+function showPrivateDetails(info){$('privateDetailsText').textContent=profilePrivateText(info)+' — visible here only on this phone';}
+async function login(create){const email=norm($('email').value).toLowerCase(),password=$('password').value;
+ if(!email||password.length<6){say('authStatus','Enter an email address and a password of at least 6 characters.','error');return;}
+ $('signIn').disabled=$('signUp').disabled=true;
+ try{if(create){const details=gatherDetails('reg'),validation=validatedDetails(details,true);if(validation){say('authStatus',validation,'error');return;}if(!$('regConsent').checked){say('authStatus','Please confirm you understand the privacy notice.','error');return;}
+ pendingSignupDetails={...details,email};const created=await createUserWithEmailAndPassword(auth,email,password);try{await updateProfile(created.user,{displayName:details.first+' '+details.last});}catch{}const updated={first:details.first,last:details.last,year:details.year,country:details.country,city:details.city};try{localStorage.setItem(myStorageKey(created.user.uid),JSON.stringify(updated));localStorage.setItem(ageStorageKey(created.user.uid),details.dob);}catch{}if(user?.uid===created.user.uid){loadAgeDeclaration();updateLiveAuth();fillProfileFields(updated);firstName=updated.first;surname=updated.last;updateProfileView();trySlot(1);showPrivateDetails(updated);}}else await signInWithEmailAndPassword(auth,email,password);$('password').value='';hide('signupExtras');$('signUp').textContent='Create account';}
+
+ catch(e){say('authStatus',errorText(e),'error');}
+ finally{$('signIn').disabled=$('signUp').disabled=false;}
+}
+$('authForm').onsubmit=e=>{e.preventDefault();void login(false);};
+$('signUp').onclick=()=>{if($('signupExtras').classList.contains('hidden')){show('signupExtras');$('signUp').textContent='Complete registration';say('authStatus','BULIGO is 14+. Please enter your real date of birth. LIVE and calls are 18+.');return;}void login(true);};
+$('resetPassword').onclick=async()=>{const email=norm($('email').value);if(!email){say('authStatus','Enter your email address first.','error');return;}try{await sendPasswordResetEmail(auth,email);say('authStatus','If the account exists, a reset email will be sent.','ok');}catch(e){say('authStatus',errorText(e),'error');}};
+function stopPeer(){endLiveBroadcast(false);leaveLiveBroadcast(false);for(const conn of chatChannels.values()){try{conn.close();}catch{}}chatChannels.clear();if(retryTimer)clearTimeout(retryTimer);if(openTimer)clearTimeout(openTimer);retryTimer=openTimer=null;const p=peer;peer=null;instance++;if(p){try{p.destroy();}catch{}}}
+function updateProfileView(){renderProfileIdentity();if(firstName&&surname){hide('setupPanel');show('profileBox');if(adultAccess()){show('dialPanel');show('friendsPanel');}else{hide('dialPanel');hide('friendsPanel');}$('profileLabel').textContent=firstName+' '+surname;}
+ else{show('setupPanel');hide('profileBox');hide('dialPanel');hide('friendsPanel');}}
+function scheduleReconnect(p){if(!user||!firstName||!surname||peer!==p||retryTimer)return;
+ say('appStatus','Calling service disconnected. Reconnecting…','error');
+ const delay=retryDelay;retryDelay=Math.min(retryDelay*2,20000);
+ retryTimer=setTimeout(()=>{retryTimer=null;if(peer!==p||!user)return;try{p.destroy();}catch{}peer=null;trySlot(1);},delay);
+}
+function trySlot(next){if(!adultAccess()||!firstName||!surname)return;
+ if(next>maxSlots){say('appStatus','Too many people have this same name online. Try again later.','error');return;}
+ const old=peer;peer=null;if(old){try{old.destroy();}catch{}}
+ if(openTimer)clearTimeout(openTimer);openTimer=null;
+ if(typeof window.Peer!=='function'){say('appStatus','Calling service could not load. Check internet or reopen this page.','error');return;}
+ const token=++instance,p=new window.Peer(peerId(firstName,surname,next),{host:'0.peerjs.com',port:443,path:'/',secure:true,debug:0});peer=p;
+ say('appStatus','Connecting…');
+ p.on('open',()=>{if(peer!==p||token!==instance)return;slot=next;retryDelay=2000;if(openTimer)clearTimeout(openTimer);openTimer=null;say('appStatus','Ready! Friends can find '+firstName+' '+surname+'.','ok');if(friends.size)void refreshFriends();});
+ p.on('connection',data=>{if(peer!==p||!adultAccess()){try{data.close();}catch{}return;}
+ if(data.metadata?.kind==='buligo-live-watch-v1'){handleLiveWatchRequest(data);return;}
+ if(data.metadata?.kind==='buligo-live-check-v1'){handleLiveCheck(data);return;}
+ if(data.metadata?.kind==='buligo-friend-v1'){acceptFriendChannel(data);return;}
+ if(data.metadata?.kind==='buligo-presence-v1'){data.on('open',()=>{try{data.send({kind:'buligo-presence-online'});}catch{}setTimeout(()=>{try{data.close();}catch{}},500);});return;}
+ if(data.metadata?.kind==='buligo-chat'){const nameFirst=norm(data.metadata.first),nameLast=norm(data.metadata.last);if(!goodName(nameFirst)||!goodName(nameLast)){try{data.close();}catch{}return;}attachChatConnection(data,{id:data.peer,first:nameFirst,last:nameLast,slot:0});return;}
+ data.on('open',()=>{try{data.send({kind:'buligo-profile',first:firstName,last:surname,slot:next});}catch{}});
+ data.on('error',()=>{});setTimeout(()=>{try{data.close();}catch{}},6500);});
+ p.on('call',c=>{if(!adultAccess()){try{c.close();}catch{}return;}if(c.metadata?.kind==='buligo-live-stream-v1'){receiveLiveStreamCall(c);return;}if(c.metadata?.kind==='buligo-live-cohost-stream-v1'){receiveLiveGuestCall(c);return;}if(peer!==p||!user||connection||incoming){try{c.close();}catch{}return;}
+ incoming=c;const caller=norm(c.metadata?.first)+' '+norm(c.metadata?.last),isVoice=c.metadata?.mode==='audio';
+ $('incomingName').textContent=(caller.trim()||'Unknown caller')+' is calling. The caller’s identity is not verified.';$('incomingTitle').textContent=isVoice?'Incoming voice call':'Incoming video call';$('incomingIcon').textContent=isVoice?'📞':'📲';$('answerCall').textContent=isVoice?'📞 Answer':'📹 Answer';show('incomingOverlay');startRinging('incoming');
+ c.on('close',()=>{if(incoming===c){incoming=null;stopRinging();hide('incomingOverlay');}});});
+ p.on('error',e=>{if(peer!==p||token!==instance)return;
+ if(e?.type==='unavailable-id'){trySlot(next+1);return;}
+ if(e?.type==='peer-unavailable'){if(connection){void endCall(true,'This person is not online.');}return;}
+ say('appStatus',errorText(e),'error');
+ if(['network','server-error','socket-closed','socket-error'].includes(e?.type))scheduleReconnect(p);
+ });
+ p.on('disconnected',()=>{if(peer!==p)return;say('appStatus','Connection interrupted. Reconnecting…','error');try{if(!p.destroyed)p.reconnect();}catch{}if(openTimer)clearTimeout(openTimer);openTimer=setTimeout(()=>{openTimer=null;if(peer===p&&!p.open)scheduleReconnect(p);},9000);});
+ p.on('close',()=>{if(peer===p)scheduleReconnect(p);});
+ openTimer=setTimeout(()=>{openTimer=null;if(peer===p&&!p.open)scheduleReconnect(p);},14000);
+}
+async function changeProfile(){if(!user)return;const details=readProfileDetails();const validation=validatedDetails(details,false);if(validation){say('profileStatus',validation,'error');return;}
+ await endCall();stopPeer();firstName=details.first;surname=details.last;
+ try{localStorage.setItem(myStorageKey(user.uid),JSON.stringify(details));}catch{}
+ try{await updateProfile(user,{displayName:firstName+' '+surname});}catch(e){say('profileStatus','Saved on this phone. Could not sync name to your account.','error');}
+ showPrivateDetails(details);updateProfileView();say('searchStatus','Search for a friend using their first name and surname.');$('searchResults').replaceChildren();trySlot(1);
+}
+
+$('saveProfile').onclick=()=>void changeProfile();
+$('editProfile').onclick=()=>{show('setupPanel');hide('profileBox');$('myFirst').focus();};
+function peerReady(){return new Promise((resolve,reject)=>{const p=peer;if(p?.open&&!p.disconnected){resolve(p);return;}
+ if(!p||p.destroyed){reject(Error('Calling service is not connected. Please try again.'));return;}
+ const t=setTimeout(()=>{done();reject(Error('Calling service is not connected. Please retry shortly.'));},9500);
+ const yes=()=>{done();resolve(p);},done=()=>{clearTimeout(t);p.off('open',yes);};p.on('open',yes);});}
+function probePerson(p,first,last,targetSlot,token){return new Promise(resolve=>{
+ let finished=false,dc=null;const finish=entry=>{if(finished)return;finished=true;clearTimeout(timer);if(dc){try{dc.close();}catch{}}resolve(entry);};
+ const timer=setTimeout(()=>finish(null),6200);
+ if(token!==searchToken||!p.open){finish(null);return;}
+ try{dc=p.connect(peerId(first,last,targetSlot),{reliable:true});if(!dc){finish(null);return;}
+ dc.on('data',info=>{if(info?.kind==='buligo-profile'&&norm(info.first).toLocaleLowerCase()===norm(first).toLocaleLowerCase()&&norm(info.last).toLocaleLowerCase()===norm(last).toLocaleLowerCase())finish({first:norm(info.first),last:norm(info.last),slot:targetSlot,id:peerId(first,last,targetSlot)});});
+ dc.on('error',()=>finish(null));dc.on('close',()=>finish(null));
+ }catch{finish(null);}
+ });}
+function addResult(person){const outer=document.createElement('div');outer.className='found';
+ const left=document.createElement('div'),strong=document.createElement('strong'),small=document.createElement('small');
+ strong.textContent=person.first+' '+person.last;small.textContent='Online • Profile '+person.slot+' (name not verified)';left.append(strong,small);
+ const actions=document.createElement('div');actions.className='found-actions';
+ const msg=document.createElement('button');msg.type='button';msg.className='primary small';msg.textContent='✉ Message';msg.onclick=()=>openConversation(person);
+ const voice=document.createElement('button');voice.type='button';voice.className='outline small';voice.textContent='📞 Voice call';voice.onclick=()=>void dial(person,'audio');
+ const b=document.createElement('button');b.type='button';b.className='green small';b.textContent='📹 Video call';b.onclick=()=>void dial(person,'video');
+ const follow=document.createElement('button');follow.type='button';follow.className='secondary small';follow.dataset.followId=person.id;follow.textContent=followed.has(person.id)?'✓ Following':'＋ Follow';follow.setAttribute('aria-pressed',String(followed.has(person.id)));follow.onclick=()=>toggleFollow(person);
+ const addFriend=document.createElement('button');addFriend.type='button';addFriend.className='outline small';addFriend.textContent=friends.has(person.id)?'✓ Friends':'＋ Add friend';addFriend.disabled=friends.has(person.id);addFriend.onclick=()=>void requestFriend(person);
+ actions.append(msg,voice,b,follow,addFriend);outer.append(left,actions);$('searchResults').append(outer);
+}
+async function findPeople(){if(!adultAccess()||!firstName||!surname)return;
+ const first=norm($('findFirst').value),last=norm($('findLast').value);
+ if(!goodName(first)||!goodName(last)){say('searchStatus','Enter both a first name and a surname.','error');return;}
+ if(first.toLocaleLowerCase()===firstName.toLocaleLowerCase()&&last.toLocaleLowerCase()===surname.toLocaleLowerCase()){
+ say('searchStatus','Searching your own name may also find other people with the same name.');}
+ const token=++searchToken;searching=true;$('findPeople').disabled=true;$('searchResults').replaceChildren();say('searchStatus','Searching for online people named '+first+' '+last+'…');
+ let found=0;
+ try{const p=await peerReady();const res=await Promise.all(Array.from({length:maxSlots},(_,i)=>probePerson(p,first,last,i+1,token)));
+ if(token!==searchToken)return;
+ for(const person of res){if(person){if(person.id===p.id)continue;found++;addResult(person);}}
+ say('searchStatus',found?found+' online match'+(found===1?'':'es')+' found. Choose Message or Video call.':'No online matches found. Ask your friend to sign in, save their name and keep BULIGO open.',found?'ok':'');
+ }catch(e){if(token===searchToken)say('searchStatus',errorText(e),'error');}
+ finally{if(token===searchToken){searching=false;$('findPeople').disabled=false;}}
+}
+$('findPeople').onclick=()=>void findPeople();
+// Beta live chat uses PeerJS data channels. No Firestore permissions or cloud inbox are used.
+function chatRecord(person){let chat=conversations.get(person.id);if(!chat){chat={person:{...person},messages:[],unread:0};conversations.set(person.id,chat);}else{chat.person={...chat.person,...person};}renderChatList();return chat;}
+function renderChatList(){const list=$('chatList');list.replaceChildren();let total=0;
+ for(const [id,chat] of conversations){total+=chat.unread;const row=document.createElement('button');row.type='button';row.className='chat-row';
+ const detail=document.createElement('span'),strong=document.createElement('span'),sub=document.createElement('span');strong.className='chat-name';strong.textContent=chat.person.first+' '+chat.person.last;sub.className='chat-meta';sub.textContent=chat.messages.length?chat.messages[chat.messages.length-1].text.slice(0,65):'Tap to open a live chat';detail.append(strong,sub);row.append(detail);
+ if(chat.unread){const badge=document.createElement('span');badge.className='chat-unread';badge.textContent=String(chat.unread);row.append(badge);}row.onclick=()=>openConversation(chat.person);list.append(row);}
+ if(!conversations.size){const p=document.createElement('p');p.className='smalltext';p.textContent='No chats yet. Find someone by name to start.';list.append(p);}
+ $('unreadCounter').textContent=total?'('+total+' new)':'';$('inboxNavLabel').textContent=total?'Inbox • '+total:'Inbox';
+}
+function renderMessages(){const chat=conversations.get(activeChatId);if(!chat)return;
+ const panel=$('chatMessages');panel.replaceChildren();if(!chat.messages.length){const tip=document.createElement('p');tip.className='smalltext';tip.textContent='Start a live conversation. Both of you must have BULIGO open.';panel.append(tip);}
+ for(const msg of chat.messages){const b=document.createElement('div');b.className='bubble'+(msg.mine?' mine':'');const t=document.createElement('div');t.textContent=msg.text;const small=document.createElement('small');small.textContent=(msg.mine?'You':'Them')+' · '+new Date(msg.at).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})+(msg.mine?' · '+(msg.delivered?'Delivered':'Sent'):'');b.append(t,small);panel.append(b);}panel.scrollTop=panel.scrollHeight;
+}
+function openConversation(person){if(!adultAccess()){switchTab('profile');return;}if(!user||!firstName||!surname){switchTab('profile');return;}
+ const chat=chatRecord(person);activeChatId=person.id;chat.unread=0;renderChatList();$('chatWith').textContent=person.first+' '+person.last;hide('chatListPanel');show('chatPanel');switchTab('inbox');renderMessages();say('chatStatus','Write a message. Both people must be online.');
+}
+function closeConversation(){activeChatId=null;hide('chatPanel');show('chatListPanel');renderChatList();}
+function dropChatSessions(){for(const dc of chatChannels.values()){try{dc.close();}catch{}}chatChannels.clear();conversations.clear();closeConversation();}
+function attachChatConnection(dc,person){if(!dc||!person?.id)return;
+ chatRecord(person);const prior=chatChannels.get(person.id);if(prior&&prior!==dc){try{prior.close();}catch{}}chatChannels.set(person.id,dc);
+ dc.on('open',()=>{if(chatChannels.get(person.id)!==dc)return;try{dc.send({kind:'buligo-chat-hello',first:firstName,last:surname});}catch{}if(activeChatId===person.id)say('chatStatus','Connected. You can send live messages.','ok');});
+ dc.on('data',data=>{if(chatChannels.get(person.id)!==dc||!data||typeof data!=='object')return;
+ if(data.kind==='buligo-chat-hello')return;
+ if(data.kind==='buligo-chat-ack'&&typeof data.id==='string'){const chat=conversations.get(person.id);const m=chat?.messages.find(x=>x.id===data.id&&x.mine);if(m){m.delivered=true;if(activeChatId===person.id)renderMessages();}return;}
+ if(data.kind!=='buligo-chat-message'||typeof data.text!=='string'||data.text.trim().length===0||data.text.length>800||typeof data.id!=='string'||data.id.length>90)return;
+ const chat=chatRecord(person);if(chat.messages.some(x=>x.id===data.id))return;
+ chat.messages.push({id:data.id,text:data.text.trim(),at:Date.now(),mine:false});if(chat.messages.length>100)chat.messages.shift();
+ if(activeChatId!==person.id)chat.unread++;renderChatList();if(activeChatId===person.id)renderMessages();
+ try{dc.send({kind:'buligo-chat-ack',id:data.id});}catch{}
+ });
+ dc.on('error',()=>{if(activeChatId===person.id)say('chatStatus','Chat connection failed. Ask your friend to stay online, then try again.','error');});
+ dc.on('close',()=>{if(chatChannels.get(person.id)===dc){chatChannels.delete(person.id);if(activeChatId===person.id)say('chatStatus','Chat disconnected. You can retry by sending another message.','error');}});
+}
+async function getChatChannel(person){const existing=chatChannels.get(person.id);if(existing?.open)return existing;
+ const p=await peerReady();if(p.id===person.id)throw Error('You cannot message yourself.');
+ if(existing){try{existing.close();}catch{}}
+ const dc=p.connect(person.id,{reliable:true,metadata:{kind:'buligo-chat',first:firstName,last:surname}});if(!dc)throw Error('Could not open the chat connection.');attachChatConnection(dc,person);
+ return new Promise((resolve,reject)=>{const timeout=setTimeout(()=>{cleanup();try{dc.close();}catch{}reject(Error('Could not connect. Both people must be online with BULIGO open.'));},12000);
+ const cleanup=()=>{clearTimeout(timeout);dc.off('open',onOpen);dc.off('error',onError);dc.off('close',onClose);};
+ const onOpen=()=>{cleanup();resolve(dc);};const onError=e=>{cleanup();reject(Error(errorText(e)));};const onClose=()=>{cleanup();reject(Error('Chat closed before connecting.'));};
+ dc.on('open',onOpen);dc.on('error',onError);dc.on('close',onClose);if(dc.open)onOpen();});
+}
+$('messageForm').onsubmit=async e=>{e.preventDefault();if(!adultAccess()){switchTab('profile');return;}const chat=conversations.get(activeChatId);const text=norm($('messageText').value);if(!chat||!user||!text||text.length>800)return;
+ const id=chat.person.id;$('sendMessage').disabled=true;say('chatStatus','Connecting to '+chat.person.first+'…');
+ try{const dc=await getChatChannel(chat.person);if(!dc.open)throw Error('Chat connection is not open.');const mid=String(++messageNumber)+'-'+Date.now()+'-'+Math.random().toString(36).slice(2,10);
+ dc.send({kind:'buligo-chat-message',id:mid,text,at:Date.now()});chat.messages.push({id:mid,text,at:Date.now(),mine:true,delivered:false});if(chat.messages.length>100)chat.messages.shift();$('messageText').value='';renderChatList();if(activeChatId===id)renderMessages();say('chatStatus','Sent. Waiting for delivery confirmation…','ok');}
+ catch(err){say('chatStatus',errorText(err),'error');}
+ finally{$('sendMessage').disabled=false;}
+};
+renderChatList();
+// Original simple two-tone ring sound. Browsers may require user gesture; not a background notification.
+let ringContext=null,ringInterval=null,ringMode=null,ringEnabled=false;
+function ringBeep(freq,when,duration,level){if(!ringContext||ringContext.state!=='running')return;
+ try{const osc=ringContext.createOscillator(),volume=ringContext.createGain();osc.type='sine';osc.frequency.setValueAtTime(freq,when);volume.gain.setValueAtTime(.001,when);volume.gain.exponentialRampToValueAtTime(level,when+.025);volume.gain.exponentialRampToValueAtTime(.001,when+duration);osc.connect(volume);volume.connect(ringContext.destination);osc.start(when);osc.stop(when+duration+.02);}catch{}
+}
+function ringPulse(){if(!ringMode||!ringContext||ringContext.state!=='running'||document.hidden)return;
+ const now=ringContext.currentTime+.02;if(ringMode==='incoming'){ringBeep(540,now,.21,.055);ringBeep(735,now+.26,.25,.055);}else{ringBeep(435,now,.32,.025);ringBeep(435,now+.45,.32,.025);}
+ if(ringMode==='incoming'&&typeof navigator.vibrate==='function')try{navigator.vibrate([250,150,250]);}catch{}
+}
+async function enableRinging(test=true){try{const AC=window.AudioContext||window.webkitAudioContext;if(!AC)throw Error('Sound not supported in this browser.');if(!ringContext)ringContext=new AC();await ringContext.resume();if(ringContext.state!=='running')throw Error('Sound blocked. Tap Enable ringing again.');ringEnabled=true;$('ringEnable').textContent='🔔 Ringing on';$('ringEnable').classList.add('ready');$('ringStatus').textContent='Ringtone enabled while BULIGO is open. iPhone vibration and background ringing are not supported by this web page.';$('incomingRingStatus').textContent='Ringtone enabled while BULIGO is open.';if(test){ringBeep(700,ringContext.currentTime+.03,.18,.042);ringBeep(950,ringContext.currentTime+.25,.16,.042);}if(ringMode)ringPulse();}catch(e){if(test){$('ringStatus').textContent=e?.message||'Could not enable ringtone.';}}}
+function startRinging(mode){stopRinging();ringMode=mode;if(!document.hidden){ringPulse();ringInterval=setInterval(ringPulse,1800);}if(mode==='incoming')$('incomingRingStatus').textContent=ringEnabled?'Ringing while this page is open.':'Tap Enable ringtone to allow sound while this page is open.';}
+function stopRinging(){if(ringInterval)clearInterval(ringInterval);ringInterval=null;ringMode=null;if(typeof navigator.vibrate==='function')try{navigator.vibrate(0);}catch{}}
+$('ringEnable').onclick=()=>void enableRinging(true);
+$('enableIncomingRing').onclick=()=>void enableRinging(true);
+document.addEventListener('visibilitychange',()=>{if(document.hidden){if(ringInterval)clearInterval(ringInterval);ringInterval=null;}else if(ringMode){ringPulse();ringInterval=setInterval(ringPulse,1800);}});
+function stopCallTimer(){if(callTimer)clearTimeout(callTimer);callTimer=null;}
+async function media(mode='video'){if(!navigator.mediaDevices?.getUserMedia)throw Error('Calling requires HTTPS and a supported browser.');return navigator.mediaDevices.getUserMedia(mode==='audio'?{video:false,audio:{echoCancellation:true,noiseSuppression:true}}:{video:{facingMode:'user'},audio:{echoCancellation:true,noiseSuppression:true}});}
+function attachCall(c,mode='video'){connection=c;switchTab('call');hide('dialPanel');show('callPanel');$('callPanel').classList.toggle('voice-only',mode==='audio');$('toggleCamera').classList.toggle('hidden',mode==='audio');show('waiting');$('waitSymbol').textContent=mode==='audio'?'📞':'📹';$('remoteVideo').srcObject=null;$('remoteVideo').muted=false;$('remoteVideo').volume=1;$('remoteVideo').setAttribute('playsinline','');$('waitingText').textContent='Connecting…';say('callStatus',mode==='audio'?'Waiting for a voice call…':'Waiting for the other person…');startRinging('outgoing');
+ c.on('stream',s=>{if(connection!==c)return;stopRinging();$('remoteVideo').srcObject=s;if(mode==='video')hide('waiting');else{$('waitingText').textContent='Voice call connected';}stopCallTimer();say('callStatus',mode==='audio'?'Voice call connected. Turn up your phone volume if needed.':'Video call connected. Turn up your phone volume if needed.','ok');$('remoteVideo').play().catch(()=>show('enableSound'));});
+ c.on('close',()=>{if(connection===c)void endCall(false,'Call ended.');});c.on('error',e=>{if(connection===c)void endCall(false,errorText(e));});
+ stopCallTimer();callTimer=setTimeout(()=>{if(connection===c)void endCall(true,'The call was not answered. Please try again.');},40000);
+}
+async function dial(person,mode='video'){if(!adultAccess()){switchTab('profile');say('ageGateStatus',accessText(),'error');return;}void enableRinging(false);if(connection||incoming){say('appStatus','Please end your current call first.','error');return;}
+ if(!person?.id){say('appStatus','First search for your friend and choose a result.','error');return;}
+ say('appStatus','Preparing a video call to '+person.first+' '+person.last+'…');
+ try{const p=await peerReady();stream=await media(mode);$('localVideo').srcObject=stream;const c=p.call(person.id,stream,{metadata:{first:firstName,last:surname,mode}});if(!c)throw Error('The call did not start.');attachCall(c,mode);$('waitingText').textContent='Calling '+person.first+' '+person.last+'…';}
+ catch(e){if(stream){stream.getTracks().forEach(t=>t.stop());stream=null;}$('localVideo').srcObject=null;say('appStatus',errorText(e),'error');}
+}
+async function answer(){if(!adultAccess()){try{incoming?.close();}catch{}incoming=null;hide('incomingOverlay');switchTab('profile');return;}const c=incoming;incoming=null;stopRinging();hide('incomingOverlay');if(!c||connection){try{c?.close();}catch{}return;}
+ try{const mode=c.metadata?.mode==='audio'?'audio':'video';stream=await media(mode);$('localVideo').srcObject=stream;attachCall(c,mode);c.answer(stream);stopRinging();}
+ catch(e){try{c.close();}catch{}if(stream){stream.getTracks().forEach(t=>t.stop());stream=null;}$('localVideo').srcObject=null;hide('callPanel');show('dialPanel');say('appStatus',errorText(e),'error');}
+}
+async function endCall(close=true,message='Call ended.'){if(ending)return;ending=true;stopRinging();stopCallTimer();const c=connection;connection=null;if(close&&c){try{c.close();}catch{}}
+ if(incoming){try{incoming.close();}catch{}incoming=null;}hide('incomingOverlay');
+ if(stream){stream.getTracks().forEach(t=>t.stop());stream=null;}$('localVideo').srcObject=null;$('remoteVideo').srcObject=null;
+ hide('callPanel');hide('enableSound');show('waiting');if(firstName&&surname)show('dialPanel');if(activeTab==='call')switchTab('search');
+ $('toggleMic').textContent='🎙️ Mute';$('toggleCamera').textContent='📷 Camera off';
+ if(user&&firstName&&surname)say('appStatus',message,/fail|error|not answer|not online/i.test(message)?'error':'');ending=false;
+}
+$('answerCall').onclick=()=>void answer();$('declineCall').onclick=()=>{stopRinging();if(incoming){try{incoming.close();}catch{}incoming=null;}hide('incomingOverlay');};$('hangUp').onclick=()=>void endCall();
+$('toggleMic').onclick=()=>{const t=stream?.getAudioTracks()[0];if(!t)return;t.enabled=!t.enabled;$('toggleMic').textContent=t.enabled?'🎙️ Mute':'🎙️ Unmute';};
+$('toggleCamera').onclick=()=>{const t=stream?.getVideoTracks()[0];if(!t)return;t.enabled=!t.enabled;$('toggleCamera').textContent=t.enabled?'📷 Camera off':'📷 Camera on';};
+$('enableSound').onclick=async()=>{try{await $('remoteVideo').play();hide('enableSound');}catch{say('callStatus','Tap Enable sound again.','error');}};
+$('signOut').onclick=async()=>{stopRinging();await endCall();stopPeer();dropChatSessions();followed.clear();friends.clear();friendStatus.clear();callPresence.clear();renderCalls();await signOut(auth);};
+onAuthStateChanged(auth,async next=>{stopLiveDirectoryListener();++searchToken;stopRinging();await endCall();stopPeer();dropChatSessions();user=next;firstName='';surname='';followed.clear();friends.clear();friendStatus.clear();callPresence.clear();loadProfileAvatar();loadLocalReposts();renderMyMedia();renderFeed();updateLiveAuth();renderFriends();renderCalls();
+ if(!user){ageDeclaration=null;show('authPanel');hide('loggedIn');show('searchGuest');say('authStatus','Sign in to make a call or follow people.');renderFollowSummary();updateAgeUI();return;}
+ hide('authPanel');show('loggedIn');hide('searchGuest');$('currentEmail').textContent='👤 '+(user.email||'BULIGO account');loadAgeDeclaration();updateLiveAuth();
+ let saved=null;try{saved=JSON.parse(localStorage.getItem(myStorageKey(user.uid))||'null');}catch{}
+ if(pendingSignupDetails&&pendingSignupDetails.email===user.email){saved={...pendingSignupDetails};delete saved.email;delete saved.dob;try{localStorage.setItem(myStorageKey(user.uid),JSON.stringify(saved));}catch{}pendingSignupDetails=null;}
+ try{const stored=JSON.parse(localStorage.getItem(followStorageKey(user.uid))||'[]');if(Array.isArray(stored))for(const person of stored){if(person?.id&&goodName(person.first)&&goodName(person.last))followed.set(person.id,person);}}catch{}
+ renderFollowSummary();renderFollowingDirectory();
+ try{const previouslySaved=JSON.parse(localStorage.getItem(friendStorageKey(user.uid))||'[]');if(Array.isArray(previouslySaved))for(const person of previouslySaved.slice(0,250)){if(person?.id&&goodName(person.first)&&goodName(person.last)){friends.set(person.id,person);friendStatus.set(person.id,'checking');}}}catch{}
+ renderFriends();if(adultAccess())startLiveDirectoryListener();
+ if(saved&&goodName(saved.first)&&goodName(saved.last)){firstName=norm(saved.first);surname=norm(saved.last);fillProfileFields(saved);showPrivateDetails(saved);updateProfileView();trySlot(1);}
+ else if(user.displayName&&user.displayName.trim().includes(' ')){const parts=user.displayName.trim().split(/\s+/);firstName=parts.shift()||'';surname=parts.join(' ');if(goodName(firstName)&&goodName(surname)){const details={first:firstName,last:surname,year:'',country:'',city:''};fillProfileFields(details);showPrivateDetails(details);updateProfileView();trySlot(1);}else{firstName='';surname='';updateProfileView();}}
+ else{fillProfileFields({});showPrivateDetails({});updateProfileView();say('profileStatus','Enter your first name and surname to be found by other people.');}
+});
+
+// BULIGO LIVE v1: direct peer-to-peer webcast. Not a public scalable streaming service.
+// Stream is shared only on intentional Go LIVE click; viewer never shares camera or microphone.
+let liveBroadcastStream=null,liveWatchChannel=null,liveReceivedMedia=null,liveWatchingId=null;
+const liveAudience=new Map(),liveMediaCalls=new Map(),liveAudienceNames=new Map(),liveBannedPeers=new Set(),livePendingRequests=new Map();
+let liveApprovedGuest=null,liveGuestMediaCall=null,liveMyGuestStream=null,liveMyGuestCall=null,liveGuestApproved=false,liveWasRemoved=false;
+let liveChatLastSent=0,liveViewerCount=0;
+const liveMaxAudience=3;
+// A public directory only; the video streams remain direct peer-to-peer.
+// No email addresses, cities or birth years are published.
+const publicLiveDocuments = new Map();
+let publicLiveUnsubscribe=null,publicLiveHeartbeat=null,publicLivePublished=false;
+const publicLiveCollection=collection(firestore,'buligoPublicLives');
+const PUBLIC_LIVE_TTL=60000; // stale broadcasters are hidden after a minute
+function stopLiveDirectoryListener(){
+ if(publicLiveUnsubscribe){try{publicLiveUnsubscribe();}catch{}publicLiveUnsubscribe=null;}
+ publicLiveDocuments.clear();renderPublicLives();
+}
+function livePublicEntries(){
+ const now=Date.now();return [...publicLiveDocuments.values()].filter(x=>x?.expiresAt>now&&x.expiresAt<=now+120000&&x.peerId&&x.uid&&typeof x.name==='string').sort((a,b)=>b.startedAt-a.startedAt).slice(0,60);
+}
+function renderPublicLives(){
+ const entries=livePublicEntries();
+ for(const id of ['homePublicLives','liveDirectory']){
+  const list=$(id);if(!list)continue;list.replaceChildren();
+  if(!adultAccess()){list.append(make('p','public-live-empty','LIVE is restricted to adults 18+ in this beta.'));continue;}
+  if(!entries.length){list.append(make('p','public-live-empty','No public LIVE streams at the moment.'));continue;}
+  for(const entry of entries){
+   const card=make('button','public-live-card');card.type='button';
+   card.append(make('strong','','🔴 '+entry.name.slice(0,65)),make('small','',String(entry.title||'BULIGO LIVE').slice(0,75)),make('small','','▶ Watch LIVE'));
+   card.onclick=()=>{switchTab('live');void watchLiveBroadcast(entry.peerId);};
+   list.append(card);
+  }
+ }
+}
+function startLiveDirectoryListener(){
+ if(!adultAccess())return;
+ say('publicLiveStatus','Loading public LIVE broadcasts…');
+ try{publicLiveUnsubscribe=onSnapshot(publicLiveCollection,snapshot=>{
+  publicLiveDocuments.clear();snapshot.forEach(row=>{
+   const v=row.data();if(v&&typeof v.uid==='string'&&v.uid===row.id)publicLiveDocuments.set(row.id,v);
+  });
+  say('publicLiveStatus','LIVE list updated automatically. Tap Watch to join.','ok');renderPublicLives();
+ },err=>{
+  publicLiveDocuments.clear();renderPublicLives();
+  say('publicLiveStatus',err?.code==='permission-denied'?'Public LIVE list is not enabled yet. Secure Firestore rules must be published first.':'Could not connect to public LIVE list. Try again later.','error');
+ });}catch{say('publicLiveStatus','Public LIVE directory is not available yet.','error');}
+}
+async function publishPublicLive(){
+ if(!adultAccess()||!peer?.open||!liveBroadcastStream)return false;
+ const now=Date.now();
+ const record={uid:user.uid,peerId:peer.id,name:liveBroadcasterName().slice(0,70),title:(norm($('liveTitle').value).slice(0,75)||'BULIGO LIVE'),startedAt:publicLivePublished?livePublicStartedAt:now,updatedAt:now,expiresAt:now+PUBLIC_LIVE_TTL};
+ await setDoc(doc(firestore,'buligoPublicLives',user.uid),record);publicLivePublished=true;livePublicStartedAt=record.startedAt;
+ return true;
+}
+let livePublicStartedAt=0;
+function stopPublicLiveUpdates(){if(publicLiveHeartbeat){clearInterval(publicLiveHeartbeat);publicLiveHeartbeat=null;}}
+function unpublishPublicLive(){
+ stopPublicLiveUpdates();
+ if(publicLivePublished&&user){const uid=user.uid;void deleteDoc(doc(firestore,'buligoPublicLives',uid)).catch(()=>{});}
+ publicLivePublished=false;livePublicStartedAt=0;
+}
+
+function updateLiveAuth(){ const permitted=adultAccess();$('liveGuest').classList.toggle('hidden',permitted);$('liveSigned').classList.toggle('hidden',!permitted); }
+function updateLiveCount(){liveViewerCount=liveAudience.size;$('liveAudienceCount').textContent=liveViewerCount+' connected viewer'+(liveViewerCount===1?'':'s')+' · maximum '+liveMaxAudience+' in this beta.';}
+function resetLiveOverlay(){for(const id of ['liveHostChat','liveGuestChat','liveHostHearts','liveGuestHearts'])$(id).replaceChildren();}
+function floatLiveHeart(emoji='❤️'){for(const stage of ['liveHostHearts','liveGuestHearts']){
+ const panel=$(stage);const heart=make('span','live-float-heart live-reaction-floating',emoji);panel.append(heart);
+ heart.addEventListener('animationend',()=>heart.remove(),{once:true});
+ setTimeout(()=>heart.remove(),2800);}}
+function liveLog(who,msg,heart=false,emoji='❤️'){
+ for(const id of ['liveHostChat','liveGuestChat']){
+  const panel=$(id),entry=make('p',heart?'live-heart':'');
+  if(!heart){const bold=make('strong','',String(who||'Guest').slice(0,60)+': ');entry.append(bold,document.createTextNode(String(msg).slice(0,140)));}
+  else entry.textContent=emoji+' '+String(who||'Viewer').slice(0,45)+' reacted';
+  panel.append(entry);while(panel.children.length>15)panel.firstChild.remove();panel.scrollTop=panel.scrollHeight;
+ }
+ if(heart)floatLiveHeart(emoji);
+}
+function liveBroadcasterName(){return firstName&&surname?firstName+' '+surname:'BULIGO user';}
+function liveStatusToAll(msg){for(const [id,channel] of liveAudience){if(channel?.open){try{channel.send(msg);}catch{}}}}
+// LIVE guest approval is ephemeral. A guest must tap a camera permission button after approval.
+function liveSafeName(data,dc){return liveAudienceNames.get(dc.peer)||norm(data?.name).slice(0,45)||'Viewer';}
+function liveSendTo(dc,data){if(dc?.open)try{dc.send(data);}catch{}}
+function liveGuestResetUi(){
+ liveGuestApproved=false;hide('liveEnableGuestCam');hide('liveStopGuestCam');show('liveRequestJoin');$('liveRequestJoin').disabled=false;
+ if(liveMyGuestCall){try{liveMyGuestCall.close();}catch{}liveMyGuestCall=null;}
+ if(liveMyGuestStream){liveMyGuestStream.getTracks().forEach(track=>{try{track.stop();}catch{}});liveMyGuestStream=null;}
+ say('liveJoinStatus','You are watching only.');
+}
+function liveGuestStop(send=true){
+ if(send)liveSendTo(liveWatchChannel,{kind:'buligo-live-guest-stop-v1'});
+ liveGuestResetUi();
+}
+function liveHostClearGuest(notify=true){
+ const id=liveApprovedGuest;
+ if(notify&&id)liveSendTo(liveAudience.get(id),{kind:'buligo-live-guest-ended-v1'});
+ if(liveGuestMediaCall)try{liveGuestMediaCall.close();}catch{}
+ liveGuestMediaCall=null;liveApprovedGuest=null;
+ const v=$('liveCohostVideo');try{v.pause();}catch{}v.srcObject=null;
+ hide('liveCohostBox');renderLiveModeration();
+}
+function liveBanViewer(id){
+ if(!id)return;
+ liveBannedPeers.add(id);livePendingRequests.delete(id);
+ if(liveApprovedGuest===id)liveHostClearGuest(false);
+ const dc=liveAudience.get(id);
+ liveSendTo(dc,{kind:'buligo-live-removed-v1',reason:'The broadcaster removed you from this LIVE.'});
+ setTimeout(()=>{try{dc?.close();}catch{}},180);
+ renderLiveModeration();
+}
+function renderLiveModeration(){
+ const requests=$('liveJoinRequests'),viewers=$('liveModerationViewers');requests.replaceChildren();viewers.replaceChildren();
+ if(!liveBroadcastStream){requests.append(make('p','smalltext','Start a LIVE to receive requests.'));viewers.append(make('p','smalltext','No viewers yet.'));return;}
+ if(!livePendingRequests.size)requests.append(make('p','smalltext','No requests yet.'));
+ for(const [id,name] of livePendingRequests){
+  const card=make('div','live-request-item'),label=make('strong','',name+' wants to join on camera');
+  const actions=make('div','row');const accept=make('button','green small','Accept'),decline=make('button','outline small','Decline');
+  accept.onclick=()=>{
+   const dc=liveAudience.get(id);livePendingRequests.delete(id);
+   if(!dc?.open||liveBannedPeers.has(id)){renderLiveModeration();return;}
+   if(liveApprovedGuest&&liveApprovedGuest!==id){liveSendTo(dc,{kind:'buligo-live-join-declined-v1',message:'Another guest is already on camera.'});renderLiveModeration();return;}
+   liveApprovedGuest=id;
+   liveSendTo(dc,{kind:'buligo-live-join-approved-v1'});renderLiveModeration();
+  };
+  decline.onclick=()=>{livePendingRequests.delete(id);liveSendTo(liveAudience.get(id),{kind:'buligo-live-join-declined-v1',message:'The broadcaster declined your request.'});renderLiveModeration();};
+  actions.append(accept,decline);card.append(label,actions);requests.append(card);
+ }
+ if(!liveAudience.size)viewers.append(make('p','smalltext','No viewers yet.'));
+ for(const [id,dc] of liveAudience){
+  const name=liveAudienceNames.get(id)||'Viewer';const card=make('div','live-request-item'),label=make('strong','',name+(liveApprovedGuest===id?' · guest':''));
+  const block=make('button','danger small','Remove / Block');block.onclick=()=>liveBanViewer(id);
+  card.append(label,block);viewers.append(card);
+ }
+}
+function receiveLiveGuestCall(c){
+ if(!liveBroadcastStream||!liveApprovedGuest||c.peer!==liveApprovedGuest||!liveAudience.get(c.peer)?.open||liveGuestMediaCall){try{c.close();}catch{}return;}
+ liveGuestMediaCall=c;
+ c.on('stream',stream=>{
+  if(liveGuestMediaCall!==c)return;
+  const v=$('liveCohostVideo');v.srcObject=stream;v.muted=false;
+  $('liveCohostName').textContent=liveAudienceNames.get(c.peer)||'Guest';show('liveCohostBox');
+  v.play().catch(()=>say('liveHostStatus','Guest joined, but tap the guest video if sound does not play.','error'));
+  liveStatusToAll({kind:'buligo-live-guest-announcement-v1',name:liveAudienceNames.get(c.peer)||'Guest'});
+ });
+ c.on('close',()=>{if(liveGuestMediaCall===c)liveHostClearGuest(true);});
+ c.on('error',()=>{if(liveGuestMediaCall===c)liveHostClearGuest(true);});
+ try{c.answer(liveBroadcastStream);}catch{liveHostClearGuest(true);}
+}
+function handleLiveCheck(dc){dc.on('open',()=>{try{dc.send({kind:'buligo-live-status-v1',live:!!liveBroadcastStream,title:norm($('liveTitle').value).slice(0,75),first:firstName,last:surname});}catch{}setTimeout(()=>{try{dc.close();}catch{}},550);});}
+function handleLiveWatchRequest(dc){
+ dc.on('open',()=>{
+  if(liveBannedPeers.has(dc.peer)){liveSendTo(dc,{kind:'buligo-live-error',message:'You are blocked from this LIVE.'});setTimeout(()=>{try{dc.close();}catch{}},250);return;}
+  if(!liveBroadcastStream||!peer?.open){try{dc.send({kind:'buligo-live-error',message:'This broadcaster is not LIVE right now.'});}catch{}setTimeout(()=>{try{dc.close();}catch{}},250);return;}
+  if(liveAudience.size>=liveMaxAudience){try{dc.send({kind:'buligo-live-error',message:'LIVE is full (3 viewers maximum for this beta).'});}catch{}setTimeout(()=>{try{dc.close();}catch{}},250);return;}
+  if(liveAudience.has(dc.peer)){try{liveAudience.get(dc.peer)?.close();}catch{}}
+  liveAudience.set(dc.peer,dc);liveAudienceNames.set(dc.peer,norm(dc.metadata?.name).slice(0,45)||'Viewer');updateLiveCount();renderLiveModeration();
+  try{dc.send({kind:'buligo-live-accepted',name:liveBroadcasterName(),title:norm($('liveTitle').value).slice(0,75)});}catch{}
+  try{const c=peer.call(dc.peer,liveBroadcastStream,{metadata:{kind:'buligo-live-stream-v1',from:liveBroadcasterName()}});
+   if(!c)throw Error('Could not create media connection.');liveMediaCalls.set(dc.peer,c);c.on('close',()=>liveMediaCalls.delete(dc.peer));c.on('error',()=>{liveMediaCalls.delete(dc.peer);});
+  }catch(e){try{dc.send({kind:'buligo-live-error',message:'Could not send the camera stream.'});}catch{}}
+ });
+ let lastIncoming=0;
+ dc.on('data',data=>{
+  if(!liveBroadcastStream||liveAudience.get(dc.peer)!==dc||!data||typeof data!=='object')return;
+  if(data.kind==='buligo-live-join-request-v1'){
+    if(liveBannedPeers.has(dc.peer)||liveApprovedGuest){liveSendTo(dc,{kind:'buligo-live-join-declined-v1',message:'Guest joining is unavailable right now.'});return;}
+    livePendingRequests.set(dc.peer,liveSafeName(data,dc));renderLiveModeration();return;
+   }
+   if(data.kind==='buligo-live-guest-stop-v1'){
+    livePendingRequests.delete(dc.peer);if(liveApprovedGuest===dc.peer)liveHostClearGuest(false);renderLiveModeration();return;
+   }
+   if(data.kind!=='buligo-live-comment'&&data.kind!=='buligo-live-heart'&&data.kind!=='buligo-live-reaction-v1')return;
+  const now=Date.now();if(now-lastIncoming<900)return;lastIncoming=now;
+  const who=liveSafeName(data,dc);
+  if(data.kind==='buligo-live-comment'){
+   const msg=norm(data.text).slice(0,140);if(!msg)return;liveLog(who,msg);liveStatusToAll({kind:'buligo-live-comment',name:who,text:msg});
+  }else if(data.kind==='buligo-live-reaction-v1'){
+   const emoji=String(data.emoji||'');if(!['👍','❤️','😂','😡','🙏','😮'].includes(emoji))return;
+   liveLog(who,emoji,true,emoji);liveStatusToAll({kind:'buligo-live-reaction-v1',name:who,emoji});
+  }else{liveLog(who,'❤️',true);liveStatusToAll({kind:'buligo-live-heart',name:who});}
+ });
+ const cleanup=()=>{if(liveAudience.get(dc.peer)!==dc)return;liveAudience.delete(dc.peer);liveAudienceNames.delete(dc.peer);livePendingRequests.delete(dc.peer);if(liveApprovedGuest===dc.peer)liveHostClearGuest(false);try{liveMediaCalls.get(dc.peer)?.close();}catch{}liveMediaCalls.delete(dc.peer);updateLiveCount();renderLiveModeration();};
+ dc.on('close',cleanup);dc.on('error',cleanup);
+}
+function endLiveBroadcast(update=true){
+ unpublishPublicLive();
+ if(!liveBroadcastStream)return;
+ liveStatusToAll({kind:'buligo-live-ended'});liveHostClearGuest(false);
+ for(const c of liveAudience.values())try{c.close();}catch{}
+ for(const c of liveMediaCalls.values())try{c.close();}catch{}
+ liveAudience.clear();liveMediaCalls.clear();liveAudienceNames.clear();livePendingRequests.clear();liveBannedPeers.clear();hide('liveHostModeration');renderLiveModeration();
+ for(const t of liveBroadcastStream.getTracks())try{t.stop();}catch{}
+ liveBroadcastStream=null;$('liveHostVideo').srcObject=null;hide('liveHostStage');hide('liveSharePanel');hide('endLive');show('startLive');$('liveBadge').textContent='OFF AIR';$('liveBadge').classList.add('off');updateLiveCount();
+ if(update)say('liveHostStatus','LIVE ended. Your camera and microphone are off.','ok');
+}
+async function startLiveBroadcast(){
+ if(!adultAccess()){switchTab('profile');say('ageGateStatus',accessText(),'error');return;}
+ if(!user||!firstName||!surname){switchTab('profile');return;}
+ if(liveBroadcastStream){say('liveHostStatus','You are already LIVE.');return;}
+ if(connection||incoming||liveWatchChannel){say('liveHostStatus','End your call or leave the other LIVE first.','error');return;}
+ $('startLive').disabled=true;say('liveHostStatus','Requesting camera and microphone permission…');
+ let candidate=null;
+ try{
+  const p=await peerReady();
+  candidate=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user'},audio:{echoCancellation:true,noiseSuppression:true}});
+  if(!p.open||p!==peer)throw Error('Calling service disconnected; retry Go LIVE.');
+  resetLiveOverlay();liveBroadcastStream=candidate;candidate=null;liveBannedPeers.clear();livePendingRequests.clear();show('liveHostModeration');renderLiveModeration();
+  const v=$('liveHostVideo');v.srcObject=liveBroadcastStream;show('liveHostStage');v.play().catch(()=>{});$('liveHostStage').scrollIntoView({behavior:'smooth',block:'center'});
+  $('liveBadge').textContent='● LIVE';$('liveBadge').classList.remove('off');hide('startLive');show('endLive');
+  const invite=new URL(location.pathname,location.origin);invite.searchParams.set('live',p.id);
+  $('liveInvite').value=invite.toString();show('liveSharePanel');updateLiveCount();
+  say('liveHostStatus','LIVE started. Publishing to public LIVE list…');
+  try{await publishPublicLive();say('liveHostStatus','You are LIVE and listed for other signed-in BULIGO members.','ok');
+   stopPublicLiveUpdates();publicLiveHeartbeat=setInterval(()=>{if(liveBroadcastStream&&user&&peer?.open){void publishPublicLive().catch(()=>say('liveHostStatus','LIVE still running, but directory update failed.','error'));}},20000);
+  }catch(e){say('liveHostStatus','LIVE started, but not publicly listed. Firebase LIVE rules still need to be enabled. Your share link can work meanwhile.','error');}
+  liveLog('BULIGO','You are LIVE! You can receive hearts and short comments.');
+  for(const track of liveBroadcastStream.getTracks())track.onended=()=>{if(liveBroadcastStream)endLiveBroadcast();};
+ }catch(e){candidate?.getTracks().forEach(t=>t.stop());say('liveHostStatus',e?.message||'Could not start LIVE.','error');}
+ finally{$('startLive').disabled=false;}
+}
+function receiveLiveStreamCall(c){
+ if(!user||!liveWatchChannel||!liveWatchingId||liveWatchingId!==c.peer||!liveWatchChannel.open){try{c.close();}catch{}return;}
+ if(liveReceivedMedia)try{liveReceivedMedia.close();}catch{}
+ liveReceivedMedia=c;
+ c.on('stream',mediaStream=>{
+  if(liveReceivedMedia!==c)return;
+  const v=$('liveGuestVideo');v.srcObject=mediaStream;v.muted=false;v.playsInline=true;show('liveGuestStage');$('liveGuestStage').scrollIntoView({behavior:'smooth',block:'center'});
+  say('liveViewerStatus','LIVE connected! Tap play or the sound button if needed.','ok');
+  v.play().then(()=>hide('livePlayAudio')).catch(()=>show('livePlayAudio'));
+ });
+ c.on('error',()=>{if(liveReceivedMedia===c)say('liveViewerStatus','Could not load this LIVE. Ask the broadcaster to restart.','error');});
+ c.on('close',()=>{if(liveReceivedMedia===c){liveReceivedMedia=null;if(liveWatchChannel)say('liveViewerStatus','LIVE media connection ended.','error');}});
+ try{c.answer();}catch(e){try{c.close();}catch{}say('liveViewerStatus','Could not receive the LIVE stream.','error');}
+}
+function liveCodeFromText(value){
+ let s=String(value||'').trim();if(!s)return '';
+ if(s.includes('?')){try{s=new URL(s,location.href).searchParams.get('live')||'';}catch{return '';}}
+ // Only accept BULIGO peer identifiers, not arbitrary URLs or commands.
+ return /^buligo-person-v4-[0-9a-f]{4,150}-[1-6]$/.test(s)?s:'';
+}
+function leaveLiveBroadcast(update=true){
+ liveGuestStop(false);hide('liveGuestJoinTools');const c=liveWatchChannel;liveWatchChannel=null;liveWatchingId=null;
+ if(liveReceivedMedia){try{liveReceivedMedia.close();}catch{}liveReceivedMedia=null;}
+ if(c)try{c.close();}catch{}
+ const v=$('liveGuestVideo');try{v.pause();}catch{}v.srcObject=null;hide('liveGuestStage');hide('livePlayAudio');hide('leaveLive');show('joinLive');
+ if(update)say('liveViewerStatus','You left the LIVE.','ok');
+}
+async function watchLiveBroadcast(input){
+ if(!adultAccess()){switchTab('profile');say('ageGateStatus',accessText(),'error');return;}
+ if(!user||!firstName||!surname){switchTab('profile');return;}
+ if(liveBroadcastStream){say('liveViewerStatus','End your own LIVE before watching another broadcast.','error');return;}
+ if(connection||incoming){say('liveViewerStatus','End your voice/video call first.','error');return;}
+ const id=liveCodeFromText(input);
+ if(!id){say('liveViewerStatus','Paste a valid BULIGO LIVE invitation link or code.','error');return;}
+ $('liveCode').value=id;
+ leaveLiveBroadcast(false);resetLiveOverlay();
+ $('joinLive').disabled=true;say('liveViewerStatus','Connecting to LIVE…');
+ try{
+  const p=await peerReady();if(id===p.id)throw Error('This is your own LIVE. Tap Go LIVE instead.');
+  const dc=p.connect(id,{reliable:true,metadata:{kind:'buligo-live-watch-v1',name:liveBroadcasterName()}});if(!dc)throw Error('Could not connect to LIVE.');
+  liveWatchChannel=dc;liveWatchingId=id;
+  let joined=false;
+  const timeout=setTimeout(()=>{if(!joined&&liveWatchChannel===dc){say('liveViewerStatus','No response from this LIVE. The broadcaster may be offline.','error');leaveLiveBroadcast(false);}},13000);
+  dc.on('open',()=>{if(liveWatchChannel===dc)say('liveViewerStatus','Asking to watch LIVE…');});
+  dc.on('data',data=>{
+   if(liveWatchChannel!==dc||!data||typeof data!=='object')return;
+   if(data.kind==='buligo-live-accepted'){joined=true;clearTimeout(timeout);hide('joinLive');show('leaveLive');say('liveViewerStatus','Connected to '+String(data.name||'LIVE').slice(0,60)+'. Waiting for video…','ok');liveLog('BULIGO','You joined '+String(data.name||'a LIVE').slice(0,45)+'.');show('liveGuestJoinTools');}
+   else if(data.kind==='buligo-live-error'){joined=true;clearTimeout(timeout);say('liveViewerStatus',String(data.message||'LIVE unavailable').slice(0,120),'error');leaveLiveBroadcast(false);}
+   else if(data.kind==='buligo-live-comment')liveLog(data.name,data.text);
+   else if(data.kind==='buligo-live-heart')liveLog(data.name,'❤️',true);
+   else if(data.kind==='buligo-live-reaction-v1'&&['👍','❤️','😂','😡','🙏','😮'].includes(data.emoji))liveLog(data.name,data.emoji,true,data.emoji);
+   else if(data.kind==='buligo-live-join-approved-v1'){liveGuestApproved=true;hide('liveRequestJoin');show('liveEnableGuestCam');say('liveJoinStatus','Approved! Tap Enable camera & mic to join.');}
+   else if(data.kind==='buligo-live-join-declined-v1'){liveGuestApproved=false;show('liveRequestJoin');$('liveRequestJoin').disabled=false;say('liveJoinStatus',String(data.message||'Request declined.'));}
+   else if(data.kind==='buligo-live-guest-ended-v1'){liveGuestStop(false);say('liveJoinStatus','The broadcaster ended your guest connection.');}
+   else if(data.kind==='buligo-live-removed-v1'){liveWasRemoved=true;alert('You were removed from this LIVE.');leaveLiveBroadcast(false);say('liveViewerStatus',String(data.reason||'Removed from this LIVE.').slice(0,100),'error');}
+   else if(data.kind==='buligo-live-guest-announcement-v1')liveLog('BULIGO',String(data.name||'Guest').slice(0,45)+' joined as a guest.');
+   else if(data.kind==='buligo-live-ended'){say('liveViewerStatus','The broadcaster ended this LIVE.');leaveLiveBroadcast(false);}
+  });
+  dc.on('error',()=>{clearTimeout(timeout);if(liveWatchChannel===dc){say('liveViewerStatus','Could not reach this LIVE. The broadcaster may be unavailable.','error');leaveLiveBroadcast(false);}});
+  dc.on('close',()=>{clearTimeout(timeout);if(liveWatchChannel===dc){say('liveViewerStatus','LIVE connection closed.','error');leaveLiveBroadcast(false);}});
+ }catch(e){say('liveViewerStatus',e?.message||'Unable to watch LIVE.','error');}
+ finally{$('joinLive').disabled=false;}
+}
+async function liveShareLink(){const url=$('liveInvite').value;if(!url)return;try{if(navigator.share){await navigator.share({title:'Watch my BULIGO LIVE',text:'I am LIVE on BULIGO',url});return;}await navigator.clipboard.writeText(url);notifyPreview('LIVE link copied.');}catch(e){if(e?.name!=='AbortError')notifyPreview('Copy the link shown in the box.');}}
+$('startLive').onclick=()=>void startLiveBroadcast();
+$('endLive').onclick=()=>endLiveBroadcast();
+$('joinLive').onclick=()=>void watchLiveBroadcast($('liveCode').value);
+$('leaveLive').onclick=()=>leaveLiveBroadcast();
+$('shareLiveLink').onclick=()=>void liveShareLink();
+$('copyLiveLink').onclick=()=>{const input=$('liveInvite');input.select();if(navigator.clipboard?.writeText)navigator.clipboard.writeText(input.value).then(()=>notifyPreview('LIVE link copied.')).catch(()=>notifyPreview('Select the link and copy it.'));else notifyPreview('Select the link and copy it.');};
+$('livePlayAudio').onclick=()=>{const v=$('liveGuestVideo');v.muted=false;v.play().then(()=>hide('livePlayAudio')).catch(()=>say('liveViewerStatus','Tap the LIVE video to play with sound.','error'));};
+$('liveRequestJoin').onclick=()=>{
+ if(!liveWatchChannel?.open){say('liveJoinStatus','Join a LIVE first.','error');return;}
+ liveSendTo(liveWatchChannel,{kind:'buligo-live-join-request-v1',name:liveBroadcasterName()});
+ $('liveRequestJoin').disabled=true;say('liveJoinStatus','Request sent. Waiting for the broadcaster to decide…');
+};
+$('liveEnableGuestCam').onclick=async()=>{
+ if(!adultAccess()||!liveGuestApproved||!liveWatchChannel?.open||!liveWatchingId)return;
+ $('liveEnableGuestCam').disabled=true;say('liveJoinStatus','Requesting camera and microphone access…');
+ let stream=null;
+ try{
+  stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user'},audio:{echoCancellation:true,noiseSuppression:true}});
+  if(!liveGuestApproved||!liveWatchChannel?.open){stream.getTracks().forEach(t=>t.stop());return;}
+  liveMyGuestStream=stream;
+  const c=peer.call(liveWatchingId,stream,{metadata:{kind:'buligo-live-cohost-stream-v1'}});
+  if(!c)throw Error('Could not connect your camera.');
+  liveMyGuestCall=c;hide('liveEnableGuestCam');show('liveStopGuestCam');say('liveJoinStatus','You are joining on camera. The broadcaster can see and hear you.');
+  c.on('close',()=>{if(liveMyGuestCall===c){liveGuestStop(false);say('liveJoinStatus','Guest camera connection ended.');}});
+  c.on('error',()=>{if(liveMyGuestCall===c){liveGuestStop(false);say('liveJoinStatus','Guest camera connection failed.','error');}});
+ }catch(e){stream?.getTracks().forEach(t=>t.stop());say('liveJoinStatus',e?.message||'Camera permission was not granted.','error');}
+ finally{$('liveEnableGuestCam').disabled=false;}
+};
+$('liveStopGuestCam').onclick=()=>{liveGuestStop(true);say('liveJoinStatus','You left the guest camera.','ok');};
+$('liveRemoveCohost').onclick=()=>liveHostClearGuest(true);
+for(const btn of document.querySelectorAll('[data-live-emoji]')){
+ btn.onclick=()=>{const emoji=btn.dataset.liveEmoji;if(liveWatchChannel?.open&&['👍','❤️','😂','😡','🙏','😮'].includes(emoji)){
+  if(sendLiveMessage({kind:'buligo-live-reaction-v1',emoji}))notifyPreview(emoji+' sent');
+ }};
+}
+function sendLiveMessage(data){const now=Date.now();if(now-liveChatLastSent<1100){notifyPreview('Please wait a moment before sending again.');return false;}liveChatLastSent=now;
+ const name=liveBroadcasterName();
+ if(liveBroadcastStream){
+  if(data.kind==='buligo-live-comment'){liveLog(name,data.text);liveStatusToAll({kind:'buligo-live-comment',name,text:data.text});}
+  else{liveLog(name,'❤️',true);liveStatusToAll({kind:'buligo-live-heart',name});}
+  return true;
+ }
+ if(liveWatchChannel?.open){try{liveWatchChannel.send({...data,name});return true;}catch{}}
+ notifyPreview('Start or join a LIVE first.');return false;
+}
+for(const role of ['Host','Guest']){
+ const form=$('live'+role+'CommentForm'),input=$('live'+role+'CommentInput');
+ form.onsubmit=e=>{e.preventDefault();const msg=norm(input.value).slice(0,140);if(!msg)return;
+   if(sendLiveMessage({kind:'buligo-live-comment',text:msg})){input.value='';input.blur();}};
+ if(role==='Guest')$('live'+role+'HeartBtn').onclick=()=>{if(sendLiveMessage({kind:'buligo-live-heart'}))notifyPreview('❤️ Heart sent');};
+}
+async function checkLiveContact(person){return new Promise(async resolve=>{
+  let dc=null,timeout=null,done=false;const finish=data=>{if(done)return;done=true;clearTimeout(timeout);try{dc?.close();}catch{}resolve(data);};
+  try{const p=await peerReady();if(person.id===p.id){finish(null);return;}dc=p.connect(person.id,{reliable:true,metadata:{kind:'buligo-live-check-v1'}});dc.on('data',info=>{if(info?.kind==='buligo-live-status-v1')finish(info.live?{...person,title:String(info.title||'LIVE').slice(0,75)}:null);});dc.on('error',()=>finish(null));dc.on('close',()=>finish(null));timeout=setTimeout(()=>finish(null),4800);}catch{finish(null);}
+ });}
+async function refreshLiveFriends(){const results=$('liveFriendsList');results.replaceChildren();if(!user){results.append(make('p','smalltext','Sign in to see LIVE friends.'));return;}
+ const people=savedContacts().slice(0,12);if(!people.length){results.append(make('p','smalltext','No saved contacts yet. Find friends or follow people in Search.'));return;}
+ results.append(make('p','smalltext','Checking LIVE status…'));
+ const live=await Promise.all(people.map(checkLiveContact));results.replaceChildren();const found=live.filter(Boolean);
+ if(!found.length){results.append(make('p','smalltext','No LIVE friends reachable right now. They may be offline or their browser may have paused.'));return;}
+ for(const person of found){const row=make('div','live-friend'),info=make('div');info.append(make('strong','',person.first+' '+person.last),make('small','', '🔴 LIVE · '+person.title));const watch=make('button','primary small','Watch');watch.onclick=()=>{switchTab('live');void watchLiveBroadcast(person.id);};row.append(info,watch);results.append(row);}}
+$('checkLiveFriends').onclick=()=>void refreshLiveFriends();
+function showInvitedLive(){const id=liveCodeFromText(new URLSearchParams(location.search).get('live'));
+ if(id){$('liveCode').value=id;switchTab('live');say('liveViewerStatus','You have a LIVE invitation. Sign in, then tap Watch LIVE.');}}
+showInvitedLive();
+setInterval(()=>{if(!document.hidden&&user)renderPublicLives();},15000);
+window.__buligoMainReady=true;
+const backupNote=document.getElementById("buligoBackupNotice");if(backupNote)backupNote.classList.add("hidden");
+</script>
+</body></html>
